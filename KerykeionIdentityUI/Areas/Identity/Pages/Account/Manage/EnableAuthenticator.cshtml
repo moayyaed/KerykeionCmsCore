@@ -1,0 +1,53 @@
+﻿@page
+@model EnableAuthenticatorModel
+@{
+    ViewData["Title"] = "Configureer authenticator app";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h4>@ViewData["Title"]</h4>
+<div>
+    <p>Om een authenticator app te gebruiken volg de volgende stappen:</p>
+    <ol class="list">
+        <li>
+            <p>
+                Download een two-factor authenticator app zoals Microsoft Authenticator voor
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825072">Android</a> en
+                <a href="https://go.microsoft.com/fwlink/?Linkid=825073">iOS</a> of
+                Google Authenticator voor
+                <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en">Android</a> en
+                <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>.
+            </p>
+        </li>
+        <li>
+            <p>Scan the QR Code of vul deze sleutel <kbd>@Model.SharedKey</kbd> in op je two factor authenticator app. Spaties en hoofdletters maken niet uit.</p>
+            <div class="alert alert-info">Leer hoe <a href="https://go.microsoft.com/fwlink/?Linkid=852423">QR code generatie in the schakelen</a>.</div>
+            <div id="qrCode"></div>
+            <div id="qrCodeData" data-url="@Html.Raw(@Model.AuthenticatorUri)"></div>
+        </li>
+        <li>
+            <p>
+                Eens je de QR code hebt ingescand of de sleutel hierboven hebt ingegeven, zal je two factor authentication app u een unieke code geven.
+                Vul de code in, in de bevestigings input hieronder.
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="send-code" method="post">
+                        <div class="form-group">
+                            <label asp-for="Input.Code" class="control-label">Bevestigings Code</label>
+                            <input asp-for="Input.Code" class="form-control" autocomplete="off" />
+                            <span asp-validation-for="Input.Code" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Bevestig</button>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ol>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

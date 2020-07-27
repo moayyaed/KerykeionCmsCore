@@ -1,0 +1,32 @@
+﻿@page
+@using KerykeionCmsCore.Constants
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.RoleModel
+@{
+}
+
+<div class="text-right border-bottom border-secondary pb-1 mb-3">
+    <a class="btn btn-secondary" asp-page="/RoleAdd">Terug</a>
+</div>
+<div class="col-sm-6">
+    <form method="post" asp-route-id="@Model.Vm.Id" class="p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Vm.Id"></label>
+            <input class="form-control" asp-for="Vm.Id" value="@Model.Vm.Id" readonly />
+        </div>
+        <div class="form-group">
+            <label asp-for="Vm.Name"></label>
+            <input class="form-control" asp-for="Vm.Name" value="@Model.Vm.Name" readonly="@(Model.Vm.Name.Equals(RoleContstants.Administrator, StringComparison.OrdinalIgnoreCase) || Model.Vm.Name.Equals(RoleContstants.Editor, StringComparison.OrdinalIgnoreCase) || Model.Vm.Name.Equals(RoleContstants.RegularUser, StringComparison.OrdinalIgnoreCase) ? true : false)" />
+            <span asp-validation-for="Vm.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group  @(Model.Vm.Name.Equals(RoleContstants.Administrator, StringComparison.OrdinalIgnoreCase) || Model.Vm.Name.Equals(RoleContstants.Editor, StringComparison.OrdinalIgnoreCase) || Model.Vm.Name.Equals(RoleContstants.RegularUser, StringComparison.OrdinalIgnoreCase) ? "d-none" : "")">
+            <input type="submit" class="btn btn-primary" value="Update" />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script>
+     $("#open-language-picker").find("form").append(`<input type="hidden" name="role-id" value="@(Model.Vm.Id)" />`)
+    </script>
+}

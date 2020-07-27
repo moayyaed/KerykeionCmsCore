@@ -1,0 +1,238 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using KerykeionCmsCore.Dtos
+@using KerykeionCmsCore.Services
+@using Microsoft.AspNetCore.Identity
+@inject EntitiesService EntitiesService
+@inject KerykeionWebPagesService WebPageService
+@inject KerykeionArticlesService ArticlesService
+@inject KerykeionTranslationsService TranslationService
+@inject RoleManager<IdentityRole<Guid>> RoleManager
+@inject KerykeionImagesService ImagesService
+@inject ThemesService ThemesService
+@{
+    var tableNames = EntitiesService.GetEntitiesTableNames();
+    var webPages = await WebPageService.ListAllIncludedToDtoAsync();
+    var articles = await ArticlesService.GetAll().OrderBy(a => a.Name).Select(a => new ArticleDto
+    {
+        Id = a.Id,
+        Name = a.Name
+    }).ToListAsync();
+    var images = await ImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
+    {
+        Id = i.Id,
+        Name = i.Name
+    }).ToListAsync();
+    var roles = await RoleManager.Roles.OrderBy(r => r.Name).ToListAsync();
+}
+
+<nav id="side-navigation" class="user-select-none border-right border-secondary h-100 pt-2 position-fixed text-nowrap top-0 left-0 @ThemesService.BgAndColorTheme z-index-1">
+    <div class="text-right p-2">
+        <i id="close-sidebar" class="cursor-pointer fa fa-arrow-left font-size-20"></i>
+    </div>
+    <div id="side-nav-pages-wrapper">
+        <div class="d-block side-navigation @ManageSideNavPages.WebPageAddNavActive(ViewContext)">
+            <i id="open-subnav-pages" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubWebPagesOpenCarretDisplay(ViewContext)"></i>
+            <i id="close-subnav-pages" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubWebPagesCloseCarretDisplay(ViewContext)"></i>
+            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.WebPageAddNavActive(ViewContext, true)" asp-page="/WebPages">
+                <i class="fa @ManageSideNavPages.WebpagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+                @await TranslationService.TranslateAsync("Webpaginas")
+            </a>
+        </div>
+        <div id="subnav-webpages" class="@ManageSideNavPages.SubPagesDisplay(ViewContext)">
+            @foreach (var page in webPages)
+            {
+                var isCurrentPage = string.Equals(ViewData["PageId"]?.ToString(), page.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+
+                <div class="d-block side-navigation @ManageSideNavPages.WebPageNavActive(ViewContext, isCurrentPage)">
+                    <i data-pageid="@(page.Id)" class="sub-page-right-caret fa fa-caret-right cursor-pointer ml-4 @ManageSideNavPages.PageSubOpenCarretDisplay(ViewContext, isCurrentPage)"></i>
+                    <i data-pageid="@(page.Id)" class="sub-page-down-caret fa fa-caret-down cursor-pointer ml-4 @ManageSideNavPages.PageSubCloseCarretDisplay(ViewContext, isCurrentPage)"></i>
+                    <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetWebPageSubTextClass(ViewContext, isCurrentPage)" asp-page="/WebPage/Index" asp-route-id="@(page.Id)">
+                        <span class="ml-1">
+                            <i class="fa fa-file-o mr-1" aria-hidden="true"></i>
+                            @(page.Name)
+                        </span>
+                    </a>
+                </div>
+                <div id="@(page.Id)-page-subs" class="@ManageSideNavPages.PageSubsDisplay(ViewContext, isCurrentPage)">
+                    <div class="side-navigation @ManageSideNavPages.ArticlesNavActive(ViewContext, isCurrentPage)">
+                        <i data-pageid="@(page.Id)" class="page-articles-right-caret fa fa-caret-right cursor-pointer ml-5 @ManageSideNavPages.PageArticlesOpenCarretDisplay(ViewContext, isCurrentPage)"></i>
+                        <i data-pageid="@(page.Id)" class="page-articles-down-caret fa fa-caret-down cursor-pointer ml-5 @ManageSideNavPages.PageArticlesCloseCarretDisplay(ViewContext, isCurrentPage)"></i>
+                        <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetArticlesTextClass(ViewContext, isCurrentPage)" asp-page="/WebPage/Articles/Index" asp-route-pageId="@(page.Id)">
+                            <span>
+                                <i class="fa @ManageSideNavPages.SubArticlesOpenFolderDisplay(ViewContext, isCurrentPage) mr-1" aria-hidden="true"></i>
+                                @await TranslationService.TranslateAsync("Artikels")
+                            </span>
+                        </a>
+                    </div>
+                    <div id="@(page.Id)-page-articles" class="@ManageSideNavPages.PageArticlesDisplay(ViewContext, isCurrentPage)">
+                        @foreach (var article in page.Articles)
+                        {
+                            var isCurrentArticle = string.Equals(ViewData["ArticleId"]?.ToString(), article.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+
+                            <div class="side-navigation @ManageSideNavPages.ArticleNavActive(ViewContext, isCurrentArticle)">
+                                <a class="nav-link ml-4 text-inherit @ManageSideNavPages.SetArticleTextClass(ViewContext, isCurrentArticle)" asp-page="/WebPage/Articles/Update" asp-route-id="@(article.Id)">
+                                    <span class="ml-5 text-nowrap">
+                                        <i class="fa fa-file-code-o mr-1" aria-hidden="true"></i>
+                                        @(article?.Name ?? article.Id.ToString())
+                                    </span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                    <div class="side-navigation @ManageSideNavPages.LinksNavActive(ViewContext, isCurrentPage)">
+                        <i data-pageid="@(page.Id)" class="page-links-right-caret fa fa-caret-right cursor-pointer ml-5 @ManageSideNavPages.PageLinksOpenCarretDisplay(ViewContext, isCurrentPage)"></i>
+                        <i data-pageid="@(page.Id)" class="page-links-down-caret fa fa-caret-down cursor-pointer ml-5 @ManageSideNavPages.PageLinksCloseCarretDisplay(ViewContext, isCurrentPage)"></i>
+                        <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetLinksTextClass(ViewContext, isCurrentPage)" asp-page="/WebPage/Links" asp-route-pageId="@(page.Id)">
+                            <span>
+                                <i class="fa @ManageSideNavPages.LinksOpenFolderDisplay(ViewContext, isCurrentPage) mr-1" aria-hidden="true"></i>
+                                @await TranslationService.TranslateAsync("Links")
+                            </span>
+                        </a>
+                    </div>
+                    <div id="@(page.Id)-page-links" class="@ManageSideNavPages.PageLinksDisplay(ViewContext, isCurrentPage)">
+                        @foreach (var link in page.Links)
+                        {
+                            var isCurrentLink = string.Equals(ViewData["LinkId"]?.ToString(), link.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+
+                            <div class="side-navigation @ManageSideNavPages.LinkNavActive(ViewContext, isCurrentLink)">
+                                <a class="nav-link ml-4 text-inherit @ManageSideNavPages.SetLinkTextClass(ViewContext, isCurrentLink)" asp-page="/WebPage/UpdateLink" asp-route-id="@(link.Id)">
+                                    <span class="ml-5 text-nowrap">
+                                        <i class="fa fa-link mr-1" aria-hidden="true"></i>
+                                        @(link?.Name ?? link.Id.ToString())
+                                    </span>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="side-nav-articles-wrapper">
+        <div class="d-block side-navigation @ManageSideNavPages.ArticleAddNavActive(ViewContext)">
+            <i id="open-subnav-articles" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.ArticlesOpenCarretDisplay(ViewContext)"></i>
+            <i id="close-subnav-articles" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.ArticlesCloseCarretDisplay(ViewContext)"></i>
+            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetBaseArticlesTextClass(ViewContext, true)" asp-page="/Articles/Index">
+                <i class="fa @ManageSideNavPages.ArticlesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+                @await TranslationService.TranslateAsync("Artikels")
+            </a>
+        </div>
+        <div id="subnav-articles" class="@ManageSideNavPages.SubArticlesDisplay(ViewContext)">
+            @foreach (var article in articles)
+            {
+                var isCurrentArticle = string.Equals(ViewData["BaseArticleId"]?.ToString(), article.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+
+                <div class="side-navigation @ManageSideNavPages.BaseArticleNavActive(ViewContext, isCurrentArticle)">
+                    <a class="nav-link text-inherit @ManageSideNavPages.SetBaseArticleTextClass(ViewContext, isCurrentArticle)" asp-area="KerykeionCms" asp-page="/Article/Index" asp-route-id="@(article.Id)">
+                        <span class="ml-5 text-nowrap">
+                            <i class="fa fa-file-code-o mr-1" aria-hidden="true"></i>
+                            @(article?.Name ?? article.Id.ToString())
+                        </span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="side-nav-images-wrapper">
+        <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
+            <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
+            <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
+            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.ImagesNavActive(ViewContext, true)" asp-page="/Images/Index">
+                <i class="fa @ManageSideNavPages.SubImagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+                @await TranslationService.TranslateAsync("Images")
+            </a>
+        </div>
+        <div id="subnav-images" class="@ManageSideNavPages.SubImagesDisplay(ViewContext)">
+            @foreach (var image in images)
+            {
+                <a class="nav-link side-navigation text-inherit @(string.Equals(image.Id.ToString(), ViewData["ImgId"]?.ToString(), StringComparison.OrdinalIgnoreCase) ? "bg-secondary disabled text-dark" : "")" asp-page="/Images/Update" asp-route-id="@image.Id">
+                    <span class="ml-5">
+                        <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
+                        @image.Name
+                    </span>
+                </a>
+            }
+        </div>
+    </div>
+    <div id="side-nav-entities-wrapper">
+        <div id="open-close-entities-wrapper" class="d-block">
+            <i id="open-subnav-entities" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubEntitiesOpenCarretDisplay(ViewContext)"></i>
+            <i id="close-subnav-entities" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubEntitiesCloseCarretDisplay(ViewContext)"></i>
+            <span class="nav-link d-inline-block text-inherit w-100">
+                <i class="fa @ManageSideNavPages.SubEntitiesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+                @await TranslationService.TranslateAsync("Entiteiten")
+            </span>
+        </div>
+        <div id="subnav-entities" class="@ManageSideNavPages.SubEntitiesDisplay(ViewContext)">
+            @foreach (var tableName in tableNames)
+            {
+                var entities = await EntitiesService.ListAllToDtoAsync(tableName);
+                var isCurrentTable = string.Equals(ViewData["TableName"]?.ToString(), tableName, StringComparison.OrdinalIgnoreCase);
+                var isCurrentEnt = false;
+                if (ViewData["EntityId"] != null)
+                {
+                    var entity = await EntitiesService.FindByIdAndTableNameAsync(Guid.Parse(ViewData["EntityId"]?.ToString()), tableName);
+                    isCurrentEnt = entity != null;
+                }
+
+                <div class="d-block side-navigation @ManageSideNavPages.TableNavActive(ViewContext, isCurrentTable)">
+                    <i data-table="@(tableName)" class="table-right-caret fa fa-caret-right cursor-pointer ml-4 @ManageSideNavPages.TableSubOpenCarretDisplay(ViewContext, isCurrentTable)"></i>
+                    <i data-table="@(tableName)" class="table-down-caret fa fa-caret-down cursor-pointer ml-4 @ManageSideNavPages.TableSubCloseCarretDisplay(ViewContext, isCurrentTable)"></i>
+                    <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetTableTextClass(ViewContext, isCurrentTable)" asp-area="KerykeionCms" asp-page="/Entities/Index" asp-route-table="@tableName">
+                        <span class="ml-1">
+                            <i class="fa @ManageSideNavPages.SubEntitiesSubOpenFolderDisplay(ViewContext, isCurrentEnt) mr-1" aria-hidden="true"></i>
+                            @tableName
+                        </span>
+                    </a>
+                </div>
+                if (entities == null)
+                {
+                    continue;
+                }
+                <div id="@tableName-entities" class="@ManageSideNavPages.TableEntitiesDisplay(ViewContext, isCurrentTable)">
+                    @foreach (var ent in entities)
+                    {
+                        var isCurrentEntity = string.Equals(ViewData["EntityId"]?.ToString(), ent.Id.ToString(), StringComparison.OrdinalIgnoreCase);
+
+                        <div class="side-navigation @ManageSideNavPages.EntityNavActive(ViewContext, isCurrentEntity)">
+                            <a class="nav-link ml-4 text-inherit @ManageSideNavPages.SetEntityTextClass(ViewContext, isCurrentEntity)" asp-page="/Entities/Update" asp-route-id="@(ent.Id)" asp-route-table="@tableName">
+                                <span class="ml-4 text-nowrap">
+                                    <i class="fa fa-pencil-square mr-1" aria-hidden="true"></i>
+                                    @ent.Name
+                                </span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div id="side-nav-roles-wrapper">
+        <div class="d-block side-navigation @ManageSideNavPages.RoleAddNavActive(ViewContext)">
+            <i id="open-subnav-roles" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubRolesOpenCarretDisplay(ViewContext)"></i>
+            <i id="close-subnav-roles" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubRolesCloseCarretDisplay(ViewContext)"></i>
+            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.RoleAddNavActive(ViewContext, true)" asp-page="/RoleAdd">
+                <i class="fa @ManageSideNavPages.SubRolesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+                @await TranslationService.TranslateAsync("Rollen")
+            </a>
+        </div>
+        <div id="subnav-roles" class="@ManageSideNavPages.SubRolesDisplay(ViewContext)">
+            @foreach (var role in roles)
+            {
+                <a class="nav-link side-navigation text-inherit @(ViewData["RoleName"]?.ToString() == role.Name ? "bg-secondary disabled text-dark" : "")" asp-page="/Role" asp-route-id="@role.Id">
+                    <span class="ml-5">
+                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
+                        @role.Name
+                    </span>
+                </a>
+            }
+        </div>
+    </div>
+    <div class="d-block side-navigation @ManageSideNavPages.UsersNavActive(ViewContext)">
+        <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.UsersNavActive(ViewContext, true)" asp-area="KerykeionCms" asp-page="/Users/Index">
+            <i class="fa fa-users ml-1 mr-1" aria-hidden="true"></i>
+            @await TranslationService.TranslateAsync("Gebruikers")
+        </a>
+    </div>
+</nav>
+<div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>

@@ -1,0 +1,50 @@
+﻿@page
+@using KerykeionCmsUI.Areas.KerykeionCms
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities.AddModel
+@{
+    ViewData["Title"] = Model.TableName;
+}
+
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@Model.BtnAddValue</h2>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a asp-page="/Entities/Index" asp-route-table="@Model.TableName" class="btn btn-secondary">@Model.BtnBackValue</a>
+    </div>
+</div>
+<div class="col-sm-6 border border-info p-3 mt-3">
+    <form method="post" asp-page-handler="Add" id="add-entity-form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="TableName" />
+        @foreach (var prop in Model.Properties)
+        {
+            if (prop.Name.Equals("name", StringComparison.OrdinalIgnoreCase))
+            {
+                <div class="form-group">
+                    <label for="@prop.Name">@Model.NameDisplay</label>
+                    <input id="@prop.Name" name="@prop.Name" type="text" class="form-control"
+                           data-val="true" data-val-required="@Model.NameRequiredError"
+                           data-val-length-max="50" data-val-length-min="2" data-val-length="@Model.NameLengthError" />
+                    <span data-valmsg-replace="true" data-valmsg-for="@prop.Name" class="text-danger"></span>
+                </div>
+                continue;
+            }
+
+            <div class="form-group">
+                <label for="@prop.Name">@prop.Name</label>
+                <input id="@prop.Name" name="@prop.Name" @(ManageInputs.GetInputType(prop.ClrType.FullName)) @(ManageInputs.GetDefaultValue(prop.ClrType.FullName)) class="form-control" />
+            </div>
+        }
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnAddValue" />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+     $("#open-language-picker").find("form").append(`<input type="hidden" name="table" value="@(Model.TableName)" />`)
+    </script>
+}

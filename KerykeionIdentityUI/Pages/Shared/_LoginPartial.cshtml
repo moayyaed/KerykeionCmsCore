@@ -1,0 +1,57 @@
+﻿@using KerykeionCmsCore.Services
+@using KerykeionCmsCore.Constants
+@using KerykeionCmsCore.Enums
+@inject ISignInService SignInService
+@inject IUserService UserService
+@inject KerykeionTranslationsService TranslationsService
+@{
+    var user = await UserService.GetUserAsync(User);
+    dynamic fullUser;
+    if (user != null)
+    {
+        fullUser = await UserService.GetUserProfileImageIncluded(user);
+        TranslationsService.Options.Pages.Language = Enum.Parse<KerykeionCmsLanguage>(User.Claims.FirstOrDefault(c => c.Type == "Language")?.Value ?? "EN");
+    }
+    else
+    {
+        fullUser = new object();
+    }
+}
+
+@if (SignInService.IsSignedIn(User))
+{
+    <ul class="navbar-nav ml-0">
+        <li class="nav-item position-relative" id="user-navigations-wrapper">
+            <img src="@(fullUser?.ProfileImage?.Url ?? FolderConstants.DefaultUserImagePath)" height="40" width="40" class="rounded-circle" alt="@(fullUser?.ProfileImage?.Name ?? "User-Default-Image")" />
+            <div class="position-absolute d-none p-1" id="user-inner-navs-wrapper">
+                <h3 class="border-bottom border-info text-white pb-2">Hey @User.Identity.Name</h3>
+                <a class="w-100 btn btn-light mb-1" asp-area="Identity" asp-page="/Account/Manage/Index">@await TranslationsService.TranslateAsync("Uw profiel")</a>
+                <form method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                    <button class="w-100 btn btn-light mb-1">@await TranslationsService.TranslateAsync("Uitloggen")</button>
+                </form>
+                <div class="border-top border-white pt-2 mt-1"></div>
+                @if (User.IsInRole(RoleContstants.Administrator))
+                {
+                    <a class="w-100 btn btn-light mb-1" asp-area="KerykeionCms" asp-page="/Users/Index">Beheer Gebruikers</a>
+                    <a class="w-100 btn btn-light mb-1" asp-area="KerykeionCms" asp-page="/Index">Beheer Inhoud</a>
+                }
+                else if (User.IsInRole(RoleContstants.Editor))
+                {
+                    <a class="w-100 btn btn-light mb-1" asp-area="KerykeionCms" asp-page="/Index">Beheer Inhoud</a>
+                }
+            </div>
+        </li>
+    </ul>
+}
+else
+{
+    <partial name="_PickLanguagePartial" />
+    <ul class="navbar-nav ml-0">
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@await TranslationsService.TranslateAsync("Login")</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@await TranslationsService.TranslateAsync("Register")</a>
+        </li>
+    </ul>
+}

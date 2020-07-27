@@ -1,0 +1,53 @@
+﻿@using KerykeionCmsCore.Services
+@inject ThemesService ThemesService
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KerykeionCms</title>
+    <partial name="_StylesPartial" />
+</head>
+<body>
+    <header>
+        <i id="open-sidebar" class="cursor-pointer fa fa-bars position-fixed font-size-20 p-1 rounded border border-dark d-none @ThemesService.OpenSideNavTheme"></i>
+        <nav id="top-navigation" class="navbar navbar-expand-lg navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow">
+            <div class="container text-right">
+                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse flex-lg-row-reverse">
+                    <ul class="navbar-nav ml-0">
+                        <li class="nav-item text-secondary">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <partial name="_SideNavPartial" />
+
+    <div id="main">
+        <div class="p-5 @ThemesService.BgAndColorTheme">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <div id="overlay" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051">
+        <div class="loader"></div>
+    </div>
+    <div id="side-bar-dragger-overlay" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051">
+    </div>
+
+    <partial name="_ScriptsPartial" />
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

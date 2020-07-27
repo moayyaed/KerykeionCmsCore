@@ -1,0 +1,99 @@
+﻿@page
+@using KerykeionCmsCore.Enums
+@model WebPagesModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="col-sm-6 border border-info p-3">
+    <h3 class="border-white border-bottom pb-2">@Model.TxtAddWebpage</h3>
+    <form method="post" asp-page-handler="Add" class="p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name">@Model.NameDisplay</label>
+            <input class="form-control" asp-for="Name"
+                   data-val="true" data-val-required="@Model.PageNameRequiredError"
+                   data-val-length-max="30" data-val-length-min="4" data-val-length="@Model.PageNameLengthError" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Title">@Model.TitleDisplay</label>
+            <input class="form-control" asp-for="Title"
+                   data-val="true" data-val-length-max="30" data-val-length-min="4" data-val-length="@Model.PageTitleLengthError" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnAddValue" />
+        </div>
+    </form>
+</div>
+
+
+@if (Model.Pages.Count > 0)
+{
+    <div class="row border-bottom border-secondary mt-3">
+        <div class="col-sm-6">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+    <div class="mt-5 row pb-1 border-bottom border-secondary">
+        <div class="col-sm-4">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortName" id="sort-pages-by-name">
+                    @Model.NameDisplay
+                    <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.Ascending" />
+                </a>
+            </h5>
+        </div>
+        <div class="col-sm-4">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortDateTime" id="sort-pages-by-datetime">
+                    @Model.TxtAddedOn
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.None" />
+                </a>
+            </h5>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <div id="pages-wrapper" class="mt-2">
+        @foreach (var item in Model.Pages)
+        {
+            <div class="row pt-2 pb-2 border border-secondary mb-1">
+                <div class="col-sm-4">
+                    <p>
+                        @item?.PageName
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <p>
+                        @item?.DateTimeCreated
+                    </p>
+                </div>
+                <div class="col text-right d-block">
+                    <a asp-page="/WebPage/Index" class="btn btn-info d-inline-block" asp-route-id="@item.Id">
+                        @Model.BtnDetailsValue
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" class="ml-1 d-inline-block">
+                        <button type="submit" class="btn btn-danger">
+                            @Model.BtnDeleteValue
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+
+
+<form id="verif-token-holder" method="post"></form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

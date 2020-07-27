@@ -1,0 +1,42 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row mt-5">
+    <div class="col-sm-6 m-auto">
+        <section>
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Username">@Model.TxtUserName</label>
+                    <input data-val="true" data-val-required="@Model.TxtRequiredUserName"
+                           asp-for="Input.Username" class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password">@Model.TxtPassword</label>
+                    <input data-val="true" data-val-required="@Model.TxtRequiredPassword"
+                           asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @Model.TxtRememberMe?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary">@Model.PageTitle</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

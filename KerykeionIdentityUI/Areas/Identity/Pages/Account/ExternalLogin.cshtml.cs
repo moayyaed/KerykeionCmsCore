@@ -1,0 +1,165 @@
+﻿using KerykeionCmsCore.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KerykeionIdentityUI.Areas.Identity.Pages.Account
+{
+    [AllowAnonymous]
+    public class ExternalLoginModel : PageModel
+    {
+        private readonly ISignInService _signInService;
+        private readonly IUserService _userService;
+        private readonly ILogger<ExternalLoginModel> _logger;
+
+        public ExternalLoginModel(
+            ISignInService signInService,
+            IUserService userService,
+            ILogger<ExternalLoginModel> logger)
+        {
+            _signInService = signInService;
+            _userService = userService;
+            _logger = logger;
+        }
+
+        [BindProperty]
+        public InputModel Input { get; set; }
+
+        public string ProviderDisplayName { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        [TempData]
+        public string ErrorMessage { get; set; }
+
+        public class InputModel
+        {
+            [Required(ErrorMessage = "Het {0} veld is verplicht.")]
+            [EmailAddress]
+            [DisplayName("E-mail")]
+            public string Email { get; set; }
+
+            [Required(ErrorMessage = "Het {0} veld is verplicht.")]
+            [StringLength(100, ErrorMessage = "De {0} mag minstens {2} en maximum {1} karakters lang zijn.", MinimumLength = 4)]
+            [DisplayName("Gebruikersnaam")]
+            public string Username { get; set; }
+        }
+
+        public IActionResult OnGetAsync()
+        {
+            return RedirectToPage("./Login");
+        }
+
+        public IActionResult OnPost(string provider, string returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var properties = _signInService.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl ??= Url.Content("~/");
+            if (remoteError != null)
+            {
+                ErrorMessage = $"Fout bij externe dienst: {remoteError}";
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+            var info = await _signInService.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ErrorMessage = "Fout bij het laden van de externe info.";
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await _signInService.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                return LocalRedirect(returnUrl);
+            }
+            if (result.IsLockedOut)
+            {
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                ReturnUrl = returnUrl;
+                ProviderDisplayName = info.ProviderDisplayName;
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    Input = new InputModel
+                    {
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                    };
+                }
+                return Page();
+            }
+        }
+
+        public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
+        {
+            returnUrl ??= Url.Content("~/");
+            // Get the information about the user from the external login provider
+            var info = await _signInService.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ErrorMessage = "Fout bij het laden van externe login informatie tijdens bevestigen.";
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            }
+
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.CreateAsync(Input.Username, Input.Email);
+                if (result.Successfull)
+                {
+                    result = await _userService.AddLoginAsync(result.Entity, info);
+                    if (result.Successfull)
+                    {
+                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                        var userId = await _userService.GetUserIdAsync(result.Entity);
+                        var code = await _userService.GenerateEmailConfirmationTokenAsync(result.Entity);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId, code },
+                            protocol: Request.Scheme);
+
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                        // If account confirmation is required, we need to show the link if we don't have a real email sender
+                        if (_userService.IdentityOptions().SignIn.RequireConfirmedAccount)
+                        {
+                            return RedirectToPage("./RegisterConfirmation", new { Input.Email });
+                        }
+
+                        await _signInService.SignInAsync(result.Entity, isPersistent: false, info.LoginProvider);
+
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Message);
+                }
+            }
+
+            ProviderDisplayName = info.ProviderDisplayName;
+            ReturnUrl = returnUrl;
+            return Page();
+        }
+    }
+}

@@ -1,0 +1,66 @@
+﻿@page
+@using KerykeionCmsCore.Constants
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Users.AddModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@Model.BtnAddValue</h2>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a asp-page="/Users/Index" class="btn btn-secondary">@Model.BtnBackValue</a>
+    </div>
+</div>
+<div class="col-sm-6 border border-info p-3 mt-3">
+    <form method="post" asp-page-handler="Add" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Input.Username">@Model.TxtUserName</label>
+            <input data-val="true" data-val-required="@Model.TxtRequiredUserName"
+                   data-val-length-max="50" data-val-length-min="4" data-val-length="@Model.TxtLengthUserName"
+                   asp-for="Input.Username" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.Username"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Email">@Model.TxtEmail</label>
+            <input type="email" data-val="true"
+                   data-val-required="@Model.TxtRequiredEmail"
+                   asp-for="Input.Email" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Language">@Model.TxtLanguage</label>
+            <select id="language" asp-for="Input.Language" class="form-control" asp-items="@(new SelectList(Model.Input.Languages, "ShortLanguage", "LongLanguage"))">
+                <option selected="selected" value="">@Model.TxtSelectLanguage</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Password">@Model.TxtPassword</label>
+            <input data-val="true"
+                   data-val-required="@Model.TxtRequiredPassword"
+                   asp-for="Input.Password" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.ConfirmPassword">@Model.TxtConfirmPassword</label>
+            <input data-val="true"
+                   data-val-equalto="@Model.TxtCompareError"
+                   id="confirm-password" asp-for="Input.ConfirmPassword" class="form-control" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="add-profile-img-inp">@Model.TxtProfilePicture</label><br />
+            <img id="profile-pic" src="@FolderConstants.DefaultUserImagePath" class="rounded-circle cursor-pointer" height="100" width="100" data-toggle="tooltip" title="@Model.TxtClickToAddProfPic" />
+            <input id="add-profile-img-inp" class="form-control d-none" type="file" asp-for="Input.ProfileImage" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnAddValue" />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

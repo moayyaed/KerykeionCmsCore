@@ -1,0 +1,106 @@
+﻿@page
+@using KerykeionCmsCore.Services
+@model LoginModel
+@inject KerykeionTranslationsService TranslationService
+@{
+    ViewData["Title"] = await TranslationService.TranslateAsync("Inloggen");
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="@(Model.IsAuthenticationViaExternalServicesEnabled ? "col-md-4" : "col-sm-6")">
+        <section>
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Input.Username">@await TranslationService.TranslateAsync("Username")</label>
+                    <input id="username" asp-for="Input.Username" class="form-control" />
+                    <span id="validation-username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password">@await TranslationService.TranslateAsync("Password")</label>
+                    <input id="password" asp-for="Input.Password" class="form-control" />
+                    <span id="validation-password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            @await TranslationService.TranslateAsync("Remember me")?
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button id="submit-login-form" class="btn btn-primary">@await TranslationService.TranslateAsync("Inloggen")</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">@await TranslationService.TranslateAsync("Wachtwoord vergeten")?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@await TranslationService.TranslateAsync("Registreer als een nieuwe gebruiker.")</a>
+                    </p>
+                    <p>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">@await TranslationService.TranslateAsync("Bevestigingsmail opnieuw verzenden.")</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+    </div>
+    @if (Model.IsAuthenticationViaExternalServicesEnabled)
+    {
+        <div class="col-md-6 col-md-offset-2">
+            <section>
+                <h4>Gebruik een andere dienst om in te loggen.</h4>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+                            <p>
+                                Er zijn geen externe authenticatie diensten geconfigureerd. Zie <a href="https://go.microsoft.com/fwlink/?LinkID=532715">dit artikel</a>
+                                voor details over hoe deze ASP.NET applicatie in te stellen om in te kunnen loggen via externe diensten.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                        <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in gebruik makend van uw @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/kerykeionvalidation.js" asp-append-version="true"></script>
+    <script>
+        $("#submit-login-form").on("click", function (evt) {
+            evt.preventDefault();
+            var valOne = false;
+            var valTwo = false;
+
+            if (isRequiredValid("#username", "#validation-username", "@TranslationService.TranslateRequiredError(await TranslationService.TranslateAsync("Username"))")) {
+                valOne = true;
+            }
+
+            if (isRequiredValid("#password", "#validation-password", "@TranslationService.TranslateRequiredError(await TranslationService.TranslateAsync("Password"))")) {
+                valTwo = true;
+            }
+
+            if (valOne && valTwo) {
+                $(this).parents("form").submit();
+            }
+        });
+    </script>
+}

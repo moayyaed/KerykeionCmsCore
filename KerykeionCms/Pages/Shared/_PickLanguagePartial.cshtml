@@ -1,0 +1,26 @@
+﻿@using KerykeionCmsCore.Services
+@inject KerykeionTranslationsService TranslationsService
+@{
+    var chosenLanguage = TranslationsService.Options.Pages.Language;
+}
+
+
+<ul class="navbar-nav ml-0">
+    <li class="nav-item text-secondary">
+        <div id="open-language-picker" class="nav-link cursor-pointer">
+            @chosenLanguage
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+            <div class="position-absolute text-center d-none border border-black bg-white z-index-1 pb-2">
+                <form method="post" asp-page-handler="SetLanguage">
+                    @foreach (var lang in TranslationsService.NotChosenCmsLanguages(chosenLanguage))
+                    {
+                        <div class="cursor-pointer side-navigation btn-chosen-language mt-2" data-language="@lang.ShortLanguage">
+                            <span class="p-2">@lang.LongLanguage</span>
+                        </div>
+                    }
+                    <input type="hidden" name="chosen-language" id="chosen-language" />
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>

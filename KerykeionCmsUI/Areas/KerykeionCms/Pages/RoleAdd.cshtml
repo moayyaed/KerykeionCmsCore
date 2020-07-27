@@ -1,0 +1,21 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.RoleAddModel
+@{
+    ViewData["Title"] = "Rol toevoegen";
+}
+
+<div class="col-sm-6 border border-info p-3">
+    <h3 class="border-white border-bottom pb-2">Rol toevoegen</h3>
+    <p class="text-danger">@Model.Message</p>
+    <form method="post" class="p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Vm.Name"></label>
+            <input class="form-control" asp-for="Vm.Name" placeholder="Typ hier een naam voor een nieuwe rol..." />
+            <span asp-validation-for="Vm.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Toevoegen" />
+        </div>
+    </form>
+</div>

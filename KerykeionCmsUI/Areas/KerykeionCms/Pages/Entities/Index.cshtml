@@ -1,0 +1,86 @@
+﻿@page
+@using KerykeionCmsCore.Enums
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities.IndexModel
+@{
+    ViewData["Title"] = Model.TableName;
+}
+
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+</div>
+<div class="mt-1 text-right">
+    <a asp-page="/Entities/Add" class="btn btn-success" asp-route-table="@ViewData["Title"]">
+        @Model.BtnAddValue
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+    </a>
+</div>
+
+<partial name="_StatusMessage" model="@Model.StatusMessage" />
+
+@if (Model.Entities.Count > 0)
+{
+    <div class="mt-3 row pb-1 border-bottom border-secondary">
+        <div class="col-sm-4">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortName" id="sort-entities-by-name" data-table="@Model.TableName">
+                    @Model.TxtName
+                    <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.Ascending" />
+                </a>
+            </h5>
+        </div>
+        <div class="col-sm-4">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortDateTime" id="sort-entities-by-datetime" data-table="@Model.TableName">
+                    @Model.TxtAddedOn
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.None" />
+                </a>
+            </h5>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <div id="entities-wrapper" class="mt-2">
+        @foreach (var item in Model.Entities)
+        {
+            <div class="row pt-2 pb-2 border border-secondary mb-1">
+                <div class="col-sm-4">
+                    <p>
+                        @item?.Name
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <p>
+                        @item?.DateTimeCreated
+                    </p>
+                </div>
+                <div class="col text-right d-block">
+                    <a asp-page="/Entities/Update" class="btn btn-info d-inline-block" asp-route-id="@item.Id" asp-route-table="@ViewData["Title"]">
+                        @Model.BtnDetailsValue
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" class="ml-1 d-inline-block">
+                        <input type="hidden" asp-for="TableName" />
+                        <button type="submit" class="btn btn-danger">
+                            @Model.BtnDeleteValue
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<form id="verif-token-holder" method="post"></form>
+
+@section Scripts{
+    <script>
+        $("#open-language-picker").find("form")
+            .append(`<input type="hidden" name="table" value="@(ViewData["Title"])" />`);
+    </script>
+}

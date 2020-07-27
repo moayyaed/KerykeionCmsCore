@@ -1,0 +1,40 @@
+﻿@model KerykeionCmsCore.PageModels.ArticleAddPageModelBase
+
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a asp-page="@Model.ReturnToArticlesUrl" asp-route-pageId="@Model.PageId" class="btn btn-secondary">@Model.BtnBackValue</a>
+    </div>
+</div>
+<div class="border border-info mt-3">
+    <form method="post" class="p-3" asp-page-handler="Add">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name">@Model.NameDisplay</label>
+            <input data-val="true" data-val-required="@Model.ArticleTitleRequiredError"
+                   data-val-length-max="50" data-val-length-min="5" data-val-length="@Model.ArticleTitleLengthError"
+                   asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MarkdownText"></label>
+            <div id="kerykeion-wysiwyg-toolbar"></div>
+            <div id="kerykeion-wysiwyg-editor"></div>
+            <textarea id="article-wysiwyg" asp-for="MarkdownText" class="form-control d-none"></textarea>
+        </div>
+        @if (Model.PageId == null)
+        {
+            @foreach (var name in Model.Vm.ForeignKeyPropertyNames)
+            {
+                <div class="form-group">
+                    <label for="@name">@name</label>
+                    <input id="@name" name="@name" class="form-control" />
+                </div>
+            }
+        }
+        <input type="submit" class="btn btn-primary" value="@Model.BtnAddValue" />
+        <input type="hidden" asp-for="@Model.PageId" />
+    </form>
+</div>

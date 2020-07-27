@@ -1,0 +1,13 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage.Articles.IndexModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<partial name="_ArticlesPartial" model="Model" />
+
+@section Scripts{
+    <script>
+        $("#open-language-picker").find("form").append(`<input type="hidden" name="page-id" value="@(Model.PageId)" />`)
+    </script>
+}

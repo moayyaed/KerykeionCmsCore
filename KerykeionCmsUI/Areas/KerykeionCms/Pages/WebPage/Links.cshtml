@@ -1,0 +1,118 @@
+﻿@page
+@using KerykeionCmsCore.Enums
+@model LinksModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="text-right border-bottom border-secondary pb-1 mb-2">
+    <a asp-page="/WebPage/Index" asp-route-id="@Model.Vm.PageId" class="btn btn-secondary">@Model.BtnBackValue</a>
+</div>
+<div class="col-sm-6 border border-info p-3">
+    <h2 class="border-white border-bottom pb-2">@Model.TxtAddLink</h2>
+    <form method="post" class="p-3" asp-page-handler="Add">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Vm.PageId" />
+        <div class="form-group">
+            <label asp-for="Name">@Model.NameDisplay</label>
+            <input asp-for="Name" class="form-control"
+                   data-val="true" data-val-required="@Model.LinkNameRequiredError"
+                   data-val-length-max="200" data-val-length-min="4" data-val-length="@Model.LinkNameLengthError" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Vm.Url"></label>
+            <input asp-for="Vm.Url" class="form-control"
+                   data-val="true" data-val-required="@Model.LinkUrlRequiredError" />
+            <span asp-validation-for="Vm.Url" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnAddValue" />
+        </div>
+    </form>
+</div>
+
+
+
+@if (Model.Vm.Links.Count > 0)
+{
+    <div class="row border-bottom border-secondary mt-3">
+        <div class="col-sm-6">
+            <h2>@ViewData["Title"]</h2>
+        </div>
+    </div>
+    <div class="mt-5 row pb-1 border-bottom border-secondary">
+        <div class="col-sm-3">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortName" id="sort-links-by-name" data-pageId="@Model.Vm.PageId">
+                    @Model.NameDisplay
+                    <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.Ascending" />
+                </a>
+            </h5>
+        </div>
+        <div class="col-sm-3">
+            <h5>
+                <a class="text-inherit">
+                    URL
+                </a>
+            </h5>
+        </div>
+        <div class="col-sm-3">
+            <h5>
+                <a class="text-inherit" asp-page-handler="SortDateTime" id="sort-links-by-datetime" data-pageId="@Model.Vm.PageId">
+                    @Model.TxtAddedOn
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                    <input type="hidden" value="@KerykeionCmsSortingOrder.None" />
+                </a>
+            </h5>
+        </div>
+        <div class="col">
+
+        </div>
+    </div>
+    <div id="links-wrapper" class="mt-2">
+        @foreach (var item in Model.Vm.Links)
+        {
+            <div class="row pt-2 pb-2 border border-secondary mb-1">
+                <div class="col-sm-3">
+                    <p>
+                        @item?.Name
+                    </p>
+                </div>
+                <div class="col-sm-3">
+                    <p>
+                        @item?.Url
+                    </p>
+                </div>
+                <div class="col-sm-3">
+                    <p>
+                        @item?.DateTimeCreated
+                    </p>
+                </div>
+                <div class="col text-right d-block">
+                    <a asp-page="/WebPage/UpdateLink" class="btn btn-info d-inline-block" asp-route-id="@item.Id">
+                        @Model.BtnUpdateValue
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.Id" class="ml-1 d-inline-block">
+                        <input type="hidden" asp-for="Vm.PageId" />
+                        <button type="submit" class="btn btn-danger">
+                            @Model.BtnDeleteValue
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<form id="verif-token-holder" method="post"></form>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#open-language-picker").find("form").append(`<input type="hidden" name="page-id" value="@(Model.Vm.PageId)" />`)
+    </script>
+}

@@ -1,0 +1,10 @@
+﻿@page
+@using KerykeionCmsCore.Services
+@model ConfirmEmailModel
+@inject KerykeionTranslationsService TranslationService
+@{
+    ViewData["Title"] = await TranslationService.TranslateAsync("E-mail bevestiging.");
+}
+
+<h1>@ViewData["Title"]</h1>
+<partial name="_StatusMessage" model="Model.StatusMessage"/>

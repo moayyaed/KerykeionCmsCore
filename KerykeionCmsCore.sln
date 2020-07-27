@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionCmsCore", "KerykeionCmsCore\KerykeionCmsCore.csproj", "{044E3522-0881-48FB-B20B-AD78DF982614}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionCmsUI", "KerykeionCmsUI\KerykeionCmsUI.csproj", "{217D226B-D36A-4EBB-BAB0-12248F41317C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionIdentityUI", "KerykeionIdentityUI\KerykeionIdentityUI.csproj", "{02B926B6-F8CC-4A64-B731-2C3E9F7484B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionCms", "KerykeionCms\KerykeionCms.csproj", "{9102488B-A7B3-4854-AFF9-22B9057A3A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KerykeionLoginUI", "KerykeionLoginUI\KerykeionLoginUI.csproj", "{F79F7534-162E-4F93-A612-D642AC078ED8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{044E3522-0881-48FB-B20B-AD78DF982614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{044E3522-0881-48FB-B20B-AD78DF982614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{044E3522-0881-48FB-B20B-AD78DF982614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{044E3522-0881-48FB-B20B-AD78DF982614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{217D226B-D36A-4EBB-BAB0-12248F41317C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{217D226B-D36A-4EBB-BAB0-12248F41317C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{217D226B-D36A-4EBB-BAB0-12248F41317C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{217D226B-D36A-4EBB-BAB0-12248F41317C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02B926B6-F8CC-4A64-B731-2C3E9F7484B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02B926B6-F8CC-4A64-B731-2C3E9F7484B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02B926B6-F8CC-4A64-B731-2C3E9F7484B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02B926B6-F8CC-4A64-B731-2C3E9F7484B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9102488B-A7B3-4854-AFF9-22B9057A3A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9102488B-A7B3-4854-AFF9-22B9057A3A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9102488B-A7B3-4854-AFF9-22B9057A3A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9102488B-A7B3-4854-AFF9-22B9057A3A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F79F7534-162E-4F93-A612-D642AC078ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79F7534-162E-4F93-A612-D642AC078ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79F7534-162E-4F93-A612-D642AC078ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79F7534-162E-4F93-A612-D642AC078ED8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1273F62D-D1F3-4CBD-B58C-1AFAD1D36940}
+	EndGlobalSection
+EndGlobal

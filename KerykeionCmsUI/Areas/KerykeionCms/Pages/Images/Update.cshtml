@@ -1,0 +1,61 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Images.UpdateModel
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@Model.BtnUpdateValue</h2>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a class="btn btn-secondary" asp-page="/Images/Index">@Model.BtnBackValue</a>
+    </div>
+</div>
+<div class="col-sm-6 mt-3 border border-info p-3">
+    <form method="post" asp-page-handler="Update" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@Model.ImageId" />
+        <div class="form-group">
+            <label>Id</label>
+            <input readonly class="form-control" value="@Model.ImageId" />
+        </div>
+        <div class="form-group">
+            <label>Url</label>
+            <input value="@Model.Vm.Url" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Vm.Title">@Model.TitleDisplay</label>
+            <input class="form-control" asp-for="Vm.Title"
+                   data-val="true" data-val-required="@Model.TitleRequiredError"
+                   data-val-length-max="30" data-val-length-min="4" data-val-length="@Model.TitleLengthError" />
+            <span asp-validation-for="Vm.Title" class="text-danger"></span>
+        </div>
+        @foreach (var prop in Model.ForeignKeyProperties)
+        {
+            <div class="form-group">
+                <label for="FOREIGNKEY-@prop.Name">@prop.Name</label>
+                <input id="FOREIGNKEY-@prop.Name" name="FOREIGNKEY-@prop.Name" class="form-control" value="@(string.Equals(prop.Value.ToString(), Guid.Empty.ToString(), StringComparison.OrdinalIgnoreCase) ? "" : prop.Value)"/>
+            </div>
+        }
+        <div class="form-group">
+            <label asp-for="Vm.File">@Model.ImageDisplay</label>
+            <img src="@Model.Vm.Url" class="img-fluid cursor-pointer" data-toggle="tooltip" title="Replace Image" id="replace-entity-image" />
+            <input class="form-control d-none" asp-for="Vm.File" type="file" id="replace-entity-image-input" />
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnUpdateValue" />
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <form class="col text-right" method="post" asp-page-handler="Delete">
+        <input type="hidden" asp-for="@Model.ImageId" />
+        <input type="submit" value="@Model.BtnDeleteValue" class="btn btn-danger" />
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#open-language-picker").find("form")
+            .append(`<input type="hidden" name="image-id" value="@(Model.ImageId)" />`)
+    </script>
+}

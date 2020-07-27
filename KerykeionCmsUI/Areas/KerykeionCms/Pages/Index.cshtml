@@ -1,0 +1,11 @@
+﻿@page
+@using KerykeionCmsCore.Services
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.IndexModel
+@inject KerykeionTranslationsService TranslationService
+@{
+    ViewData["Title"] = "Kerykeion CMS";
+}
+
+<div class="text-center">
+    <h2 class="border-bottom border-white pb-2">@await TranslationService.TranslateAsync("Beheer hier uw applicatie inhoud.")</h2>
+</div>

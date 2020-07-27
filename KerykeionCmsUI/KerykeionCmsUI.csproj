@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <PackageId>KerykeionCmsUI</PackageId>
+    <Version>1.0.17</Version>
+    <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
+    <Authors>Kerykeion</Authors>
+    <Company>Hermes</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="PageModels\**" />
+    <Content Remove="PageModels\**" />
+    <EmbeddedResource Remove="PageModels\**" />
+    <None Remove="PageModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.5" />
+    <PackageReference Include="KerykeionIdentityUI" Version="1.0.5" />
+    <PackageReference Include="KerykeionLoginUI" Version="1.0.7" />
+  </ItemGroup>
+
+</Project>

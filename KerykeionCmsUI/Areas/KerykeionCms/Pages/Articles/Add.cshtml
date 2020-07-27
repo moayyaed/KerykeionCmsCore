@@ -1,0 +1,18 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Articles.AddModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<partial name="_AddArticlePartial" model="Model" />
+
+@section Scripts{
+    <script src="~/js/kerykeionwysiwyg.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).find("form").on("submit", function () {
+            replaceUnwantedWysiwygElemsWithWantedElems($("#kerykeion-wysiwyg-editor"));
+            $("#article-wysiwyg").html($("#kerykeion-wysiwyg-editor").html());
+        });
+    </script>
+}

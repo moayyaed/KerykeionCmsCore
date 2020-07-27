@@ -1,0 +1,1959 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KerykeionCmsCore</name>
+    </assembly>
+    <members>
+        <member name="T:KerykeionCmsCore.Classes.Article">
+            <summary>
+            Represents an Article in the KerykieonCms.
+            </summary>
+            <remarks>
+            <para>Can also be used to add a description to a certain Entity.</para>
+            <para>Contains a collection of Images.</para>
+            </remarks>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Article.MarkdownText">
+            <summary>
+            Gets or sets the MarkdownText for the Article.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Article.Webpage">
+            <summary>
+            Gets or sets a Webpage attached to an instance of an Article.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Article.Images">
+            <summary>
+            Gets or sets a collection of images attached to an instance of an Article.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.Image">
+            <summary>
+            Represents an Image in the KerykieonCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Image.Url">
+            <summary>
+            Gets or sets the URL for the image.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.KerykeionBaseClass">
+            <summary>
+            Represents an abstract base class for Entity Framework purposes with a property 'Id' of type Guid to use as a primary key.
+            And a property DateTimeCreated to remember the date and time of entity creation.
+            </summary>
+            <remarks>
+            Every added entity to the DbContext should inherit from this class.
+            </remarks>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionBaseClass.Id">
+            <summary>
+            Gets or sets the primary key for the entity named 'Id'.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionBaseClass.DateTimeCreated">
+            <summary>
+            Gets the created DateTime of the entity.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionBaseClass.UniqueNameIdentifier">
+            <summary>
+            Gets the Unique Name Identifier for the Entity.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionBaseClass.Name">
+            <summary>
+            Gets or sets the Name for the Entity.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.KerykeionTranslation">
+            <summary>
+            Represents a translation in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.English">
+            <summary>
+            Gets or sets the English translation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.French">
+            <summary>
+            Gets or sets the French translation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.German">
+            <summary>
+            Gets or sets the German translation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.Dutch">
+            <summary>
+            Gets or sets the Dutch translation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.AllTranslationsDelimitedBySemiColumn">
+            <summary>
+            Gets all translations delimited by a semicolumn.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.ErrorDescriber">
+            <summary>
+            Gets or sets the translation's error describer to identify the translation via the error.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.Route">
+            <summary>
+            Gets or sets the route for the given language.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.AreaRoute">
+            <summary>
+            Gets or sets the razor page area for the translated route.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionTranslation.PageRoute">
+            <summary>
+            Gets or sets the razor page page for the translated route.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Classes.KerykeionTranslation.Translate(KerykeionCmsCore.Enums.KerykeionCmsLanguage)">
+            <summary>
+            Translates a string to the specified language.
+            </summary>
+            <param name="language">The language to be translated to.</param>
+            <returns>
+            Returns a to the specified language translated string.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.KerykeionUser">
+            <summary>
+            Represents a user in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionUser.ProfileImage">
+            <summary>
+            Gets or sets the profile image for the user.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.KerykeionUser.Language">
+            <summary>
+            Gets or sets the language for the user.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.Link">
+            <summary>
+            Represents a URL in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Link.Url">
+            <summary>
+            Gets or sets the universal resource link.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Link.Webpage">
+            <summary>
+            Gets or sets the Webpage this link is assigned to.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Classes.Webpage">
+            <summary>
+            Represents a Webpage in the KerykeionCms.
+            </summary>
+            <remarks>
+            Can be linked to a specific webpage in the calling application.
+            </remarks>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Webpage.Title">
+            <summary>
+            Gets or sets the title for the webpage.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Webpage.Links">
+            <summary>
+            Gets or sets a collection of links for the webpage.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Classes.Webpage.Articles">
+            <summary>
+            Gets or sets a collection of articles for the webpage.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Classes.Webpage.FindArticleById(System.String)">
+            <summary>
+            Gets the webpage article by the specified article ID.
+            </summary>
+            <param name="articleId">The article ID to search for.</param>
+            <returns>
+            A Webpage article which matches the specified ID.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Classes.Webpage.FindLinkById(System.String)">
+            <summary>
+            Gets the webpage link by the specified link ID.
+            </summary>
+            <param name="linkId">The link ID to search for.</param>
+            <returns>
+            A webpage link which matches the specified ID.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Constants.ErrorDescriberConstants">
+            <summary>
+            Provides error describer constants.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DefaultError">
+            <summary>
+            Represents the DefaultError constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.ConcurrencyFailure">
+            <summary>
+            Represents the ConcurrencyFailure constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordMismatch">
+            <summary>
+            Represents the PasswordMismatch constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.InvalidToken">
+            <summary>
+            Represents the InvalidToken constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.RecoveryCodeRedemptionFailed">
+            <summary>
+            Represents the RecoveryCodeRedemptionFailed constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.LoginAlreadyAssociated">
+            <summary>
+            Represents the LoginAlreadyAssociated constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.InvalidUserName">
+            <summary>
+            Represents the InvalidUserName constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.InvalidEmail">
+            <summary>
+            Represents the InvalidEmail constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DuplicateUserName">
+            <summary>
+            Represents the DuplicateUserName constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.InvalidRoleName">
+            <summary>
+            Represents the InvalidRoleName constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DuplicateRoleName">
+            <summary>
+            Represents the DuplicateRoleName constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.UserAlreadyHasPassword">
+            <summary>
+            Represents the UserAlreadyHasPassword constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.UserLockoutNotEnabled">
+            <summary>
+            Represents the UserLockoutNotEnabled constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.UserAlreadyInRole">
+            <summary>
+            Represents the UserAlreadyInRole constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.UserNotInRole">
+            <summary>
+            Represents the UserNotInRole constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordTooShort">
+            <summary>
+            Represents the PasswordTooShort constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordRequiresAtleastAmountUniqueChars">
+            <summary>
+            Represents the PasswordRequiresAtleastAmountUniqueChars constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordRequiresNonAlphanumeric">
+            <summary>
+            Represents the PasswordRequiresNonAlphanumeric constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordRequiresDigit">
+            <summary>
+            Represents the PasswordRequiresDigit constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordRequiresLower">
+            <summary>
+            Represents the PasswordRequiresLower constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.PasswordRequiresUpper">
+            <summary>
+            Represents the PasswordRequiresUpper constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.ArticleTitleDuplicate">
+            <summary>
+            Represents the ArticleTitleDuplicate constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.WebPageNameDuplicate">
+            <summary>
+            Represents the WebPageNameDuplicate constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.NameDuplicate">
+            <summary>
+            Represents the NameDuplicate constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DeleteStatementConflictReferenceConstraint">
+            <summary>
+            Represents the DeleteStatementConflictReferenceConstraint constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.VariableValue">
+            <summary>
+            Represents the VariableValue constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DoubleQuotes">
+            <summary>
+            Represents the DoubleQuotes constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.SingleQuotes">
+            <summary>
+            Represents the SingleQuotes constant.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Data.KerykeionCmsDbContext`1">
+            <summary>
+            Base class for the Entity framework database context used for the KerykeionCms.
+            </summary>
+            <typeparam name="TUser">The type of user objects to context needs to work with.</typeparam>
+        </member>
+        <member name="M:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
+            <summary>
+            Initializes a new instance of the db context.
+            </summary>
+            <param name="options">The options to be used by a Microsoft.EntityFrameworkCore.DbContext.</param>
+        </member>
+        <member name="P:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.Images">
+            <summary>
+            Gets or sets the DB Images.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.Webpages">
+            <summary>
+            Gets or sets the DB Webpages.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.Articles">
+            <summary>
+            Gets or sets the DB Articles.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.Links">
+            <summary>
+            Gets or sets the DB Links.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Data.KerykeionCmsDbContext`1.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <summary>
+            Configures the schema needed for the KerykeionCms.
+            </summary>
+            <param name="builder">The builder being used to construct the model for this context.</param>
+        </member>
+        <member name="T:KerykeionCmsCore.Data.KerykeionCmsDbContext">
+            <summary>
+            Base class for the Entity framework database context used for the KerykeionCms.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Data.KerykeionCmsDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
+            <summary>
+            Initializes a new instance of the db context.
+            </summary>
+            <param name="options">The options to be used by a Microsoft.EntityFrameworkCore.DbContext.</param>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.AddRoleToUserDto">
+            <summary>
+            Represents an AddRoleToUser dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.AddRoleToUserDto.Roles">
+            <summary>
+            Gets or sets a list of RoleDto for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.ArticleDto">
+            <summary>
+            Represents an Article dto in the KerykeionCms
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.BaseDto">
+            <summary>
+            Represents an abstract base class for data transfer objects with one property 'Id' of type Guid.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.BaseDto.Id">
+            <summary>
+            Gets or sets the primary key.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.EntitySideNavDto">
+            <summary>
+            Represents an EntitySideNav dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.ForeignKeyDto">
+            <summary>
+            Represents a ForeingKey dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.ForeignKeyDto.Name">
+            <summary>
+            Gets or sets the Name for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.ForeignKeyDto.Value">
+            <summary>
+            Gets or sets the Value for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.ImageDto">
+            <summary>
+            Represents an Image dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.LinkDto">
+            <summary>
+            Represents a Link in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.LinkDto.Url">
+            <summary>
+            Gets or sets the Url for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.LinkDto.Name">
+            <summary>
+            Gets or sets the Name for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.LinkDto.DateTimeCreated">
+            <summary>
+            Gets or sets the DateTime Created for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.PickedLanguageDto">
+            <summary>
+            Represents a PickedLanguage dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.PickedLanguageDto.ShortLanguage">
+            <summary>
+            Gets or sets the ISO format of the dto language.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.PickedLanguageDto.LongLanguage">
+            <summary>
+            Gets or sets the full format of the dto language.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.RoleDto">
+            <summary>
+            Represents a role dto in the KerykeionCms.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.SortDto">
+            <summary>
+            Represents a sorting dto for the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.SortDto.SortingOrder">
+            <summary>
+            Gets or sets the sorting order for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.SortDto.PageId">
+            <summary>
+            Gets or sets the PageId (Webpage) for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.SortDto.Table">
+            <summary>
+            Gets or sets the Table (DB Table) for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.UserDto">
+            <summary>
+            Represents a user dto for the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.Username">
+            <summary>
+            Gets or sets the Username for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.ProfileImgUrl">
+            <summary>
+            Gets or sets the ProfileImgUrl for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.Email">
+            <summary>
+            Gets or sets the Email for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.EmailConfirmed">
+            <summary>
+            Gets or sets a flag if the email is confirmed for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.PhoneNumber">
+            <summary>
+            Gets or sets the phone number for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.PhoneNumberConfirmed">
+            <summary>
+            Gets or sets a flag if the phone number is confirmed for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.AccessFailedCount">
+            <summary>
+            Gets or sets the ammount of times the user has failed login in for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.UserDto.RolesNames">
+            <summary>
+            Get or sets a list of role names for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Dtos.WebPageDto">
+            <summary>
+            Represents a webpage dto for the kerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.WebPageDto.Name">
+            <summary>
+            Gets or sets the Name for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.WebPageDto.Articles">
+            <summary>
+            Gets or sets the Articles for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.WebPageDto.Links">
+            <summary>
+            Gets or sets the links for the dto.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Enums.KerykeionCmsLanguage">
+            <summary>
+            Provides languages for the KerykeionCms and user pages
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsLanguage.NL">
+            <summary>
+            Nederlands
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsLanguage.EN">
+            <summary>
+            English
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsLanguage.DE">
+            <summary>
+            Deutsch
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsLanguage.FR">
+            <summary>
+            Français
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Enums.KerykeionCmsSortingOrder">
+            <summary>
+            Represents a sorting order in the KerykeionCms. 
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsSortingOrder.Ascending">
+            <summary>
+            Upward sorting order.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsSortingOrder.Descending">
+            <summary>
+            Downward sorting order.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsSortingOrder.None">
+            <summary>
+            No sorting order.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Enums.KerykeionCmsTheme">
+            <summary>
+            Provides themes for CMS pages layout.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsTheme.Dark">
+            <summary>
+            KerykeionCms Dark Theme.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Enums.KerykeionCmsTheme.Light">
+            <summary>
+            KerykeionCms Light Theme.
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Options.KerykeionCmsOptions">
+            <summary>
+            Represents all the options you can use to configure the KerykeionCms.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionCmsOptions.Pages">
+            <summary>
+            Gets or sets the KerykeionCms.Options.KerykeionPageOptions for the KerykeionCms system.
+            </summary>
+            <value>
+            The KerykeionCms.Options.KerykeionPageOptions for the KerykeionCms system.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionCmsOptions.User">
+            <summary>
+            Gets or sets the KerykeionCms.Options.KerykeionUserOptions for the KerykeionCms system.
+            </summary>
+            <value>
+            The KerykeionCms.Options.KerykeionUserOptions for the KerykeionCms system.
+            </value>
+        </member>
+        <member name="T:KerykeionCmsCore.Options.KerykeionPageOptions">
+            <summary>
+            Provides options for the KerykeionCms pages.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionPageOptions.IsRegisteringEnabled">
+            <summary>
+            Gets or sets a flag indicating whether it is possible for a user of the application to register.
+            </summary>
+            <value>
+            Defaults to true. Set to false to disable users registering into the application.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionPageOptions.IsLoginInEnabled">
+            <summary>
+            Gets or sets a flag indicating whether it is possible for a user of the application to log in.
+            </summary>
+            <value>
+            Defaults to true. Set to false to disable users loginin into the application.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionPageOptions.RequireAdministratorRoleToAccessCmsPages">
+            <summary>
+            Gets or sets a flag indicating whether it is required to be in an Administrator role in order to access Content Management Pages.
+            </summary>
+            <remarks>
+            You should only set this to false in development mode.
+            </remarks>
+            <value>
+            Defaults to true. Set to false to enable anyone to access Content Management pages.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionPageOptions.Theme">
+            <summary>
+            Gets or sets the theme for the KerykeionCms pages.
+            </summary>
+            <value>
+            Defaults to Dark theme. There is also a Light theme.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionPageOptions.Language">
+            <summary>
+            Gets or sets the language for the pages.
+            </summary>
+            <value>
+            Defaults to English but there is also Dutch, German and French to choose from.
+            </value>
+        </member>
+        <member name="T:KerykeionCmsCore.Options.KerykeionUserOptions">
+            <summary>
+            Options for KerykeionUser validation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionUserOptions.RequireProfileImage">
+            <summary>
+            Gets or sets a flag indicating whether a registering user requires a profile image.
+            </summary>
+            <remarks>
+            Defaults to False.
+            </remarks>
+            <value>
+            True if the application requires each user to have a profile image, otherwise False.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.KerykeionUserOptions.CanUseExternalAuthenticationServices">
+            <summary>
+            Gets or sets a flag indicating whether a user can make use of external services to be authenticated (like google or facebook).
+            </summary>
+            <remarks>
+            Defaults to False.
+            </remarks>
+            <value>
+            True if the application enables a user to authenticate via external services, False to disable.
+            </value>
+        </member>
+        <member name="T:KerykeionCmsCore.Options.SendSmtpEmailOptions">
+            <summary>
+            Represents the options to configure the SendEmailService.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.WebsiteName">
+            <summary>
+            Gets or sets the name of the application to use as a sender for an email.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.WebsiteEmailAddress">
+            <summary>
+            Gets or sets the email address of the application to use as a sender for an email.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.SmtpHostName">
+            <summary>
+            Gets or sets the Smtp host name.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.SmtpHostPort">
+            <summary>
+            Gets or sets the Smtp host port.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.SmtpUseSsl">
+            <summary>
+            Gets or sets a flag indicating wether to use ssl or not.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.AuthenticatedEmailAddress">
+            <summary>
+            Gets or sets the email address to be authenticated for the smtp host.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.AuthenticatedEmailAddressPassword">
+            <summary>
+            Gets or sets the password for the email address to be authenticated for the smtp host.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Options.SendSmtpEmailOptions.IsConfigured">
+            <summary>
+            Gets or sets a flag indicating wether the email sender is in fact configured. Defaults to False.
+            </summary>
+            <value>
+            True if the email sender is configured, false if it's not.
+            </value>
+        </member>
+        <member name="T:KerykeionCmsCore.Repositories.EntitiesRepository`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TContext"></typeparam>
+            <typeparam name="TUser"></typeparam>
+        </member>
+        <member name="F:KerykeionCmsCore.Repositories.EntitiesRepository`2.Context">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetAll(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.ListAllAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindByIdAndTableNameAsync(System.Guid,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.DeleteAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AddAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formForeignKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeysByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetTableNameByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesToDto(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntitiesTableNames">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityPropertiesByTable(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.ListAllToDtoAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityTypeByTableName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.TrySaveChangesAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.InheritsFromKeryKeionBaseClass(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Repositories.IEntitiesRepository">
+            <summary>
+            Provides an abstraction for a repository for Database Context Entities.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetAll(System.String)">
+            <summary>
+            Gets all the entities specified by the table name.
+            </summary>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>All the entities in the specified table.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.ListAllAsync(System.String)">
+            <summary>
+            Lists all the entities specified by the table name.
+            </summary>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of entities specified by the table name.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntitiesTableNames">
+            <summary>
+            Gets all the tablenames of the current DB Context entities.
+            </summary>
+            <returns>A IEnumerable of table names.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindByIdAndTableNameAsync(System.Guid,System.String)">
+            <summary>
+            Searches for an entity specified by an ID and table name.
+            </summary>
+            <param name="id">The ID of the entity to search for.</param>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            the entity specified by the table name and the specified ID.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityPropertiesByTable(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.UpdateAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.DeleteAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AddAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formForeignKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.ListAllToDtoAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeyPropertiesByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeysByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeyPropertiesToDto(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.InheritsFromKeryKeionBaseClass(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityTypeByTableName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetTableNameByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.EmailService">
+            <summary>
+            Provides API's to send and receive emails.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EmailService.#ctor(Microsoft.Extensions.Options.IOptions{KerykeionCmsCore.Options.SendSmtpEmailOptions})">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EmailService.SendEmailAsync(System.String,System.String,System.String,System.String)">
+            <summary>
+            Call this function if you want to send an smtp email to one single user. Usefull in cases of email confirmation and password recovery.
+            </summary>
+            <param name="username">The username of the receiver.</param>
+            <param name="email">The email address of the receiver</param>
+            <param name="subject">The subject of the email</param>
+            <param name="message">The message of the email</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionCms.Services.SendEmailResult of the operation.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.EntitiesService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Services.EntitiesService.EntitiesRepo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.#ctor(KerykeionCmsCore.Repositories.IEntitiesRepository)">
+            <summary>
+            
+            </summary>
+            <param name="entitiesRepo"></param>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetAll(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.ListAllAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindByIdAndTableNameAsync(System.Guid,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.DeleteAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.AddAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formDict"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <param name="formForeignKeys"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeysByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetTableNameByType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityType(System.Type)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesToDto(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntitiesTableNames">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityPropertiesByTable(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.ListAllToDtoAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityTypeByTableName(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.InheritsFromKeryKeionBaseClass(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.IEmailService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IEmailService.SendEmailAsync(System.String,System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <param name="email"></param>
+            <param name="subject"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.IUserService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.CreateAsync(System.String,System.String,System.String,Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <param name="email"></param>
+            <param name="password"></param>
+            <param name="file"></param>
+            <param name="language"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.CreateAsync(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="username"></param>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserIdAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GenerateEmailConfirmationTokenAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.FindUsersByNameAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="searchValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.FindByIdAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserAsync(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            
+            </summary>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.IdentityOptions">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserNameAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetPhoneNumberAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserId(System.Security.Claims.ClaimsPrincipal)">
+            <summary>
+            
+            </summary>
+            <param name="claimsPrincipal"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.SetPhoneNumberAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="phoneNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.FindByEmailAsync(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.AddToRoleAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.IsEmailConfirmedAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.AddToRolesAsync(System.Object,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="roles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.RemoveFromRoleAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetRolesAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.DeleteAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserProfileImageUrl(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetEmailAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.ConfirmEmailAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.SetUserNameAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="email"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetLoginsAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetAuthenticatorKeyAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetTwoFactorEnabledAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GeneratePasswordResetTokenAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.ChangeEmailAsync(System.Object,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="email"></param>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.CountRecoveryCodesAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.CheckPasswordAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.AddLoginAsync(System.Object,Microsoft.AspNetCore.Identity.ExternalLoginInfo)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.ResetPasswordAsync(System.Object,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="code"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GenerateChangeEmailTokenAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="newEmail"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.HasPasswordAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.AddPasswordAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="newPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.ChangePasswordAsync(System.Object,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="oldPassword"></param>
+            <param name="newPassword"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.VerifyTwoFactorTokenAsync(System.Object,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="authenticatorTokenProvider"></param>
+            <param name="verificationCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.SetTwoFactorEnabledAsync(System.Object,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="enabled"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GenerateNewTwoFactorRecoveryCodesAsync(System.Object,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.ResetAuthenticatorKeyAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.AddProfileImage(System.Object,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="profileImage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetUserProfileImageIncluded(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.GetLanguageAsync(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.IUserService.SetLanguageAsync(System.Object,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user"></param>
+            <param name="language"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionArticlesService">
+            <summary>
+            Provides the API's for delivering CRUD operations on Articles.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionArticlesService.#ctor(KerykeionCmsCore.Services.EntitiesService)">
+            <summary>
+            Constructs a new instance of KerykeionCms.Services.KerykeionArticlesService
+            </summary>
+            <param name="service">The entities service the KerykeionArticlesService will operate over.</param>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionArticlesService.Articles">
+            <summary>
+            Gets all the articles in the database to query.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionArticlesService.FindByIdAllIncludedAsync(System.Nullable{System.Guid})">
+            <summary>
+            Finds and returns an article, all included, if any, which has the specified id.
+            </summary>
+            <param name="id">The id to search for.</param>
+            <returns>
+            A System.Threading.Task.Task that represents the result of the asynchronous query containing the all included article with the specified id.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionArticlesService.ListAllInlcudedAsync">
+            <summary>
+            Lists all the articles everthing included.
+            </summary>
+            <returns>
+            A System.Threading.Task.Task that represents the result of the asynchronous query containing a list of articles everthing included.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionCmsService`1">
+            <summary>
+            Provides the API's for delivering CRUD operations for entities in a Database.
+            </summary>
+            <typeparam name="TEntity">The type of the entity to use this service for.</typeparam>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.#ctor(KerykeionCmsCore.Services.EntitiesService)">
+            <summary>
+            Constructs a new instance of KerykeionCms.Services.KerykeionCmsService
+            </summary>
+            <param name="entitiesService">The entities service the KerykeionCmsService will operate over.</param>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.GetAll">
+            <summary>
+            Gets all the TEntities.
+            </summary>
+            <returns>
+            An IQueryable TEntities.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.ListAllAsync">
+            <summary>
+            Lists all the TEntities.
+            </summary>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, a list TEntities.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.FindByIdAsync(System.Guid)">
+            <summary>
+            Finds and returns an entity, if any, who has the specified id.
+            </summary>
+            <param name="id">
+            The ID to search for.
+            </param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the entity matching the specified id.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.CreateAsync(`0)">
+            <summary>
+            Creates the specified entity in the database, as an asynchronous operation.
+            </summary>
+            <param name="entity">The entity to create.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionCms.Services.KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.CreateAsync(System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Creates the specified entity in the database, as an asynchronous operation.
+            </summary>
+            <param name="formDict">A dictionary of form keys and values.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionCms.Services.KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.UpdateAsync(`0)">
+            <summary>
+            Updates the specified entity in the database.
+            </summary>
+            <param name="entity">The entity to update.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionCms.Services.KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.UpdateAsync(`0,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Updates the specified entity in the database.
+            </summary>
+            <param name="entity">The entity to update.</param>
+            <param name="formDict">A dictionary of form keys and values.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionCms.Services.KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.DeleteAsync(`0)">
+            <summary>
+            Deletes the specified entity from the database.
+            </summary>
+            <param name="entity">The entity to delete.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionCms.Services.KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.GetForeignKeyProperties">
+            <summary>
+            Gets the foreign key properties (also shadow properties) for the current TEntity.
+            </summary>
+            <returns>
+            An IEnumerable of foreign keys.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.GetForeignKeyPropertiesToDto(`0)">
+            <summary>
+            Gets the foreign key properties (also shadow properties) and its values for the current TEntity.
+            </summary>
+            <param name="entity">
+            The TEntity to get the foreignkeys info from.
+            </param>
+            <returns>
+            An IEnumerable of a data transfer object containing the name and value of the foreign key properties.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionDbError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionDbError.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionDbResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionDbResult.Success(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionDbResult.Fail(KerykeionCmsCore.Services.KerykeionDbError[])">
+            <summary>
+            
+            </summary>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionDbResult.Successfull">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionDbResult.Errors">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionDbResult.Entity">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionDbResult.#ctor(System.Boolean,System.Object,KerykeionCmsCore.Services.KerykeionDbError[])">
+            <summary>
+            
+            </summary>
+            <param name="successfull"></param>
+            <param name="entity"></param>
+            <param name="errors"></param>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionTranslationsService">
+            <summary>
+            Provides the API's for translation and delivering CRUD operations on in database stored translations.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.#ctor(Microsoft.Extensions.Options.IOptions{KerykeionCmsCore.Options.KerykeionCmsOptions})">
+            <summary>
+            Constructs a new instance of KerykeionCms.Services.KerykeionTranslationsService
+            </summary>
+            <param name="options">The KerykeionCms configured options.</param>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateAsync(System.String)">
+            <summary>
+            Translates a given piece of text or sentence.
+            </summary>
+            <param name="text">The text to be translated.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the translation of the specified text.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.GetRouteByTextAsync(System.String)">
+            <summary>
+            Gets the translation route by the specified text.
+            </summary>
+            <param name="text">The text to find the kerykeion translation by.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the RouteValueDictionary of the KerykeionTranslation obtained by the specified text.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.NotChosenCmsLanguages(KerykeionCmsCore.Enums.KerykeionCmsLanguage)">
+            <summary>
+            Gets a list of languages which are currently not chosen.
+            </summary>
+            <param name="chosenLanguage">The current chosen language.</param>
+            <returns>
+            A list of languages to choose from except the one that's already chosen.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String,System.String)">
+            <summary>
+            Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+            </summary>
+            <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+            <param name="newValue">A variable value to use as replacement of the default 'VARIABLEVALUE' in the database.</param>
+            <returns>
+            The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String)">
+            <summary>
+            Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+            </summary>
+            <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+            <returns>
+            The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateException(System.String,System.String)">
+            <summary>
+            Translates an error that starts with the specified text to the language set by the KerykeionCmsOptions.
+            </summary>
+            <param name="errorDescriber">The exception identifier, to identify the error in the database.</param>
+            <param name="exceptionMessage">The exception message to be translated.</param>
+            <returns>
+            The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.KerykeionWebPagesService">
+            <summary>
+            Provides the API's for delivering CRUD operations on webpages.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.#ctor(KerykeionCmsCore.Services.EntitiesService)">
+            <summary>
+            Constructs a new instance of KerykeionCms.Services.KerykeionWebPagesService
+            </summary>
+            <param name="service">The database service the KerykeionWebPagesService will operate over.</param>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionWebPagesService.Pages">
+            <summary>
+            Gets all the webpages in the database to query.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.FindByNameAsync(System.String)">
+            <summary>
+            Finds and returns an webpage, if any, who has the specified name.
+            </summary>
+            <param name="name">
+            The webpage name to search for.
+            </param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the webpage matching the specified name.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.ListAllIncludedAsync">
+            <summary>
+            Lists all the Webpages including their foreign keys.
+            </summary>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a list of webpages with their foreign keys included.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.ListAllIncludedToDtoAsync">
+            <summary>
+            Lists all the Webpages including their foreign keys to a data transfer object.
+            </summary>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a list of webpage data transfer objects with their foreign keys included.
+            </returns>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.SendEmailResult">
+            <summary>
+            Represents the result of a KerykeionCms send email operation.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.SendEmailResult.IsNotConfigured">
+            <summary>
+            Returns an KerykeionCms.Services.SendEmailResult indicating that the email sender is not configured.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.SendEmailResult.Success">
+            <summary>
+            Flag indicating whether if the operation succeeded or not.
+            </summary>
+            <value>
+            True if the operation succeeded, otherwise false.
+            </value>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.SendEmailResult.Message">
+            <summary>
+            An explanatory message to be sent about what exactly caused the operation to fail or succeed.
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.SendEmailResult.#ctor(System.Boolean,System.String)">
+            <summary>
+            Initializes a new instance of the SendEmailResult().
+            </summary>
+            <param name="success">Flag indicating whether if the operation succeeded or not.</param>
+            <param name="message">An explanatory message to be sent about what exactly caused the operation to fail or succeed. Optional parameter, defaults to null</param>
+        </member>
+        <member name="T:KerykeionCmsCore.Services.ThemesService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.ThemesService.#ctor(Microsoft.Extensions.Options.IOptions{KerykeionCmsCore.Options.KerykeionCmsOptions})">
+            <summary>
+            
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.ThemesService.BgAndColorTheme">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Services.ThemesService.OpenSideNavTheme">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

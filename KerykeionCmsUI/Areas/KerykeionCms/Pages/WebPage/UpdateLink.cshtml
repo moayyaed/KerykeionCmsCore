@@ -1,0 +1,47 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.LinkModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@ViewData["Title"]</h2>
+    </div>
+    <div class="col-sm-6 text-right">
+        <a class="btn btn-secondary" asp-page="/WebPage/Links" asp-route-pageId="@Model.Vm.PageId">@Model.BtnBackValue</a>
+    </div>
+</div>
+<div class="col-sm-6">
+    <form method="post" asp-page-handler="Update" class="p-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label>Id</label>
+            <input asp-for="Vm.LinkId" class="form-control" readonly value="@Model.Vm.LinkId" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Vm.Name">@Model.NameDisplay</label>
+            <input asp-for="Vm.Name" class="form-control"
+                   data-val="true" data-val-required="@Model.LinkNameRequiredError"
+                   data-val-length-max="200" data-val-length-min="4" data-val-length="@Model.LinkNameLengthError"/>
+            <span asp-validation-for="Vm.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Vm.Url"></label>
+            <input asp-for="Vm.Url" class="form-control" 
+                   data-val="true" data-val-required="@Model.LinkUrlRequiredError"/>
+            <span asp-validation-for="Vm.Url" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="@Model.BtnUpdateValue" />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $("#open-language-picker").find("form")
+            .append(`<input type="hidden" name="link-id" value="@(Model.Vm.LinkId)" />`);
+    </script>
+}

@@ -1,0 +1,113 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Users.IndexModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<div class="row align-items-start">
+    <div class="col-sm-6 border border-info p-3">
+        <form method="post" class="p-3" asp-page-handler="SearchUsers">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Vm.SearchValue">@Model.TxtUserName</label>
+                <input asp-for="Vm.SearchValue" class="form-control"
+                       data-val="true" data-val-required="@Model.TxtRequiredUserName"
+                       data-val-length-max="100" data-val-length-min="1" data-val-length="@Model.TxtLengthUserName" />
+                <span asp-validation-for="Vm.SearchValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Model.BtnSearchValue" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6 text-right ">
+        <a asp-page="/Users/Add" class="btn btn-success">
+            @Model.BtnAddValue
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+<div class="mt-2 border-top border-primary">
+    @if (Model.Vm.UsersFound.Count > 0)
+    {
+        <h3 class="p-3">Resultaten:</h3>
+        <div class="row border-white border-bottom pb-2">
+            <div class="col border border-secondary p-1 overflow-hidden" title="Profiel foto">Profiel foto</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="Gebruikersnaam">Gebruikersnaam</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="E-mail">E-mail</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="E-mail bevestigd">E-mail bevestigd?</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="Telefoon/gsm nummer">Telefoon/gsm nummer</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="Telefoon/gsm nummer bevestigd?">Telefoon/gsm nummer bevestigd?</div>
+            <div class="col border border-secondary p-1 overflow-hidden" title="Aantal mislukte inlog pogingen">Aantal mislukte inlog pogingen</div>
+            <div class="col border border-secondary p-1 overflow-hidden">Rollen</div>
+            <div class="col border border-secondary p-1"></div>
+        </div>
+
+        @foreach (var user in Model.Vm.UsersFound)
+        {
+            <div class="row mt-2">
+                <div class="col border border-secondary p-1 text-center">
+                    <img src="@user.ProfileImgUrl" height="100" width="100" class="rounded-circle" />
+                </div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.Username</div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.Email</div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.EmailConfirmed</div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.PhoneNumber</div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.PhoneNumberConfirmed</div>
+                <div class="col border border-secondary p-1 overflow-auto text-nowrap">@user.AccessFailedCount</div>
+                <div class="col border border-secondary p-1">
+                    @foreach (var roleName in user.RolesNames)
+                    {
+                        <div class="row">
+                            <div class="col">
+                                -@roleName
+                            </div>
+                            <div class="col">
+                                <form method="post" asp-page-handler="RemoveRoleFromUser" asp-route-userId="@user.Id" asp-route-roleName="@roleName">
+                                    <i id="remove-role-from-user" class="fa fa-times font-size-20 cursor-pointer text-danger" data-toggle="tooltip" title="Verwijder rol:'@roleName' van '@user.Username'"></i>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    <form method="post"></form>
+                    <a id="open-add-roles-modal" class="btn btn-link cursor-pointer text-info" data-userid="@user.Id">Voeg rollen toe.</a>
+                </div>
+                <div class="col border border-secondary p-1">
+                    <form method="post" asp-page-handler="DeleteUser" asp-route-id="@user.Id">
+                        <input type="submit" class="w-100 mb-1 btn btn-danger" value="Verwijder" />
+                    </form>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+<div class="modal fade" id="add-roles-to-user-form-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-dark">Voeg rollen toe.</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post" asp-page-handler="AddRoles" id="form-add-roles-to-user">
+                    <select name="SelectRoles" id="add-roles-to-user-select" multiple class="form-control">
+                    </select>
+                    <div id="validation-add-roles" class="text-danger d-none">Gelieve minstens 1 rol te selecteren.</div>
+                    <input id="submit-add-roles-to-user" value="Toevoegen" class="btn btn-success mt-2 cursor-pointer" />
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

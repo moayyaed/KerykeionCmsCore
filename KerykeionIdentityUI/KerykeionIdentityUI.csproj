@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <PackageId>KerykeionIdentityUI</PackageId>
+    <Version>1.0.5</Version>
+    <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
+    <Authors>Kerykeion</Authors>
+    <Company>Hermes</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.5" />
+  </ItemGroup>
+
+
+</Project>
