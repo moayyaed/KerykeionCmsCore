@@ -35,3 +35,13 @@ Run both projects in the solution to be able to consume the KerykieonTranslation
 
 Another (maybe) necessary step might be that you update the API Urls in the KerykeionCmsCore/Services/KerykeionTranslationsService.cs file.
 After you've done this you will have to update the versions of your project, in the future I'll look to Host this API on the web.
+
+# Access
+To access the KerykeionContentManagementSystem pages there will have to be an User that is in an Administrator role. You can do this in the server itself or you can make use of a workaround I've provided.
+
+Add the following highlighted code to the ConfigureServices method in the Startup.cs file of your main project.
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Access.PNG)
+
+This will grant anyone access to the KerykeionCms pages, so only to be used in Development Environment.
+Now you can explore the KerykeionCms.
