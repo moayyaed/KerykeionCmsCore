@@ -25,3 +25,6 @@ Update the ConfigureServices method in the Startup.cs file like this...
 Update the Configure method in the Startup.cs file like this...
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Configure.PNG)
+
+The last thing to do is add migrations and update the database. You can add Entities to the Context before you create the database but this can also be done afterwards. 
+These (extra) code first added Entities will be able to be manipulated (performing CRUD operations on them) in the KerykeionCms.
