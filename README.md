@@ -45,3 +45,5 @@ Add the following highlighted code to the ConfigureServices method in the Startu
 
 This will grant anyone access to the KerykeionCms pages, so only to be used in Development Environment.
 Now you can explore the KerykeionCms.
+
+I will leave it with this but there is a detailed documentation website underway.
