@@ -1,7 +1,7 @@
 # KerykeionCms
 Basic Content Management System for Asp.Net development in an Entity Framework Core environment.
 
-Still under development as well as detailed documentation.
+The project itself as wel as a detailed documentation is still under development.
 
 Obviously subject to improvement but feel free to clone and improve to your needs.
 
