@@ -17,3 +17,11 @@ Save the file and it will add all needed supplements for the KerykeionCms.
 Next create an Entity Framework Context that inherits from KerykeionCmsDbContext like so...
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Context.PNG)
+
+Update the ConfigureServices method in the Startup.cs file like this...
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/ConfigureServices.PNG)
+
+Update the Configure method in the Startup.cs file like this...
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Configure.PNG)
