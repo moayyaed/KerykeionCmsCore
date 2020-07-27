@@ -15,3 +15,5 @@ If you don't want to use the package manager for adding the necessary nuget pack
 Save the file and it will add all needed supplements for the KerykeionCms.
 
 Next create an Entity Framework Context that inherits from KerykeionCmsDbContext like so...
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Context.PNG)
