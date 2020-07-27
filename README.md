@@ -28,3 +28,7 @@ Update the Configure method in the Startup.cs file like this...
 
 The last thing to do is add migrations and update the database. You can add Entities to the Context before you create the database but this can also be done afterwards. 
 These (extra) code first added Entities will be able to be manipulated (performing CRUD operations on them) in the KerykeionCms.
+
+# Translations API
+Another Necessary step is to clone the following API project https://github.com/Kerykeion7/KerykeionTranslationAPI and add it as an existing project to your solution.
+Run both projects in the solution to be able to consume the KerykieonTranslations API.
