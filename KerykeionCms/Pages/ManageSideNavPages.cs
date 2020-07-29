@@ -19,7 +19,8 @@ namespace KerykeionCms.Pages
         public static string EntitiesPage => "/entities/index";
         public static string AddEntityPage => "/entities/add";
         public static string UpdateEntityPage => "/entities/update";
-        public static string UsersPage => "/Users";
+        public static string UsersPage => "/Users/Index";
+        public static string AddUserPage => "/Users/Add";
         public static string RoleAddPage => "/Roleadd";
         public static string SubRolePage => "/Role";
         public static string ImagesPages => "/Images/Index";
@@ -28,7 +29,7 @@ namespace KerykeionCms.Pages
 
 
         #region WebpageFunx
-        public static string WebPageAddNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, WebPagesPage, isDisable);
+        public static string WebPageAddNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, WebPagesPage);
         public static string WebPageNavActive(ViewContext viewContext, bool isCurrentWebPage) => SetSubActive(viewContext, isCurrentWebPage, WebPagePage);
         public static string ArticlesNavActive(ViewContext viewContext, bool isCurrentWebPage) => SetSubActive(viewContext, isCurrentWebPage, WebPageArticlesPage, WebPageArticleAddPage);
         public static string ArticleNavActive(ViewContext viewContext, bool isCurrentArticle) => SetSubActive(viewContext, isCurrentArticle, WebPageArticlePage);
@@ -90,11 +91,11 @@ namespace KerykeionCms.Pages
         #endregion
 
         #region UserFunx
-        public static string UsersNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, UsersPage, isDisable);
+        public static string UsersNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, UsersPage, AddUserPage);
         #endregion
 
         #region RolesFunx
-        public static string RoleAddNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, RoleAddPage, isDisable);
+        public static string RoleAddNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, RoleAddPage);
         public static string SubRolesDisplay(ViewContext viewContext) => DisplaySubs(viewContext, SubRolePage);
         public static string SubRolesOpenCarretDisplay(ViewContext viewContext) => DisplayOpenCarret(viewContext, SubRolePage);
         public static string SubRolesCloseCarretDisplay(ViewContext viewContext) => DisplayCloseCarret(viewContext, SubRolePage);
@@ -103,7 +104,7 @@ namespace KerykeionCms.Pages
 
         #region ImagesFunx
         public static string SubImagesOpenFolderDisplay(ViewContext viewContext) => DisplayOpenFolder(viewContext, ImageUpdatePage);
-        public static string ImagesNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, ImagesPages, isDisable);
+        public static string ImagesNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, ImagesPages);
         public static string SubImagesDisplay(ViewContext viewContext) => DisplaySubs(viewContext, ImageUpdatePage);
         public static string SubImagesOpenCarretDisplay(ViewContext viewContext) => DisplayOpenCarret(viewContext, ImageUpdatePage);
         public static string SubImagesCloseCarretDisplay(ViewContext viewContext) => DisplayCloseCarret(viewContext, ImageUpdatePage);
@@ -128,14 +129,13 @@ namespace KerykeionCms.Pages
             return (IsOnAnyOfTheSpecifiedPages(viewContext, pages) && isCurrent) ? "disabled text-dark" : "";
         }
 
-        private static string SetActive(ViewContext viewContext, string page, bool isDisable)
+        private static string SetActive(ViewContext viewContext, bool isDisable, params string[] pages)
         {
-            var current = GetCurrent(viewContext);
             if (!isDisable)
             {
-                return string.Equals(current, page, StringComparison.OrdinalIgnoreCase) ? "bg-secondary" : "";
+                return IsOnAnyOfTheSpecifiedPages(viewContext, pages) ? "bg-secondary" : "";
             }
-            return string.Equals(current, page, StringComparison.OrdinalIgnoreCase) ? "disabled text-dark" : "";
+            return IsOnAnyOfTheSpecifiedPages(viewContext, pages) ? "disabled text-dark" : "";
         }
 
         private static string SetSubActive(ViewContext viewContext, bool isCurrentEntity, params string[] pages)
