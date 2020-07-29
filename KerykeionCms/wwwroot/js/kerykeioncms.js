@@ -184,14 +184,6 @@
     readImgFile("#add-profile-img-inp", "#profile-pic");
     readImgFile("#replace-entity-image-input", "#replace-entity-image")
 
-    $("#add-entity-form").on("submit", function () {
-        SendUncheckedBoxesWithForm($(this));
-    });
-
-    $("#update-entity-form").on("submit", function () {
-        SendUncheckedBoxesWithForm($(this))
-    });
-
     $(document).on("click", "#btn-add-article", function () {
         replaceUnwantedWysiwygElemsWithWantedElems($("#kerykeion-wysiwyg-editor"));
         $("#txt-add-article-wysiwyg").html($("#kerykeion-wysiwyg-editor").html());
@@ -441,13 +433,6 @@ function manipulateEntitySubNavs(clickedElClass, clickedElSiblingClass, subExten
                 $(this).siblings().children().find(".fa-folder-o").first().removeClass("fa-folder-o").addClass("fa-folder-open-o");
             }
         }
-    });
-}
-
-function SendUncheckedBoxesWithForm(form) {
-    var checkboxes = form.find($("input:checkbox:not(:checked)"));
-    $(checkboxes).each(function () {
-        $(this).prop("checked", true).val("False");
     });
 }
 
