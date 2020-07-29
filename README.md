@@ -31,7 +31,13 @@ These (extra) code first added Entities will be able to be manipulated (performi
 
 # Translations API
 Another Necessary step is to clone the following API project https://github.com/Kerykeion7/KerykeionTranslationAPI and add it as an existing project to your solution.
+You can do this by right clicking your solution > add > Existing Project. Your explorer will open, open the KerykeionTranslationApi folder and double click the KerykeionTranslationAPI.csproj file. This will add the API to the solution.
+
+
 Run both projects in the solution to be able to consume the KerykeionTranslations API from your project.
+To run both projects right click your solution and select 'properties', then check the 'multiple startup projects' radio button and set both project actions to 'start'.
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Properties.PNG)
 
 Make sure the TranslationApi project runs on port 44370 you can easily update this in the launchsettings.json file.
 
