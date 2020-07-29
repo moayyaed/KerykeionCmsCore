@@ -84,7 +84,7 @@ namespace KerykeionCmsCore.Repositories
         /// <param name="entity"></param>
         /// <param name="formForeignKeys"></param>
         /// <returns></returns>
-        Task<KerykeionDbResult> AssignFormForeignKeysAsync(object entity, IEnumerable<KeyValuePair<string, StringValues>> formForeignKeys);
+        Task<KerykeionDbResult> AssignForeignKeysAsync(object entity, IEnumerable<KeyValuePair<string, StringValues>> formForeignKeys);
         /// <summary>
         /// 
         /// </summary>

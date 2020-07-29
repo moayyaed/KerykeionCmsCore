@@ -127,7 +127,7 @@ namespace KerykeionCmsCore.Repositories
             var activatedEntity = Activator.CreateInstance(type.ClrType) as KerykeionBaseClass;
             activatedEntity.DateTimeCreated = DateTime.Now;
 
-            var result = await AsignProperties(activatedEntity, formDict);
+            var result = await AssignPropertiesAsync(activatedEntity, formDict);
             if (!result.Successfull)
             {
                 return result;
@@ -164,7 +164,7 @@ namespace KerykeionCmsCore.Repositories
                 return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
             }
 
-            var result = await AsignProperties(entity, formDict);
+            var result = await AssignPropertiesAsync(entity, formDict);
             if (!result.Successfull)
             {
                 return result;
@@ -179,38 +179,18 @@ namespace KerykeionCmsCore.Repositories
         /// <param name="entity"></param>
         /// <param name="formForeignKeys"></param>
         /// <returns></returns>
-        public async Task<KerykeionDbResult> AssignFormForeignKeysAsync(object entity, IEnumerable<KeyValuePair<string, StringValues>> formForeignKeys)
+        public async Task<KerykeionDbResult> AssignForeignKeysAsync(object entity, IEnumerable<KeyValuePair<string, StringValues>> formForeignKeys)
         {
             foreach (var key in formForeignKeys)
             {
                 var foreignKeyName = key.Key.Split("-").Last();
                 var foreignKey = GetForeignKeysByType(entity.GetType()).FirstOrDefault(fk => fk.GetDefaultName().Contains(foreignKeyName, StringComparison.OrdinalIgnoreCase));
-                if (foreignKey == null)
-                {
-                    continue;
-                }
 
-                if (string.IsNullOrEmpty(key.Value.ToString()?.Trim()))
-                {
-                    Context.Entry(entity).Property(foreignKeyName).CurrentValue = null;
-                    continue;
-                }
+                var result = await AssignForeignKeyAsync(entity, foreignKey, key.Value.ToString(), foreignKeyName);
 
-                if (!Guid.TryParse(key.Value.ToString(), out _))
-                {
-                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"'{key.Value}' is not a valid value for the '{foreignKeyName}'. Either provide a valid GUID or make sure the input is completely empty." });
-                }
+                if (result == null) continue;
 
-                var foreignPrincipalEntityType = foreignKey?.PrincipalEntityType?.ClrType;
-                if (foreignPrincipalEntityType == null) continue;
-
-                var foreignEntity = await Context.FindAsync(foreignPrincipalEntityType, Guid.Parse(key.Value.ToString()));
-                if (foreignEntity == null)
-                {
-                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"There is no '{foreignPrincipalEntityType?.Name}' found in the database with '{key.Value}' as primary key." });
-                }
-
-                Context.Entry(entity).Property(foreignKeyName).CurrentValue = Guid.Parse(key.Value.ToString());
+                if (!result.Successfull) return result;
             }
 
             return KerykeionDbResult.Success();
@@ -360,26 +340,7 @@ namespace KerykeionCmsCore.Repositories
         {
             return Context.Model.GetEntityTypes().FirstOrDefault(et => string.Equals(et.GetTableName(), tableName, StringComparison.OrdinalIgnoreCase));
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        private async Task<KerykeionDbResult> TrySaveChangesAsync(object entity = null)
-        {
-            try
-            {
-                await Context.SaveChangesAsync();
-                return KerykeionDbResult.Success(entity);
-            }
-            catch (Exception ex)
-            {
-                return KerykeionDbResult.Fail(new KerykeionDbError
-                {
-                    Message = ex.InnerException.Message
-                });
-            }
-        }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -400,7 +361,7 @@ namespace KerykeionCmsCore.Repositories
             return allEntities.Select(o => o.GetType().GetProperty(PropertyNameConstants.UniqueNameIdentifier)?.GetValue(o)).Contains(name?.CompleteTrimAndUpper());
         }
 
-        private async Task<KerykeionDbResult> AsignProperties(object entity, Dictionary<string, StringValues> formDict)
+        private async Task<KerykeionDbResult> AssignPropertiesAsync(object entity, Dictionary<string, StringValues> formDict)
         {
             var entityType = GetEntityType(entity.GetType());
             List<KerykeionDbError> errors = new List<KerykeionDbError>();
@@ -411,33 +372,14 @@ namespace KerykeionCmsCore.Repositories
                 if (property == null)
                 {
                     var foreignKey = entityType.GetForeignKeys().FirstOrDefault(fk => fk.GetDefaultName().Contains(prop.Name, StringComparison.OrdinalIgnoreCase));
-                    if (foreignKey == null)
-                    {
-                        continue;
-                    }
 
                     if (formDict.ContainsKey(prop.Name))
                     {
-                        if (string.IsNullOrEmpty(formDict[prop.Name].ToString()?.Trim()))
-                        {
-                            continue;
-                        }
+                        var result = await AssignForeignKeyAsync(entity, foreignKey, formDict[prop.Name].ToString(), prop.Name);
 
-                        if (!Guid.TryParse(formDict[prop.Name].ToString(), out _))
-                        {
-                            return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"'{formDict[prop.Name]}' is not a valid value for the '{prop.Name}'. Either provide a valid GUID or make sure the input is completely empty." });
-                        }
+                        if (result == null) continue;
 
-                        var foreignPrincipalEntityType = foreignKey?.PrincipalEntityType?.ClrType;
-                        if (foreignPrincipalEntityType == null) continue;
-
-                        var foreignEntity = await Context.FindAsync(foreignPrincipalEntityType, Guid.Parse(formDict[prop.Name].ToString()));
-                        if (foreignEntity == null)
-                        {
-                            return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"There is no '{foreignPrincipalEntityType?.Name}' found in the database with '{formDict[prop.Name]}' as primary key." });
-                        }
-
-                        Context.Entry(entity).Property(prop.Name).CurrentValue = Guid.Parse(formDict[prop.Name].ToString());
+                        if (!result.Successfull) return result;
                     }
 
                     continue;
@@ -502,6 +444,54 @@ namespace KerykeionCmsCore.Repositories
             }
 
             return KerykeionDbResult.Success();
+        }
+
+        private async Task<KerykeionDbResult> AssignForeignKeyAsync(object entity, IForeignKey foreignKey, string formValue, string propertyName)
+        {
+            if (foreignKey == null)
+            {
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(formValue?.Trim()))
+            {
+                Context.Entry(entity).Property(propertyName).CurrentValue = null;
+                return null;
+            }
+
+            if (!Guid.TryParse(formValue, out _))
+            {
+                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"'{formValue}' is not a valid value for the '{propertyName}'. Either provide a valid GUID or make sure the input is completely empty." });
+            }
+
+            var foreignPrincipalEntityType = foreignKey?.PrincipalEntityType?.ClrType;
+            if (foreignPrincipalEntityType == null) return null;
+
+            var foreignEntity = await Context.FindAsync(foreignPrincipalEntityType, Guid.Parse(formValue));
+            if (foreignEntity == null)
+            {
+                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"There is no '{foreignPrincipalEntityType?.Name}' found in the database with '{formValue}' as primary key." });
+            }
+
+            Context.Entry(entity).Property(propertyName).CurrentValue = Guid.Parse(formValue);
+
+            return KerykeionDbResult.Success();
+        }
+
+        private async Task<KerykeionDbResult> TrySaveChangesAsync(object entity = null)
+        {
+            try
+            {
+                await Context.SaveChangesAsync();
+                return KerykeionDbResult.Success(entity);
+            }
+            catch (Exception ex)
+            {
+                return KerykeionDbResult.Fail(new KerykeionDbError
+                {
+                    Message = ex.InnerException.Message
+                });
+            }
         }
     }
 }
