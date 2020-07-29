@@ -111,7 +111,7 @@ namespace KerykeionCmsCore.Services
         /// <returns></returns>
         public async Task<KerykeionDbResult> AssignFormForeignKeysAsync(object entity, IEnumerable<KeyValuePair<string, StringValues>> formForeignKeys)
         {
-            return await EntitiesRepo.AssignFormForeignKeysAsync(entity, formForeignKeys);
+            return await EntitiesRepo.AssignForeignKeysAsync(entity, formForeignKeys);
         }
         #endregion
 
