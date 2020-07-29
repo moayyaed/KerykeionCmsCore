@@ -51,7 +51,7 @@ Add the following highlighted code to the ConfigureServices method in the Startu
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Access.PNG)
 
 This will grant anyone access to the KerykeionCms pages, so only to be used in Development Environment.
-Now you can explore the KerykeionCms.
+Now go to the url => {YourPort}/kerykeioncms and you can explore the KerykeionCms where you also can add users and aply roles to them.
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager.PNG)
 
