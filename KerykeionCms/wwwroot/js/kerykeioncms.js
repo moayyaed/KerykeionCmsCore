@@ -280,6 +280,14 @@
             $("#images-wrapper").html(getHtmlContainingSortedEntitiesByAjax(result));
         });
     });
+
+    $("#add-entity-form").on("submit", function () {
+        sendBooleanValueForCheckboxes($(this));
+    });
+
+    $("#update-entity-form").on("submit", function () {
+        sendBooleanValueForCheckboxes($(this))
+    });
 });
 
 function prepSortAjax(clickedSorter, partnerSorter, ascClass, descClass, partnerAscClass, partnerDescClass, baseClass) {
@@ -451,6 +459,17 @@ function closeSubnav(clickedEl, subnavToOpen, caretToDisplay) {
         subnavToOpen.addClass("d-none");
         caretToDisplay.removeClass("d-none").addClass("d-inline-block");
         $(this).siblings().find(".fa-folder-open-o").removeClass("fa-folder-open-o").addClass("fa-folder-o");
+    });
+}
+
+function sendBooleanValueForCheckboxes(form) {
+    var checkboxes = form.find(':checkbox');
+    $(checkboxes).each(function () {
+        if ($(this).is(':checked')) {
+            $(this).attr('value', 'true');
+        } else {
+            $(this).attr('value', 'false');
+        }
     });
 }
 
