@@ -31,10 +31,11 @@ These (extra) code first added Entities will be able to be manipulated (performi
 
 # Translations API
 Another Necessary step is to clone the following API project https://github.com/Kerykeion7/KerykeionTranslationAPI and add it as an existing project to your solution.
-Run both projects in the solution to be able to consume the KerykieonTranslations API.
+Run both projects in the solution to be able to consume the KerykeionTranslations API from your project.
 
-Another (maybe) necessary step might be that you update the API Urls in the KerykeionCmsCore/Services/KerykeionTranslationsService.cs file.
-After you've done this you will have to update the versions of your project, in the future I'll look to Host this API on the web. Another option is to update the ssl ports in the launchsettings.json file of the TranslationApi project.
+Make sure the TranslationApi project runs on port 44370 you can easily update this in the launchsettings.json file.
+
+Another option is to update the request uri in the KerkeionCmsCore project.
 
 # Access
 To access the KerykeionContentManagementSystem pages there will have to be an User that is in an Administrator role. You can do this in the server itself or you can make use of a workaround I've provided.
