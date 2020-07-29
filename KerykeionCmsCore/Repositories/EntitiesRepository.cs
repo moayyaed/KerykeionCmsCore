@@ -3,6 +3,8 @@ using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.Data;
 using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.Services;
+using KerykeionDbContextExtensions;
+using KerykeionStringExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Primitives;
@@ -10,8 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using KerykeionStringExtensions;
-using KerykeionDbContextExtensions;
 
 namespace KerykeionCmsCore.Repositories
 {
@@ -340,7 +340,7 @@ namespace KerykeionCmsCore.Repositories
         {
             return Context.Model.GetEntityTypes().FirstOrDefault(et => string.Equals(et.GetTableName(), tableName, StringComparison.OrdinalIgnoreCase));
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
