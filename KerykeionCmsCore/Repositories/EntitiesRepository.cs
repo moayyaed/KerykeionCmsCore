@@ -124,16 +124,15 @@ namespace KerykeionCmsCore.Repositories
                 return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
             }
 
-            var activatedEntity = Activator.CreateInstance(type.ClrType) as KerykeionBaseClass;
-            activatedEntity.DateTimeCreated = DateTime.Now;
+            var entity = Activator.CreateInstance(type.ClrType);
 
-            var result = await AssignPropertiesAsync(activatedEntity, formDict);
+            var result = await AssignPropertiesAsync(entity, formDict);
             if (!result.Successfull)
             {
                 return result;
             }
 
-            return await AddAsync(activatedEntity);
+            return await AddAsync(entity);
         }
         /// <summary>
         /// 
