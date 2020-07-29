@@ -383,7 +383,7 @@ namespace KerykeionCmsCore.Repositories
 
                     continue;
                 }
-                if (prop.Name.Equals(PropertyNameConstants.Id, StringComparison.OrdinalIgnoreCase))
+                if (prop.Name.Equals(PropertyNameConstants.Id, StringComparison.OrdinalIgnoreCase) || prop.Name.Equals(PropertyNameConstants.DateTimeCreated, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
