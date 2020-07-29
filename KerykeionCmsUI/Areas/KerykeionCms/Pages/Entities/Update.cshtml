@@ -53,7 +53,7 @@
             {
                 <div class="form-group">
                     <label for="@prop.Name">@prop.Name</label>
-                    <input id="@prop.Name" name="@prop.Name" @(ManageInputs.GetInputType(prop?.ClrType?.FullName)) class="form-control" checked="@(ManageInputs.GetInputValue(value.ToString()))" />
+                    <input id="@prop.Name" name="@prop.Name" @(ManageInputs.GetInputType(prop?.ClrType?.FullName)) class="form-control" @ManageInputs.GetInputValue(value.ToString()) />
                 </div>
                 continue;
             }
