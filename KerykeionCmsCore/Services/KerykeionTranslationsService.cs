@@ -43,7 +43,11 @@ namespace KerykeionCmsCore.Services
         {
             using HttpClient httpClient = new HttpClient();
             var response = await httpClient.GetAsync("https://localhost:44370/api/translations/translate/" + $"{Options.Pages.Language}/{text}");
-            return await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
+            }
+            return text;
         }
 
         /// <summary>
