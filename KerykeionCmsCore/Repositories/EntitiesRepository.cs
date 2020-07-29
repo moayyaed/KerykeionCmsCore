@@ -170,8 +170,7 @@ namespace KerykeionCmsCore.Repositories
                 return result;
             }
 
-            Context.Entry(entity).State = EntityState.Modified;
-            return await TrySaveChangesAsync();
+            return await UpdateAsync(entity);
         }
         /// <summary>
         /// 
