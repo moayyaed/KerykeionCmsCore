@@ -497,7 +497,7 @@ namespace KerykeionCmsCore.Repositories
                     }
 
 
-                    property.SetValue(entity, test.ToString());
+                    property.SetValue(entity, formDict[prop.Name].ToString());
                 }
             }
 
