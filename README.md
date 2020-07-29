@@ -31,10 +31,17 @@ These (extra) code first added Entities will be able to be manipulated (performi
 
 # Translations API
 Another Necessary step is to clone the following API project https://github.com/Kerykeion7/KerykeionTranslationAPI and add it as an existing project to your solution.
-Run both projects in the solution to be able to consume the KerykieonTranslations API.
+You can do this by right clicking your solution > add > Existing Project. Your explorer will open, open the KerykeionTranslationApi folder and double click the KerykeionTranslationAPI.csproj file. This will add the API to the solution.
 
-Another (maybe) necessary step might be that you update the API Urls in the KerykeionCmsCore/Services/KerykeionTranslationsService.cs file.
-After you've done this you will have to update the versions of your project, in the future I'll look to Host this API on the web. Another option is to update the ssl ports in the launchsettings.json file of the TranslationApi project.
+
+Run both projects in the solution to be able to consume the KerykeionTranslations API from your project.
+To run both projects right click your solution and select 'properties', then check the 'multiple startup projects' radio button and set both project actions to 'start'.
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Properties.PNG)
+
+Make sure the TranslationApi project runs on port 44370 you can easily update this in the launchsettings.json file.
+
+Another option is to update the request uri in the KerkeionCmsCore project.
 
 # Access
 To access the KerykeionContentManagementSystem pages there will have to be an User that is in an Administrator role. You can do this in the server itself or you can make use of a workaround I've provided.
@@ -44,7 +51,8 @@ Add the following highlighted code to the ConfigureServices method in the Startu
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Access.PNG)
 
 This will grant anyone access to the KerykeionCms pages, so only to be used in Development Environment.
-Now you can explore the KerykeionCms.
+
+Now go to the url => {YourPort}/kerykeioncms and you can explore the KerykeionCms where you also can add users and apply roles to them.
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager.PNG)
 
