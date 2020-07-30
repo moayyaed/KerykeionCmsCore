@@ -234,6 +234,13 @@ namespace KerykeionCmsCore.Services
         }
         #endregion
 
+        #region DocsFunx
+        public async Task<string> FindDocumentationByExcDoxIdAsync(int excDocId)
+        {
+            return await CallApiAsync($"Documentation/{Options.Pages.Language}/{excDocId}");
+        }
+        #endregion
+
         private async Task<string> CallApiAsync(string requestUri = "")
         {
             using HttpClient httpClient = new HttpClient();

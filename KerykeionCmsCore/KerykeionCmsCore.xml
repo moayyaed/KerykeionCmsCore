@@ -782,11 +782,12 @@
             
             </summary>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0)">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0,KerykeionCmsCore.Services.KerykeionTranslationsService)">
             <summary>
             
             </summary>
             <param name="context"></param>
+            <param name="translationsService"></param>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetAll(System.String)">
             <summary>
@@ -847,7 +848,7 @@
             <param name="formDict"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AssignForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
             <summary>
             
             </summary>
@@ -915,13 +916,6 @@
             
             </summary>
             <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.TrySaveChangesAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
             <returns></returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.InheritsFromKeryKeionBaseClass(System.String)">
@@ -1010,7 +1004,7 @@
             <param name="formDict"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AssignForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
             <summary>
             
             </summary>
@@ -1832,31 +1826,31 @@
         </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String,System.String)">
             <summary>
-            Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+            Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
             </summary>
-            <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+            <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
             <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
             <param name="newValue">A variable value to use as replacement of the default 'VARIABLEVALUE' in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
             </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String)">
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.Int32,System.String)">
             <summary>
-            Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+            Translates an error specified by its HResult to the language set by the KerykeionCmsOptions.
             </summary>
-            <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+            <param name="hResult">The HResult identifier, to identify the error in the database.</param>
             <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
             </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateException(System.String,System.String)">
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String)">
             <summary>
-            Translates an error that starts with the specified text to the language set by the KerykeionCmsOptions.
+            Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
             </summary>
-            <param name="errorDescriber">The exception identifier, to identify the error in the database.</param>
-            <param name="exceptionMessage">The exception message to be translated.</param>
+            <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
             </returns>
