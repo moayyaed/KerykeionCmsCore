@@ -1,4 +1,6 @@
-﻿using KerykeionCmsCore.Dtos;
+﻿using KerykeionCmsCore.Classes;
+using KerykeionCmsCore.Constants;
+using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.Enums;
 using KerykeionCmsCore.Options;
 using Microsoft.AspNetCore.Routing;
@@ -6,7 +8,9 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KerykeionCmsCore.Services
@@ -17,6 +21,7 @@ namespace KerykeionCmsCore.Services
     public class KerykeionTranslationsService
     {
         public KerykeionCmsOptions Options { get; set; }
+        private const string BaseUri = "https://localhost:44370/api/translations";
 
         /// <summary>
         /// Constructs a new instance of KerykeionCms.Services.KerykeionTranslationsService
@@ -28,11 +33,6 @@ namespace KerykeionCmsCore.Services
         }
 
         /// <summary>
-        /// Gets all the translations in the database to query.
-        /// </summary>
-        //public IQueryable<KerykeionTranslation> Translations => GetAll();
-
-        /// <summary>
         /// Translates a given piece of text or sentence.
         /// </summary>
         /// <param name="text">The text to be translated.</param>
@@ -41,27 +41,8 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public async Task<string> TranslateAsync(string text)
         {
-            using HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("https://localhost:44370/api/translations/translate/" + $"{Options.Pages.Language}/{text}");
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadAsStringAsync();
-            }
-            return text;
+            return await CallApiAsync<string>($"translate/{Options.Pages.Language}/{text}");
         }
-
-        /// <summary>
-        /// Finds the specific KerykeionTranslation by specified text.
-        /// </summary>
-        /// <param name="text">The text to find the kerykeion translation by.</param>
-        /// <returns>
-        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the KerykeionTranslation found by the specified text.
-        /// </returns>
-        //public async Task<KerykeionTranslation> FindByTextAsync(string text)
-        //{
-        //    var translations = await ListAllAsync();
-        //    return translations.FirstOrDefault(tr => tr.AllTranslationsDelimitedBySemiColumn.Split(";").Contains(text.CompleteTrimAndUpper()));
-        //}
 
         /// <summary>
         /// Gets the translation route by the specified text.
@@ -72,7 +53,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public async Task<RouteValueDictionary> GetRouteByTextAsync(string text)
         {
-            return await GetApiResult<RouteValueDictionary>("https://localhost:44370/api/translations/route/" + $"{text}");
+            return await CallApiAsync<RouteValueDictionary>($"route/{text}");
         }
 
         /// <summary>
@@ -180,8 +161,7 @@ namespace KerykeionCmsCore.Services
         }
 
         #region ErrorMsgsFunx
-        public string TranslateRequiredError(string field) => GetRequiredErrorMsgLanguageValue(field);
-        private string GetRequiredErrorMsgLanguageValue(string field)
+        public string TranslateRequiredError(string field)
         {
             return Options.Pages.Language switch
             {
@@ -193,8 +173,7 @@ namespace KerykeionCmsCore.Services
             };
         }
 
-        public string TranslateStringLengthError(int minLength, int maxLength, string field) => GetStringLengthErrorMsgLanguageValue(minLength, maxLength, field);
-        private string GetStringLengthErrorMsgLanguageValue(int minLength, int maxLength, string field)
+        public string TranslateStringLengthError(int minLength, int maxLength, string field)
         {
             return Options.Pages.Language switch
             {
@@ -206,8 +185,7 @@ namespace KerykeionCmsCore.Services
             };
         }
 
-        public string TranslateCompareValidationError(string field, string fieldToCompare) => GetCompareValidationErrorMsgLanguageValue(field, fieldToCompare);
-        private string GetCompareValidationErrorMsgLanguageValue(string field, string fieldToCompare)
+        public string TranslateCompareValidationError(string field, string fieldToCompare)
         {
             return Options.Pages.Language switch
             {
@@ -230,10 +208,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public string TranslateError(string errorDescriber, string fallbackMessage, string newValue)
         {
-            throw new NotImplementedException();
-
-            //var translation = Translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber)?.Translate(Options.Pages.Language) ?? fallbackMessage;
-            //return translation?.ReplaceIgnoreCase(ErrorDescriberConstants.VariableValue, newValue);
+            return CallApiAsync<string>($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}").Result ?? fallbackMessage;
         }
 
         /// <summary>
@@ -246,9 +221,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public string TranslateError(string errorDescriber, string fallbackMessage)
         {
-            throw new NotImplementedException();
-
-            //return Translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber)?.Translate(Options.Pages.Language) ?? fallbackMessage;
+            return CallApiAsync<string>($"Translate/Error/{Options.Pages.Language}/{errorDescriber}").Result ?? fallbackMessage;
         }
 
         /// <summary>
@@ -261,50 +234,47 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public async Task<string> TranslateException(string errorDescriber, string exceptionMessage)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(exceptionMessage) || string.IsNullOrEmpty(errorDescriber))
+            {
+                return "Please provide correct arguments when calling this function.";
+            }
 
-            //if (string.IsNullOrEmpty(exceptionMessage) || string.IsNullOrEmpty(errorDescriber))
-            //{
-            //    return "Please provide correct arguments when calling this function.";
-            //}
+            var translations = await CallApiAsync<IEnumerable<KerykeionTranslation>>();
+            var translation = translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber);
+            if (translation == null)
+            {
+                return exceptionMessage;
+            }
+            var translatedTranslationWords = translation.Translate(Options.Pages.Language).Split(" ").ToList();
 
-            //var translations = await ListAllAsync();
-            //var translation = translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber);
-            //if (translation == null)
-            //{
-            //    return exceptionMessage;
-            //}
-            //var translatedTranslationWords = translation.Translate(Options.Pages.Language).Split(" ").ToList();
+            var exceptionDoubleQuotesInnerValues = Regex.Matches(exceptionMessage, "\"([^\"]*)\"");
+            var exceptionSingleQuotesInnerValues = Regex.Matches(exceptionMessage, @"'(.*?)'");
 
-            //var exceptionDoubleQuotesInnerValues = Regex.Matches(exceptionMessage, "\"([^\"]*)\"");
-            //var exceptionSingleQuotesInnerValues = Regex.Matches(exceptionMessage, @"'(.*?)'");
+            var dblQtsCounter = 0;
+            var sglQtsCounter = 0;
+            for (int i = 0; i < translatedTranslationWords.Count; i++)
+            {
+                if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.DoubleQuotes, StringComparison.OrdinalIgnoreCase))
+                {
+                    translatedTranslationWords[i] = exceptionDoubleQuotesInnerValues[dblQtsCounter].Value;
+                    dblQtsCounter++;
+                }
+                if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.SingleQuotes, StringComparison.OrdinalIgnoreCase))
+                {
+                    translatedTranslationWords[i] = exceptionSingleQuotesInnerValues[sglQtsCounter].Value;
+                    sglQtsCounter++;
+                }
+            }
 
-            //var dblQtsCounter = 0;
-            //var sglQtsCounter = 0;
-            //for (int i = 0; i < translatedTranslationWords.Count; i++)
-            //{
-            //    if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.DoubleQuotes, StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        translatedTranslationWords[i] = exceptionDoubleQuotesInnerValues[dblQtsCounter].Value;
-            //        dblQtsCounter++;
-            //    }
-            //    if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.SingleQuotes, StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        translatedTranslationWords[i] = exceptionSingleQuotesInnerValues[sglQtsCounter].Value;
-            //        sglQtsCounter++;
-            //    }
-            //}
-
-            //return string.Join(" ", translatedTranslationWords);
+            return string.Join(" ", translatedTranslationWords);
         }
         #endregion
 
-        public async Task<T> GetApiResult<T>(string uri)
+        private async Task<T> CallApiAsync<T>(string requestUri = "")
         {
             using HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(uri);
-            var result = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(result);
+            HttpResponseMessage response = await httpClient.GetAsync($"{BaseUri}/{requestUri}");
+            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
         }
     }
 }
