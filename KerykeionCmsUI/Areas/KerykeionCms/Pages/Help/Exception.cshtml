@@ -1,0 +1,14 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Help.ExceptionModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
+<partial name="_MarkUpPartial" model="Model.Documentation" />
+
+@section Scripts{
+    <script>
+        $("#open-language-picker").find("form")
+            .append(`<input type="hidden" name="doc-id" value="@(Model.DocId)" />`);
+    </script>
+}
