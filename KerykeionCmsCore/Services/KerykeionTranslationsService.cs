@@ -41,7 +41,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public async Task<string> TranslateAsync(string text)
         {
-            return await CallApiAsync<string>($"translate/{Options.Pages.Language}/{text}");
+            return await CallApiAsync($"translate/{Options.Pages.Language}/{text}");
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public async Task<RouteValueDictionary> GetRouteByTextAsync(string text)
         {
-            return await CallApiAsync<RouteValueDictionary>($"route/{text}");
+            return JsonConvert.DeserializeObject<RouteValueDictionary>(await CallApiAsync($"route/{text}"));
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public string TranslateError(string errorDescriber, string fallbackMessage, string newValue)
         {
-            return CallApiAsync<string>($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}").Result ?? fallbackMessage;
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}").Result ?? fallbackMessage;
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public string TranslateError(string errorDescriber, string fallbackMessage)
         {
-            return CallApiAsync<string>($"Translate/Error/{Options.Pages.Language}/{errorDescriber}").Result ?? fallbackMessage;
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}").Result ?? fallbackMessage;
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace KerykeionCmsCore.Services
                 return "Please provide correct arguments when calling this function.";
             }
 
-            var translations = await CallApiAsync<IEnumerable<KerykeionTranslation>>();
+            var translations = JsonConvert.DeserializeObject<IEnumerable<KerykeionTranslation>>(await CallApiAsync());
             var translation = translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber);
             if (translation == null)
             {
@@ -270,11 +270,11 @@ namespace KerykeionCmsCore.Services
         }
         #endregion
 
-        private async Task<T> CallApiAsync<T>(string requestUri = "")
+        private async Task<string> CallApiAsync(string requestUri = "")
         {
             using HttpClient httpClient = new HttpClient();
             HttpResponseMessage response = await httpClient.GetAsync($"{BaseUri}/{requestUri}");
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
