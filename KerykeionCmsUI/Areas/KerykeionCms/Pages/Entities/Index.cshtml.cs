@@ -68,8 +68,10 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
                 return RedirectToPage(new { table = TableName });
             }
 
-            var error = await TranslationsService.TranslateException(ErrorDescriberConstants.DeleteStatementConflictReferenceConstraint, result.Errors.FirstOrDefault().Message);
-            StatusMessage = $"Error: {error}";
+            foreach (var error in result.Errors)
+            {
+                StatusMessage += $"Error: {error}{Environment.NewLine}";
+            }
 
             return await OnGetAsync(TableName);
         }
