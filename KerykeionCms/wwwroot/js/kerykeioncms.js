@@ -468,6 +468,7 @@ function sendBooleanValueForCheckboxes(form) {
         if ($(this).is(':checked')) {
             $(this).attr('value', 'true');
         } else {
+            $(this).prop("checked", true);
             $(this).attr('value', 'false');
         }
     });
