@@ -28,13 +28,17 @@ namespace KerykeionCmsCore.Repositories
         /// 
         /// </summary>
         protected readonly TContext Context;
+        private readonly KerykeionTranslationsService _translationsService;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public EntitiesRepository(TContext context)
+        /// <param name="translationsService"></param>
+        public EntitiesRepository(TContext context,
+            KerykeionTranslationsService translationsService)
         {
             Context = context;
+            _translationsService = translationsService;
         }
 
 
@@ -486,7 +490,7 @@ namespace KerykeionCmsCore.Repositories
             {
                 return KerykeionDbResult.Fail(new KerykeionDbError
                 {
-                    Message = ex.InnerException.Message
+                    Message = _translationsService.TranslateError(ex.InnerException.HResult, ex.InnerException.Message)
                 });
             }
         }
