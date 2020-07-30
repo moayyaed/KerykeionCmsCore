@@ -198,9 +198,9 @@ namespace KerykeionCmsCore.Services
         }
 
         /// <summary>
-        /// Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
         /// </summary>
-        /// <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
         /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
         /// <param name="newValue">A variable value to use as replacement of the default 'VARIABLEVALUE' in the database.</param>
         /// <returns>
@@ -212,9 +212,23 @@ namespace KerykeionCmsCore.Services
         }
 
         /// <summary>
-        /// Translates an error specified by its NameIdentifier to the language set by the KerykeionCmsOptions.
+        /// Translates an error specified by its HResult to the language set by the KerykeionCmsOptions.
         /// </summary>
-        /// <param name="errorDescriber">The NameIdentifier, to identify the error in the database.</param>
+        /// <param name="hResult">The HResult identifier, to identify the error in the database.</param>
+        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+        /// <returns>
+        /// The error text in the language set by the KerykeionCmsOptions
+        /// </returns>
+        public string TranslateError(int hResult, string fallbackMessage)
+        {
+            return CallApiAsync($"Translate/Exception/{Options.Pages.Language}/{hResult}").Result ?? fallbackMessage;
+        }
+
+
+        /// <summary>
+        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+        /// </summary>
+        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
         /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
         /// <returns>
         /// The error text in the language set by the KerykeionCmsOptions
@@ -222,51 +236,6 @@ namespace KerykeionCmsCore.Services
         public string TranslateError(string errorDescriber, string fallbackMessage)
         {
             return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}").Result ?? fallbackMessage;
-        }
-
-        /// <summary>
-        /// Translates an error that starts with the specified text to the language set by the KerykeionCmsOptions.
-        /// </summary>
-        /// <param name="errorDescriber">The exception identifier, to identify the error in the database.</param>
-        /// <param name="exceptionMessage">The exception message to be translated.</param>
-        /// <returns>
-        /// The error text in the language set by the KerykeionCmsOptions
-        /// </returns>
-        public async Task<string> TranslateException(string errorDescriber, string exceptionMessage)
-        {
-            if (string.IsNullOrEmpty(exceptionMessage) || string.IsNullOrEmpty(errorDescriber))
-            {
-                return "Please provide correct arguments when calling this function.";
-            }
-
-            var translations = JsonConvert.DeserializeObject<IEnumerable<KerykeionTranslation>>(await CallApiAsync());
-            var translation = translations.FirstOrDefault(tr => tr.ErrorDescriber == errorDescriber);
-            if (translation == null)
-            {
-                return exceptionMessage;
-            }
-            var translatedTranslationWords = translation.Translate(Options.Pages.Language).Split(" ").ToList();
-
-            var exceptionDoubleQuotesInnerValues = Regex.Matches(exceptionMessage, "\"([^\"]*)\"");
-            var exceptionSingleQuotesInnerValues = Regex.Matches(exceptionMessage, @"'(.*?)'");
-
-            var dblQtsCounter = 0;
-            var sglQtsCounter = 0;
-            for (int i = 0; i < translatedTranslationWords.Count; i++)
-            {
-                if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.DoubleQuotes, StringComparison.OrdinalIgnoreCase))
-                {
-                    translatedTranslationWords[i] = exceptionDoubleQuotesInnerValues[dblQtsCounter].Value;
-                    dblQtsCounter++;
-                }
-                if (translatedTranslationWords[i].Contains(ErrorDescriberConstants.SingleQuotes, StringComparison.OrdinalIgnoreCase))
-                {
-                    translatedTranslationWords[i] = exceptionSingleQuotesInnerValues[sglQtsCounter].Value;
-                    sglQtsCounter++;
-                }
-            }
-
-            return string.Join(" ", translatedTranslationWords);
         }
         #endregion
 
