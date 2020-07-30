@@ -322,9 +322,9 @@ namespace KerykeionCmsCore.Repositories
             List<EntitySideNavDto> lstEntitiesDto = new List<EntitySideNavDto>();
             await GetAll(tableName).ForEachAsync(obj => lstEntitiesDto.Add(new EntitySideNavDto
             {
-                Id = Guid.Parse(obj.GetType().GetProperty("Id")?.GetValue(obj)?.ToString()),
-                Name = obj.GetType().GetProperty("Name")?.GetValue(obj)?.ToString(),
-                DateTimeCreated = $"{DateTime.Parse(obj.GetType().GetProperty("DateTimeCreated")?.GetValue(obj)?.ToString()).ToShortDateString()} - ({DateTime.Parse(obj.GetType().GetProperty("DateTimeCreated")?.GetValue(obj).ToString()).ToShortTimeString()})" ?? "Something went wrong wi."
+                Id = Guid.Parse(obj.GetType().GetProperty(PropertyNameConstants.Id)?.GetValue(obj)?.ToString()),
+                Name = obj.GetType().GetProperty(PropertyNameConstants.Name)?.GetValue(obj)?.ToString(),
+                DateTimeCreated = $"{DateTime.Parse(obj.GetType().GetProperty(PropertyNameConstants.DateTimeCreated)?.GetValue(obj)?.ToString()).ToShortDateString()} - ({DateTime.Parse(obj.GetType().GetProperty(PropertyNameConstants.DateTimeCreated)?.GetValue(obj).ToString()).ToShortTimeString()})" ?? "Something went wrong wi."
             }));
 
             return lstEntitiesDto.OrderBy(e => e.Name);
@@ -362,7 +362,6 @@ namespace KerykeionCmsCore.Repositories
         private async Task<KerykeionDbResult> AssignPropertiesAsync(object entity, Dictionary<string, StringValues> formDict)
         {
             var entityType = GetEntityType(entity.GetType());
-            List<KerykeionDbError> errors = new List<KerykeionDbError>();
 
             foreach (var prop in entityType.GetProperties())
             {
