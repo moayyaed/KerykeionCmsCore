@@ -70,7 +70,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
             foreach (var error in result.Errors)
             {
-                StatusMessage += $"Error: {error.Message}{Environment.NewLine}";
+                StatusMessage += $"Error: {error.Message}<br />";
             }
 
             return await OnGetAsync(TableName);
