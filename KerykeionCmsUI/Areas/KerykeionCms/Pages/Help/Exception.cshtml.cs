@@ -18,7 +18,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            var documentation = await TranslationsService.FindDocumentationByExcDoxIdAsync(id);
+            var documentation = await TranslationsService.FindByExcDoxIdAsync(id);
             if (documentation == null)
             {
                 return NotFound();
