@@ -42,7 +42,6 @@ namespace KerykeionLoginUI.Pages
         {
             returnUrl ??= Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             PageTitle = await TranslationsService.TranslateAsync("inloggen");
@@ -60,26 +59,14 @@ namespace KerykeionLoginUI.Pages
         {
             returnUrl ??= Url.Content("~/");
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             var result = await _signInService.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
             if (result.Succeeded)
             {
                 return LocalRedirect(returnUrl);
             }
-            if (result.RequiresTwoFactor)
-            {
-                return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
-            }
-            if (result.IsLockedOut)
-            {
-                return RedirectToPage("./Lockout");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, await TranslationsService.TranslateAsync("Ongeldige login poging."));
-                return await OnGetAsync();
-            }
+
+            ModelState.AddModelError(string.Empty, await TranslationsService.TranslateAsync("Ongeldige login poging."));
+            return await OnGetAsync();
         }
     }
 }
