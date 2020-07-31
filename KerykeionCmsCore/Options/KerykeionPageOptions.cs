@@ -27,7 +27,7 @@ namespace KerykeionCmsCore.Options
         /// Gets or sets a flag indicating whether it is required to be in an Administrator role in order to access Content Management Pages.
         /// </summary>
         /// <remarks>
-        /// You should only set this to false in development mode.
+        /// Should only be set to false in development environments.
         /// </remarks>
         /// <value>
         /// Defaults to true. Set to false to enable anyone to access Content Management pages.
