@@ -1,0 +1,10 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Help.IndexModel
+@{
+    ViewData["Title"] = "Help desk";
+}
+
+<div class="list-group list-group-flush">
+    <a asp-page="/Help/Documentation" asp-route-id="DFDD8BED-3605-45AD-85D1-4AB70382DE24" class="mb-2">- @Model.TxtGettingStarted..</a>
+    <a asp-page="/Help/Documentation" asp-route-id="98374E73-00CB-4DB1-9D71-270B06B6ECA2" class="mb-2">- @Model.TxtExtendKerykeionUser..</a>
+</div>
