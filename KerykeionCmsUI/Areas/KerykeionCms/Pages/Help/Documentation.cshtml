@@ -1,0 +1,21 @@
+﻿@page
+@model KerykeionCmsUI.Areas.KerykeionCms.Pages.Help.DocumentationModel
+@{
+    ViewData["Title"] = "Help desk";
+}
+
+<div class="row border-bottom border-secondary mb-3">
+    <div class="col-sm-6"></div>
+    <div class="col-sm-6 text-right">
+        <a asp-page="/Help/Index" class="btn btn-secondary mb-1">@Model.BtnBackValue</a>
+    </div>
+</div>
+
+<partial name="_MarkUpPartial" model="Model.Documentation" />
+
+@section Scripts{
+    <script>
+        $("#open-language-picker").find("form")
+            .append(`<input type="hidden" name="doc-id" value="@(Model.DocId)" />`);
+    </script>
+}
