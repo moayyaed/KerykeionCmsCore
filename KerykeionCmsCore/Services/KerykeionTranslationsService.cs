@@ -4,6 +4,7 @@ using KerykeionCmsCore.Options;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -234,12 +235,15 @@ namespace KerykeionCmsCore.Services
         }
         #endregion
 
-        #region DocsFunx
-        public async Task<string> FindDocumentationByExcDoxIdAsync(int excDocId)
+        public async Task<string> FindByExcDoxIdAsync(int excDocId)
         {
-            return await CallApiAsync($"Documentation/{Options.Pages.Language}/{excDocId}");
+            return await CallApiAsync($"Exception/{Options.Pages.Language}/{excDocId}");
         }
-        #endregion
+
+        public async Task<string> FindByIdAsync(Guid id)
+        {
+            return await CallApiAsync($"Documentation/{Options.Pages.Language}/{id}");
+        }
 
         private async Task<string> CallApiAsync(string requestUri = "")
         {
