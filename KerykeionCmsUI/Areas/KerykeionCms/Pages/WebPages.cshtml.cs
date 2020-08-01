@@ -80,7 +80,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
             return await OnGetAsync();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var page = await Service.FindByIdAsync(id);
             if (page == null)
