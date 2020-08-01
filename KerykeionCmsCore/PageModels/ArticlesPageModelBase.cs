@@ -88,7 +88,7 @@ namespace KerykeionCmsCore.PageModels
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var article = await Service.FindByIdAsync(id);
             if (article == null)

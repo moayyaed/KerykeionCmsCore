@@ -54,7 +54,7 @@ namespace KerykeionCmsCore.PageModels
 
         public async Task<IActionResult> OnPostUpdateAsync()
         {
-            var article = await Service.FindByIdAsync(ArticleId);
+            var article = await Service.FindByIdAsync(ArticleId.ToString());
             if (article == null)
             {
                 return NotFound();
@@ -78,7 +78,7 @@ namespace KerykeionCmsCore.PageModels
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            var article = await Service.FindByIdAsync(ArticleId);
+            var article = await Service.FindByIdAsync(ArticleId.ToString());
             if (article == null)
             {
                 return NotFound();
