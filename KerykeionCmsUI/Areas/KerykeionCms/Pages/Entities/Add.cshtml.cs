@@ -36,7 +36,12 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
                 return NotFound();
             }
             ViewData["TableName"] = table;
-            Properties = properties.Where(p => !p.IsPrimaryKey() && !p.Name.Equals("datetimecreated", StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (_entitiesService.InheritsFromKeryKeionBaseClass(_entitiesService.GetEntityTypeByTableName(table)))
+            {
+                Properties = properties.Where(p => !p.IsPrimaryKey() && !p.Name.Equals("datetimecreated", StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            else Properties = properties.ToList();
 
             TableName = table;
             return Page();
