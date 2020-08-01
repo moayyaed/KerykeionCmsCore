@@ -112,9 +112,9 @@ namespace KerykeionCmsCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tableName"></param>
+        /// <param name="entityType"></param>
         /// <returns></returns>
-        bool InheritsFromKeryKeionBaseClass(string tableName);
+        bool InheritsFromKeryKeionBaseClass(IEntityType entityType);
         /// <summary>
         /// 
         /// </summary>

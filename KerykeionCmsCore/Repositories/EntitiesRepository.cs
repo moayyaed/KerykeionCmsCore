@@ -99,7 +99,9 @@ namespace KerykeionCmsCore.Repositories
         /// <returns></returns>
         public async Task<KerykeionDbResult> AddAsync(object entity)
         {
-            entity.GetType().GetProperty(PropertyNameConstants.DateTimeCreated).SetValue(entity, DateTime.Now);
+            if (InheritsFromKeryKeionBaseClass(GetEntityType(entity.GetType())))
+                entity.GetType().GetProperty(PropertyNameConstants.DateTimeCreated).SetValue(entity, DateTime.Now);
+
             Context.Add(entity);
             return await TrySaveChangesAsync(entity);
         }
@@ -318,11 +320,6 @@ namespace KerykeionCmsCore.Repositories
                 return null;
             }
 
-            if (!InheritsFromKeryKeionBaseClass(tableName))
-            {
-                return null;
-            }
-
             List<EntitySideNavDto> lstEntitiesDto = new List<EntitySideNavDto>();
             await GetAll(tableName).ForEachAsync(obj => lstEntitiesDto.Add(new EntitySideNavDto
             {
@@ -346,19 +343,23 @@ namespace KerykeionCmsCore.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tableName"></param>
+        /// <param name="entityType"></param>
         /// <returns></returns>
-        public bool InheritsFromKeryKeionBaseClass(string tableName)
+        public bool InheritsFromKeryKeionBaseClass(IEntityType entityType)
         {
-            if (GetEntityTypeByTableName(tableName) == null)
+            if (entityType == null)
             {
                 return false;
             }
-            return typeof(KerykeionBaseClass).IsAssignableFrom(GetEntityTypeByTableName(tableName).ClrType);
+            return typeof(KerykeionBaseClass).IsAssignableFrom(entityType.ClrType);
         }
 
         private async Task<bool> ExistsAsync(string name, string tableName)
         {
+            if (!InheritsFromKeryKeionBaseClass(GetEntityTypeByTableName(tableName)))
+            {
+                return false;
+            }
             var allEntities = await ListAllAsync(tableName);
             return allEntities.Select(o => o.GetType().GetProperty(PropertyNameConstants.UniqueNameIdentifier)?.GetValue(o)).Contains(name?.CompleteTrimAndUpper());
         }
@@ -436,6 +437,12 @@ namespace KerykeionCmsCore.Repositories
                     if (decimal.TryParse(formDict[prop.Name], out _))
                     {
                         property.SetValue(entity, decimal.Parse(formDict[prop.Name]));
+                        continue;
+                    }
+
+                    if (Guid.TryParse(formDict[prop.Name], out _))
+                    {
+                        property.SetValue(entity, Guid.Parse(formDict[prop.Name]));
                         continue;
                     }
 
