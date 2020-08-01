@@ -67,20 +67,26 @@ namespace KerykeionCmsCore.Repositories
         /// <param name="id"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public async Task<object> FindByIdAndTableNameAsync(Guid id, string tableName)
+        public async Task<object> FindByIdAndTableNameAsync(string id, string tableName)
         {
-            if (string.IsNullOrEmpty(tableName))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(tableName)) return null;
 
             var type = GetEntityTypeByTableName(tableName);
-            if (type == null)
+            if (type == null) return null;
+
+            if (id.Split(",").Count() == 2)
             {
-                return null;
+                foreach (var ID in id.Split(","))
+                {
+                    if (!Guid.TryParse(ID, out _)) return null;
+                }
+
+                return await Context.FindAsync(type.ClrType, Guid.Parse(id.Split(",")[0]), Guid.Parse(id.Split(",")[1]));
             }
 
-            return await Context.FindAsync(type.ClrType, id);
+            if (!Guid.TryParse(id, out _)) return null;
+
+            return await Context.FindAsync(type.ClrType, Guid.Parse(id));
         }
         /// <summary>
         /// 
@@ -194,9 +200,8 @@ namespace KerykeionCmsCore.Repositories
             foreach (var key in formForeignKeys)
             {
                 var foreignKeyName = key.Key.Split("-").Last();
-                var foreignKey = GetForeignKeysByType(entity.GetType()).FirstOrDefault(fk => fk.GetDefaultName().Contains(foreignKeyName, StringComparison.OrdinalIgnoreCase));
 
-                var result = await AssignForeignKeyAsync(entity, foreignKey, key.Value.ToString(), foreignKeyName);
+                var result = await AssignForeignKeyAsync(entity, key.Value.ToString(), foreignKeyName);
 
                 if (result == null) continue;
 
@@ -253,13 +258,26 @@ namespace KerykeionCmsCore.Repositories
             var foreignKeys = GetForeignKeyPropertiesByType(entity.GetType()).ToList();
             List<ForeignKeyDto> lstDto = new List<ForeignKeyDto>();
 
-            Guid entityId = Guid.Parse(entity.GetType().GetProperty(PropertyNameConstants.Id).GetValue(entity).ToString());
-
-            foreignKeys.ForEach(fk => lstDto.Add(new ForeignKeyDto
+            if (InheritsFromKeryKeionBaseClass(GetEntityType(entity.GetType())))
             {
-                Name = fk.Name,
-                Value = GetAll(GetTableNameByType(entity.GetType())).Cast<KerykeionBaseClass>().Where(e => e.Id.Equals(entityId)).Select(e => EF.Property<Guid>(e, fk.Name)).FirstOrDefault().ToString()
-            }));
+                Guid entityId = Guid.Parse(entity.GetType().GetProperty(PropertyNameConstants.Id).GetValue(entity).ToString());
+                foreignKeys.ForEach(fk => lstDto.Add(new ForeignKeyDto
+                {
+                    Name = fk.Name,
+                    Value = GetAll(GetTableNameByType(entity.GetType())).Cast<KerykeionBaseClass>().Where(e => e.Id.Equals(entityId)).Select(e => EF.Property<Guid>(e, fk.Name)).FirstOrDefault().ToString()
+                }));
+            }
+            else
+            {
+                if (GetEntityType(entity.GetType()).FindPrimaryKey().Properties.Count == 2)
+                {
+                    foreignKeys.ForEach(fk => lstDto.Add(new ForeignKeyDto
+                    {
+                        Name = fk.Name,
+                        Value = entity.GetType().GetProperty(fk.Name).GetValue(entity).ToString()
+                    }));
+                }
+            }
 
             return lstDto;
         }
@@ -311,31 +329,51 @@ namespace KerykeionCmsCore.Repositories
         /// <returns></returns>
         public async Task<IEnumerable<EntitySideNavDto>> ListAllToDtoAsync(string tableName)
         {
-            if (string.IsNullOrEmpty(tableName))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(tableName)) return null;
 
-            if (GetEntityTypeByTableName(tableName) == null)
-            {
-                return null;
-            }
+            if (GetEntityTypeByTableName(tableName) == null) return null;
 
             if (!GetEntitiesTableNames().Select(s => s.CompleteTrimAndUpper()).Contains(tableName.CompleteTrimAndUpper()))
+                return null;
+
+            List<EntitySideNavDto> lstEntitiesDto = new List<EntitySideNavDto>();
+
+
+            if (!InheritsFromKeryKeionBaseClass(GetEntityTypeByTableName(tableName)))
             {
+                var priKeyProps = GetEntityTypeByTableName(tableName).FindPrimaryKey().Properties;
+
+                if (priKeyProps.Count == 2)
+                {
+                    foreach (var item in GetAll(tableName))
+                    {
+                        var dto = new EntitySideNavDto();
+
+                        foreach (var prop in priKeyProps)
+                        {
+                            dto.Id += item.GetType().GetProperty(prop.Name).GetValue(item) + (priKeyProps.Last() == prop ? "" : ",");
+                        }
+
+                        dto.Name = dto.Id;
+                        lstEntitiesDto.Add(dto);
+                    }
+
+                    return lstEntitiesDto;
+                }
+
                 return null;
             }
 
-            List<EntitySideNavDto> lstEntitiesDto = new List<EntitySideNavDto>();
             await GetAll(tableName).ForEachAsync(obj => lstEntitiesDto.Add(new EntitySideNavDto
             {
-                Id = Guid.Parse(obj.GetType().GetProperty(PropertyNameConstants.Id)?.GetValue(obj)?.ToString()),
+                Id = obj.GetType().GetProperty(PropertyNameConstants.Id).GetValue(obj).ToString(),
                 Name = obj.GetType().GetProperty(PropertyNameConstants.Name)?.GetValue(obj)?.ToString(),
                 DateTimeCreated = $"{DateTime.Parse(obj.GetType().GetProperty(PropertyNameConstants.DateTimeCreated)?.GetValue(obj)?.ToString()).ToShortDateString()} - ({DateTime.Parse(obj.GetType().GetProperty(PropertyNameConstants.DateTimeCreated)?.GetValue(obj).ToString()).ToShortTimeString()})" ?? "Something went wrong wi."
             }));
 
             return lstEntitiesDto.OrderBy(e => e.Name);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -373,21 +411,20 @@ namespace KerykeionCmsCore.Repositories
         private async Task<KerykeionDbResult> AssignPropertiesAsync(object entity, Dictionary<string, StringValues> formDict)
         {
             var entityType = GetEntityType(entity.GetType());
+            List<KerykeionDbError> errors = new List<KerykeionDbError>();
 
             foreach (var prop in entityType.GetProperties())
             {
                 var property = entityType.ClrType.GetProperty(prop.Name);
                 if (property == null)
                 {
-                    var foreignKey = entityType.GetForeignKeys().FirstOrDefault(fk => fk.GetDefaultName().Contains(prop.Name, StringComparison.OrdinalIgnoreCase));
-
                     if (formDict.ContainsKey(prop.Name))
                     {
-                        var result = await AssignForeignKeyAsync(entity, foreignKey, formDict[prop.Name].ToString(), prop.Name);
+                        var result = await AssignForeignKeyAsync(entity, formDict[prop.Name].ToString(), prop.Name);
 
                         if (result == null) continue;
 
-                        if (!result.Successfull) return result;
+                        if (!result.Successfull) errors.Add(result.Errors.FirstOrDefault());
                     }
 
                     continue;
@@ -399,6 +436,48 @@ namespace KerykeionCmsCore.Repositories
 
                 if (formDict.ContainsKey(prop.Name))
                 {
+                    if (prop.IsPrimaryKey())
+                    {
+                        if (Guid.TryParse(formDict[prop.Name], out _))
+                        {
+                            var navigation = entityType.GetNavigations().FirstOrDefault(n => prop.Name.Contains(n.Name, StringComparison.OrdinalIgnoreCase));
+                            var targetType = navigation?.GetTargetType()?.ClrType;
+                            if (targetType == null)
+                            {
+                                errors.Add(new KerykeionDbError { Message = $"There is no '{targetType?.Name}' found in the database with '{formDict[prop.Name]}' as primary key." });
+                                continue;
+                            }
+
+                            var target = await Context.FindAsync(targetType, Guid.Parse(formDict[prop.Name]));
+                            if (target == null)
+                            {
+                                errors.Add(new KerykeionDbError { Message = $"There is no '{targetType?.Name}' found in the database with '{formDict[prop.Name]}' as primary key." });
+                                continue;
+                            }
+
+                            property.SetValue(entity, Guid.Parse(formDict[prop.Name]));
+                            continue;
+                        }
+
+                        errors.Add(new KerykeionDbError
+                        {
+                            Message = $"Please provide a valid GUID for the property '{prop.Name}'."
+                        });
+
+                        continue;
+                    }
+
+                    if (prop.IsForeignKey())
+                    {
+                        var result = await AssignForeignKeyAsync(entity, formDict[prop.Name].ToString(), prop.Name);
+
+                        if (result == null) continue;
+
+                        if (!result.Successfull) errors.Add(result.Errors.FirstOrDefault());
+
+                        continue;
+                    }
+
                     if (string.IsNullOrEmpty(formDict[prop.Name]))
                     {
                         continue;
@@ -446,22 +525,19 @@ namespace KerykeionCmsCore.Repositories
                         continue;
                     }
 
-                    if (Guid.TryParse(formDict[prop.Name], out _))
-                    {
-                        property.SetValue(entity, Guid.Parse(formDict[prop.Name]));
-                        continue;
-                    }
-
-
                     property.SetValue(entity, formDict[prop.Name].ToString());
                 }
             }
 
+            if (errors.Count > 0) return KerykeionDbResult.Fail(errors.ToArray());
+
             return KerykeionDbResult.Success();
         }
 
-        private async Task<KerykeionDbResult> AssignForeignKeyAsync(object entity, IForeignKey foreignKey, string formValue, string propertyName)
+        private async Task<KerykeionDbResult> AssignForeignKeyAsync(object entity, string formValue, string propertyName)
         {
+            var foreignKey = GetEntityType(entity.GetType()).GetForeignKeys().FirstOrDefault(fk => fk.GetDefaultName().Contains(propertyName, StringComparison.OrdinalIgnoreCase));
+
             if (foreignKey == null)
             {
                 return null;

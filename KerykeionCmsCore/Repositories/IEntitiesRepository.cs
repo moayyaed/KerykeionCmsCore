@@ -39,7 +39,7 @@ namespace KerykeionCmsCore.Repositories
         /// <param name="tableName">The name of the table the entity resides in.</param>
         /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
         /// the entity specified by the table name and the specified ID.</returns>
-        Task<object> FindByIdAndTableNameAsync(Guid id, string tableName);
+        Task<object> FindByIdAndTableNameAsync(string id, string tableName);
         /// <summary>
         /// 
         /// </summary>
