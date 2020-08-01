@@ -169,9 +169,9 @@
                 var entities = await EntitiesService.ListAllToDtoAsync(tableName);
                 var isCurrentTable = string.Equals(ViewData["TableName"]?.ToString(), tableName, StringComparison.OrdinalIgnoreCase);
                 var isCurrentEnt = false;
-                if (ViewData["EntityId"] != null)
+                if (ViewData["EntityId"] != null && isCurrentTable)
                 {
-                    var entity = await EntitiesService.FindByIdAndTableNameAsync(Guid.Parse(ViewData["EntityId"]?.ToString()), tableName);
+                    var entity = await EntitiesService.FindByIdAndTableNameAsync(ViewData["EntityId"]?.ToString(), tableName);
                     isCurrentEnt = entity != null;
                 }
 
