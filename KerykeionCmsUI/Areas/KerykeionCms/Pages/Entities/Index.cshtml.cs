@@ -37,10 +37,6 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
             var entities = await _entitiesService.ListAllToDtoAsync(table);
             if (entities == null)
             {
-                if (!_entitiesService.InheritsFromKeryKeionBaseClass(table) && _entitiesService.GetEntityTypeByTableName(table) != null)
-                {
-                    return NotFound($"The class '{_entitiesService.GetEntityTypeByTableName(table)?.ClrType?.Name}' has to inherit from the '{nameof(KerykeionBaseClass)}' base class in order to make use of the full functionality of the KerykeionCms services.");
-                }
                 return NotFound();
             }
 
