@@ -918,11 +918,11 @@
             <param name="tableName"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.InheritsFromKeryKeionBaseClass(System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
             
             </summary>
-            <param name="tableName"></param>
+            <param name="entityType"></param>
             <returns></returns>
         </member>
         <member name="T:KerykeionCmsCore.Repositories.IEntitiesRepository">
@@ -1040,11 +1040,11 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.InheritsFromKeryKeionBaseClass(System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
             
             </summary>
-            <param name="tableName"></param>
+            <param name="entityType"></param>
             <returns></returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityTypeByTableName(System.String)">
@@ -1236,11 +1236,11 @@
             <param name="tableName"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.InheritsFromKeryKeionBaseClass(System.String)">
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
             
             </summary>
-            <param name="tableName"></param>
+            <param name="entityType"></param>
             <returns></returns>
         </member>
         <member name="T:KerykeionCmsCore.Services.IEmailService">

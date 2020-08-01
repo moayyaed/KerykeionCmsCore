@@ -124,10 +124,13 @@ namespace KerykeionCmsCore.Repositories
                 return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"There are no entities in a table called '{tableName}'." });
             }
 
-            var exists = await ExistsAsync(formDict[PropertyNameConstants.Name], tableName);
-            if (exists)
+            if (formDict.ContainsKey(PropertyNameConstants.Name))
             {
-                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
+                var exists = await ExistsAsync(formDict[PropertyNameConstants.Name], tableName);
+                if (exists)
+                {
+                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
+                }
             }
 
             var entity = Activator.CreateInstance(type.ClrType);
@@ -163,10 +166,13 @@ namespace KerykeionCmsCore.Repositories
                 return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"Please provide a valid entity when calling this function." });
             }
 
-            var exists = await ExistsAsync(formDict[PropertyNameConstants.Name], GetTableNameByType(entity.GetType()));
-            if (exists && entity.GetType().GetProperty(PropertyNameConstants.Name).GetValue(entity) != formDict[PropertyNameConstants.Name])
+            if (formDict.ContainsKey(PropertyNameConstants.Name))
             {
-                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
+                var exists = await ExistsAsync(formDict[PropertyNameConstants.Name], GetTableNameByType(entity.GetType()));
+                if (exists && entity.GetType().GetProperty(PropertyNameConstants.Name).GetValue(entity) != formDict[PropertyNameConstants.Name])
+                {
+                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The name '{formDict[PropertyNameConstants.Name]}' is already taken." });
+                }
             }
 
             var result = await AssignPropertiesAsync(entity, formDict);
