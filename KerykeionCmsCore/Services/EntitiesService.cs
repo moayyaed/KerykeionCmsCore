@@ -198,11 +198,11 @@ namespace KerykeionCmsCore.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="tableName"></param>
+        /// <param name="entityType"></param>
         /// <returns></returns>
-        public bool InheritsFromKeryKeionBaseClass(string tableName)
+        public bool InheritsFromKeryKeionBaseClass(IEntityType entityType)
         {
-            return EntitiesRepo.InheritsFromKeryKeionBaseClass(tableName);
+            return EntitiesRepo.InheritsFromKeryKeionBaseClass(entityType);
         }
     }
 }
