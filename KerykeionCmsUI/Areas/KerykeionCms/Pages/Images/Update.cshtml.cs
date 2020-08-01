@@ -26,7 +26,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
         public List<ForeignKeyDto> ForeignKeyProperties { get; set; }
 
         [BindProperty]
-        public Guid ImageId { get; set; }
+        public string ImageId { get; set; }
 
         [BindProperty]
         public UpdateImageViewModel Vm { get; set; }
@@ -38,7 +38,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             public IFormFile File { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             var image = await _imagesService.FindByIdAsync(id);
             if (image == null)
@@ -94,7 +94,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
                     ModelState.AddModelError(string.Empty, error.Message);
                 }
 
-                return await OnGetAsync(image.Id);
+                return await OnGetAsync(image.Id.ToString());
             }
 
             var updateResult = await _imagesService.UpdateAsync(image, Vm.File, formForeignKeys);
@@ -108,7 +108,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
                 ModelState.AddModelError(string.Empty, error.Message);
             }
 
-            return await OnGetAsync(image.Id);
+            return await OnGetAsync(image.Id.ToString());
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
@@ -130,14 +130,14 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
                 ModelState.AddModelError(string.Empty, error.Message);
             }
 
-            return await OnGetAsync(image.Id);
+            return await OnGetAsync(image.Id.ToString());
         }
 
         public override async Task<IActionResult> OnPostSetLanguageAsync()
         {
             await SetLanguageAsync();
             var formDict = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value.ToString());
-            return await OnGetAsync(Guid.Parse(formDict["image-id"]));
+            return await OnGetAsync(formDict["image-id"].ToString());
         }
     }
 }

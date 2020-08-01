@@ -92,7 +92,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             return await OnGetAsync();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var image = await _imagesService.FindByIdAsync(id);
             if (image == null)
