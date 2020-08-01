@@ -52,7 +52,7 @@ namespace KerykeionCmsCore.Services
         /// <param name="id"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public async Task<object> FindByIdAndTableNameAsync(Guid id, string tableName)
+        public async Task<object> FindByIdAndTableNameAsync(string id, string tableName)
         {
             return await EntitiesRepo.FindByIdAndTableNameAsync(id, tableName);
         }

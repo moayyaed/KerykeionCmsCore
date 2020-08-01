@@ -53,7 +53,7 @@ namespace KerykeionCmsCore.Services
                                     .ToListAsync();
         }
 
-        public async Task<bool> VerifyTitleAsync(string title, Guid articleId)
+        public async Task<bool> VerifyTitleAsync(string title, string articleId)
         {
             var article = await FindByIdAsync(articleId);
             if (article != null)

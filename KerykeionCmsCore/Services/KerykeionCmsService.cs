@@ -62,7 +62,7 @@ namespace KerykeionCmsCore.Services
         /// <returns>
         /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the entity matching the specified id.
         /// </returns>
-        public virtual async Task<TEntity> FindByIdAsync(Guid id)
+        public virtual async Task<TEntity> FindByIdAsync(string id)
         {
             var entity = await EntitiesService.FindByIdAndTableNameAsync(id, TableName);
             return entity as TEntity;

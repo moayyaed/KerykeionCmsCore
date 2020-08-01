@@ -421,6 +421,16 @@
             Represents an EntitySideNav dto in the KerykeionCms.
             </summary>
         </member>
+        <member name="P:KerykeionCmsCore.Dtos.EntitySideNavDto.Name">
+            <summary>
+            Gets or sets the Name for the dto.
+            </summary>
+        </member>
+        <member name="P:KerykeionCmsCore.Dtos.EntitySideNavDto.DateTimeCreated">
+            <summary>
+            Gets or sets the DateTime Created for the dto.
+            </summary>
+        </member>
         <member name="T:KerykeionCmsCore.Dtos.ForeignKeyDto">
             <summary>
             Represents a ForeingKey dto in the KerykeionCms.
@@ -803,7 +813,7 @@
             <param name="tableName"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindByIdAndTableNameAsync(System.Guid,System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
             
             </summary>
@@ -951,7 +961,7 @@
             </summary>
             <returns>A IEnumerable of table names.</returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindByIdAndTableNameAsync(System.Guid,System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
             Searches for an entity specified by an ID and table name.
             </summary>
@@ -1121,7 +1131,7 @@
             <param name="tableName"></param>
             <returns></returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindByIdAndTableNameAsync(System.Guid,System.String)">
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
             
             </summary>
@@ -1658,7 +1668,7 @@
             A System.Threading.Tasks.Task that represents the result of the asynchronous query, a list TEntities.
             </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.FindByIdAsync(System.Guid)">
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.FindByIdAsync(System.String)">
             <summary>
             Finds and returns an entity, if any, who has the specified id.
             </summary>

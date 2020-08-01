@@ -217,7 +217,10 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public string TranslateError(int hResult, string fallbackMessage)
         {
-            return CallApiAsync($"Translate/Exception/{Options.Pages.Language}/{hResult}").Result ?? fallbackMessage;
+            var result = CallApiAsync($"Translate/Exception/{Options.Pages.Language}/{hResult}")?.Result;
+            if (string.IsNullOrEmpty(result)) return fallbackMessage;
+
+            return result;
         }
 
 
