@@ -32,7 +32,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
             public string Name { get; set; }
             public string Url { get; set; }
 
-            public Guid LinkId { get; set; }
+            public string LinkId { get; set; }
             public Guid PageId { get; set; }
         }
 
@@ -54,7 +54,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
 
             Vm = new LinkViewModel
             {
-                LinkId = link.Id,
+                LinkId = link.Id.ToString(),
                 PageId = link.Webpage.Id,
                 Name = link?.Name,
                 Url = link.Url

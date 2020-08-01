@@ -113,7 +113,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             return await OnGetAsync(page.Id);
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var link = await Service.FindByIdAsync(id);
             if (link == null)

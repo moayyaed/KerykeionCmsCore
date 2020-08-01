@@ -35,7 +35,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             public string Title { get; set; }
         }
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             var page = await _webpagesService.FindByIdAsync(id);
             if (page == null)
@@ -61,7 +61,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUpdateAsync(Guid id)
+        public async Task<IActionResult> OnPostUpdateAsync(string id)
         {
             var page = await _webpagesService.FindByIdAsync(id);
             if (page == null)
@@ -87,7 +87,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             return await OnGetAsync(id);
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var page = await _webpagesService.FindByIdAsync(id);
             if (page == null)
@@ -112,7 +112,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
         {
             await SetLanguageAsync();
             var pageId = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value.ToString())["page-id"];
-            return await OnGetAsync(Guid.Parse(pageId));
+            return await OnGetAsync(pageId);
         }
     }
 }
