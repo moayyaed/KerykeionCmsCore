@@ -1,11 +1,11 @@
 using KerykeionCmsCore.Classes;
-using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.Enums;
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
 using KerykeionStringExtensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         public List<EntitySideNavDto> Entities { get; set; }
         public string TxtName { get; set; }
         public string TxtAddedOn { get; set; }
+        public bool InheritsFromKerykeionBaseClass { get; set; }
+        public IEntityType EntType { get; set; }
 
         [BindProperty]
         public string TableName { get; set; }
@@ -45,11 +47,13 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
             TableName = table;
             TxtName = await TranslationsService.TranslateAsync("Name");
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
+            EntType = _entitiesService.GetEntityTypeByTableName(table);
+            InheritsFromKerykeionBaseClass = _entitiesService.InheritsFromKeryKeionBaseClass(EntType);
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(Guid id)
+        public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
             var entity = await _entitiesService.FindByIdAndTableNameAsync(id, TableName);
             if (entity == null)

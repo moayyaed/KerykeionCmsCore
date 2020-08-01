@@ -3,6 +3,7 @@ using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -31,13 +32,13 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         [BindProperty]
         public string TableName { get; set; }
         [BindProperty]
-        public Guid EntityId { get; set; }
+        public string EntityId { get; set; }
         public object Entity { get; set; }
         public List<IProperty> Properties { get; set; }
 
         public List<ForeignKeyDto> ForeignKeys { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(Guid id, string table)
+        public async Task<IActionResult> OnGetAsync(string id, string table)
         {
             var entity = await _entitiesService.FindByIdAndTableNameAsync(id, table);
             if (entity == null)
@@ -45,7 +46,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
                 return NotFound();
             }
 
-            var props = _entitiesService.GetEntityPropertiesByTable(table);
+            var props = _entitiesService.GetEntityPropertiesByTable(table).Where(p => !p.IsForeignKey());
             if (props == null)
             {
                 return NotFound();
@@ -86,7 +87,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
                 ModelState.AddModelError(string.Empty, error.Message);
             }
 
-            return await OnGetAsync(EntityId, TableName);
+            return await OnGetAsync(EntityId.ToString(), TableName);
         }
 
         public async Task<IActionResult> OnPostDeleteAsync()
@@ -108,14 +109,14 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
                 StatusMessage += $"Error: {error.Message}<br />";
             }
 
-            return await OnGetAsync(EntityId, TableName);
+            return await OnGetAsync(EntityId.ToString(), TableName);
         }
 
         public override async Task<IActionResult> OnPostSetLanguageAsync()
         {
             await SetLanguageAsync();
             var formDict = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value.ToString());
-            return await OnGetAsync(Guid.Parse(formDict["entity-id"]), formDict["table"]);
+            return await OnGetAsync(formDict["entity-id"].ToString(), formDict["table"]);
         }
     }
 }
