@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionIdentityUI", "Kery
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionCms", "KerykeionCms\KerykeionCms.csproj", "{9102488B-A7B3-4854-AFF9-22B9057A3A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KerykeionLoginUI", "KerykeionLoginUI\KerykeionLoginUI.csproj", "{F79F7534-162E-4F93-A612-D642AC078ED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KerykeionLoginUI", "KerykeionLoginUI\KerykeionLoginUI.csproj", "{F79F7534-162E-4F93-A612-D642AC078ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

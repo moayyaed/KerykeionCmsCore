@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PackageId>KerykeionIdentityUI</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
     <Authors>Kerykeion</Authors>
     <Company>Hermes</Company>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="KerykeionCmsCore" Version="1.0.5" />
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.9" />
   </ItemGroup>
 
 
