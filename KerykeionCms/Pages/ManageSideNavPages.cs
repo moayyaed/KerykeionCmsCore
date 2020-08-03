@@ -17,7 +17,7 @@ namespace KerykeionCms.Pages
         public static string LinksPage => "/WebPage/Links";
         public static string LinkPage => "/WebPage/UpdateLink";
         public static string EntitiesPage => "/entities/index";
-        public static string AddEntityPage => "/entities/add";
+        public static string CreateEntityPage => "/entities/create";
         public static string UpdateEntityPage => "/entities/update";
         public static string UsersPage => "/Users/Index";
         public static string AddUserPage => "/Users/Add";
@@ -76,18 +76,18 @@ namespace KerykeionCms.Pages
         #endregion
 
         #region EntityFunx
-        public static string TableNavActive(ViewContext viewContext, bool isCurrentTable) => SetSubActive(viewContext, isCurrentTable, EntitiesPage, AddEntityPage);
-        public static string EntityNavActive(ViewContext viewContext, bool isCurrentTable) => SetSubActive(viewContext, isCurrentTable, UpdateEntityPage, AddEntityPage);
+        public static string TableNavActive(ViewContext viewContext, bool isCurrentTable) => SetSubActive(viewContext, isCurrentTable, EntitiesPage, CreateEntityPage);
+        public static string EntityNavActive(ViewContext viewContext, bool isCurrentTable) => SetSubActive(viewContext, isCurrentTable, UpdateEntityPage, CreateEntityPage);
         public static string TableSubOpenCarretDisplay(ViewContext viewContext, bool isCurrentTable) => DisplaySubOpenCarret(viewContext, isCurrentTable, UpdateEntityPage);
         public static string TableSubCloseCarretDisplay(ViewContext viewContext, bool isCurrentTable) => DisplaySubCloseCarret(viewContext, isCurrentTable, UpdateEntityPage);
-        public static string SetTableTextClass(ViewContext viewContext, bool isCurrent) => SetTextClass(viewContext, isCurrent, EntitiesPage, AddEntityPage);
+        public static string SetTableTextClass(ViewContext viewContext, bool isCurrent) => SetTextClass(viewContext, isCurrent, EntitiesPage, CreateEntityPage);
         public static string SetEntityTextClass(ViewContext viewContext, bool isCurrent) => SetTextClass(viewContext, isCurrent, UpdateEntityPage);
         public static string TableEntitiesDisplay(ViewContext viewContext, bool isCurrentTable) => DisplaySubSubs(viewContext, isCurrentTable, UpdateEntityPage);
-        public static string SubEntitiesDisplay(ViewContext viewContext) => DisplaySubs(viewContext, EntitiesPage, UpdateEntityPage, AddEntityPage);
-        public static string SubEntitiesOpenCarretDisplay(ViewContext viewContext) => DisplayOpenCarret(viewContext, EntitiesPage, UpdateEntityPage, AddEntityPage);
-        public static string SubEntitiesOpenFolderDisplay(ViewContext viewContext) => DisplayOpenFolder(viewContext, EntitiesPage, UpdateEntityPage, AddEntityPage);
-        public static string SubEntitiesSubOpenFolderDisplay(ViewContext viewContext, bool isCurrentEntity) => DisplayOpenFolder(viewContext, isCurrentEntity, UpdateEntityPage, AddEntityPage);
-        public static string SubEntitiesCloseCarretDisplay(ViewContext viewContext) => DisplayCloseCarret(viewContext, EntitiesPage, UpdateEntityPage, AddEntityPage);
+        public static string SubEntitiesDisplay(ViewContext viewContext) => DisplaySubs(viewContext, EntitiesPage, UpdateEntityPage, CreateEntityPage);
+        public static string SubEntitiesOpenCarretDisplay(ViewContext viewContext) => DisplayOpenCarret(viewContext, EntitiesPage, UpdateEntityPage, CreateEntityPage);
+        public static string SubEntitiesOpenFolderDisplay(ViewContext viewContext) => DisplayOpenFolder(viewContext, EntitiesPage, UpdateEntityPage, CreateEntityPage);
+        public static string SubEntitiesSubOpenFolderDisplay(ViewContext viewContext, bool isCurrentEntity) => DisplayOpenFolder(viewContext, isCurrentEntity, UpdateEntityPage, CreateEntityPage);
+        public static string SubEntitiesCloseCarretDisplay(ViewContext viewContext) => DisplayCloseCarret(viewContext, EntitiesPage, UpdateEntityPage, CreateEntityPage);
         #endregion
 
         #region UserFunx
