@@ -538,20 +538,22 @@ namespace KerykeionCmsCore.Repositories
         {
             var foreignKey = GetEntityType(entity.GetType()).GetForeignKeys().FirstOrDefault(fk => fk.GetDefaultName().Contains(propertyName, StringComparison.OrdinalIgnoreCase));
 
-            if (foreignKey == null)
-            {
-                return null;
-            }
+            if (foreignKey == null) return null;
 
             if (string.IsNullOrEmpty(formValue?.Trim()))
             {
+                if (foreignKey.IsRequired)
+                {
+                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"The '{propertyName}' is required." });
+                }
+
                 Context.Entry(entity).Property(propertyName).CurrentValue = null;
                 return null;
             }
 
             if (!Guid.TryParse(formValue, out _))
             {
-                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"'{formValue}' is not a valid value for the '{propertyName}'. Either provide a valid GUID or make sure the input is completely empty." });
+                return KerykeionDbResult.Fail(new KerykeionDbError { Message = $"'{formValue}' is not a valid value for the '{propertyName}'." });
             }
 
             var foreignPrincipalEntityType = foreignKey?.PrincipalEntityType?.ClrType;
@@ -579,7 +581,7 @@ namespace KerykeionCmsCore.Repositories
             {
                 return KerykeionDbResult.Fail(new KerykeionDbError
                 {
-                    Message = _translationsService.TranslateError(ex.InnerException.HResult, ex.InnerException.Message)
+                    Message = ex.InnerException.Message
                 });
             }
         }
