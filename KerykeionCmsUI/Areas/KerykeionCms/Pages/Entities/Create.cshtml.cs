@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 {
-    public class AddModel : KerykeionPageModel
+    public class CreateModel : KerykeionPageModel
     {
         private readonly EntitiesService _entitiesService;
 
-        public AddModel(KerykeionTranslationsService translationsService,
+        public CreateModel(KerykeionTranslationsService translationsService,
             EntitiesService entitiesService) : base(translationsService)
         {
             _entitiesService = entitiesService;
