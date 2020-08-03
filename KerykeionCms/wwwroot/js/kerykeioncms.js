@@ -23,12 +23,9 @@
     });
 
     $(document).on("click", ".entity-value-to-copy-to-clipboard", function () {
-        var selection = window.getSelection();
-        var range = document.createRange();
-        range.selectNodeContents(this);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        document.execCommand("Copy");
+        var txtToCopy = $(this);
+        txtToCopy.select();
+        document.execCommand("copy");
     });
 
     $(document).on("click", "a, .btn-primary", function () {
