@@ -17,7 +17,7 @@ namespace KerykeionCmsCore.PageModels
         }
 
         public string PageTitle { get; set; }
-        public string BtnAddValue => TranslationsService.TranslateAsync("Add").Result;
+        public string BtnCreateValue => TranslationsService.TranslateAsync("Create").Result;
         public string BtnDeleteValue => TranslationsService.TranslateAsync("Delete").Result;
         public string BtnBackValue => TranslationsService.TranslateAsync("Back").Result;
         public string BtnUpdateValue => TranslationsService.TranslateAsync("Update").Result;

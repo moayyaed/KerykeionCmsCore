@@ -1,6 +1,7 @@
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
@@ -12,7 +13,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         }
 
         public string TxtGettingStarted { get; set; }
-        public string TxtGettingStartedAddEntities { get; set; }
+        public string TxtGettingStartedCreateEntities { get; set; }
+        public string TxtGettingStartedReadEntities { get; set; }
         public string TxtGettingStartedUpdateEntities { get; set; }
         public string TxtGettingStartedDeleteEntities { get; set; }
         public string TxtExtendKerykeionUser { get; set; }
@@ -20,9 +22,10 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         public async Task<IActionResult> OnGetAsync()
         {
             TxtGettingStarted = await TranslationsService.TranslateAsync("Getting started");
-            TxtGettingStartedAddEntities = $"{TxtGettingStarted}.. ({BtnAddValue})";
+            TxtGettingStartedCreateEntities = $"{TxtGettingStarted}.. ({BtnCreateValue})";
+            TxtGettingStartedReadEntities = $"{TxtGettingStarted}.. ({await TranslationsService.TranslateAsync("Read")})";
             TxtGettingStartedUpdateEntities = $"{TxtGettingStarted}.. ({BtnUpdateValue})";
-            TxtGettingStartedDeleteEntities = $"{TxtGettingStarted}.. ({BtnDeleteValue})"; ;
+            TxtGettingStartedDeleteEntities = $"{TxtGettingStarted}.. ({BtnDeleteValue})";
             TxtExtendKerykeionUser = await TranslationsService.TranslateAsync("Extend KerykeionUser");
 
             return Page();
