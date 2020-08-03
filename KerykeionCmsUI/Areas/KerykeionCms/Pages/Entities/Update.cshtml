@@ -44,7 +44,7 @@
             {
                 <div class="form-group">
                     <label for="@prop.Name">@prop.Name</label>
-                    <input readonly id="@prop.Name" name="@prop.Name" value="@value" @ManageInputs.GetInputType(prop?.ClrType?.FullName) class="form-control" />
+                    <input readonly id="@prop.Name" name="@prop.Name" value="@value" @ManageInputs.GetInputType(prop?.ClrType?.FullName) class="form-control entity-value-to-copy-to-clipboard cursor-pointer" data-toggle="tooltip" title="Copy"/>
                 </div>
                 continue;
             }
