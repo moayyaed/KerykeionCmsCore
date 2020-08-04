@@ -14,7 +14,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label>Id</label>
-            <input asp-for="ArticleId" readonly class="form-control" value="@Model.ArticleId" />
+            <input asp-for="ArticleId" readonly class="form-control entity-value-to-copy-to-clipboard cursor-pointer" data-toggle="tooltip" title="Copy" value="@Model.ArticleId" />
         </div>
         <div class="form-group">
             <label>@Model.NameDisplay</label>
