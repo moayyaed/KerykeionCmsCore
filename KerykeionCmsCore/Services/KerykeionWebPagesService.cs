@@ -34,21 +34,6 @@ namespace KerykeionCmsCore.Services
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
 
-        /// <summary>
-        /// Finds and returns an webpage, if any, who has the specified name.
-        /// </summary>
-        /// <param name="name">
-        /// The webpage name to search for.
-        /// </param>
-        /// <returns>
-        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the webpage matching the specified name.
-        /// </returns>
-        public virtual async Task<Webpage> FindByNameAsync(string name)
-        {
-            var pages = await ListAllIncludedAsync();
-            return pages.FirstOrDefault(page => page.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
-        }
-
         public async Task<KerykeionDbResult> AddArticleAsync(Webpage page, Article article)
         {
             if (page == null || article == null)

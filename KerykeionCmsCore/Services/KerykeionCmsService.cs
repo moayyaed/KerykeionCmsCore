@@ -1,6 +1,7 @@
 ﻿using KerykeionCmsCore.Classes;
 using KerykeionCmsCore.Dtos;
 using KerykeionStringExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Primitives;
 using System;
@@ -66,6 +67,21 @@ namespace KerykeionCmsCore.Services
         {
             var entity = await EntitiesService.FindByIdAndTableNameAsync(id, TableName);
             return entity as TEntity;
+        }
+
+        /// <summary>
+        /// Finds and returns an entity, if any, who has the specified name.
+        /// </summary>
+        /// <param name="name">
+        /// The name to search for.
+        /// </param>
+        /// <returns>
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the entity matching the specified id.
+        /// </returns>
+        public virtual async Task<TEntity> FindByNameAsync(string name)
+        {
+            var entities = await EntitiesService.ListAllAsync(TableName);
+            return entities.Cast<TEntity>().FirstOrDefault(e => e.UniqueNameIdentifier == name.CompleteTrimAndUpper());
         }
 
         /// <summary>
