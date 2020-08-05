@@ -60,4 +60,4 @@ Now go to the url => {YourPort}/kerykeioncms and you can explore the KerykeionCm
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager.PNG)
 
-There is built in documentation provided (stil under development). When your on the KerykeionCms pages you will see a blue 'i' on top of the page. Click the i and you will be directed to the documentation page.
+There is built in documentation provided (still under development). When your on the KerykeionCms pages you will see a blue 'i' on top of the page. Click the i and you will be directed to the documentation page.
