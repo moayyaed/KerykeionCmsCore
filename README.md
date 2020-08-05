@@ -58,6 +58,6 @@ This will grant anyone access to the KerykeionCms pages, so only to be used in D
 
 Now go to the url => {YourPort}/kerykeioncms and you can explore the KerykeionCms where you also can add users and apply roles to them.
 
-![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager.PNG)
-
 There is built in documentation provided (still under development). When your on the KerykeionCms pages you will see a blue 'i' on top of the page. Click the i and you will be directed to the documentation page.
+
+![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager2.PNG)
