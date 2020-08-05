@@ -46,6 +46,8 @@ Make sure the TranslationApi project runs on port 44370 you can easily update th
 Another option is to update the request uri in the KerkeionCmsCore project.
 
 # Access
+(You can skip this step if you cloned the KerykeionCmsTemplate.)
+
 To access the KerykeionContentManagementSystem pages there will have to be an User that is in an Administrator role. You can do this in the server itself or you can make use of a workaround I've provided.
 
 Add the following highlighted code to the ConfigureServices method in the Startup.cs file of your main project.
@@ -58,4 +60,4 @@ Now go to the url => {YourPort}/kerykeioncms and you can explore the KerykeionCm
 
 ![alt text](https://github.com/Kerykeion7/KerykeionCmsCore/blob/master/Manager.PNG)
 
-I will leave you here but there is a more detailed documentation underway.
+There is built in documentation provided (stil under development). When your on the KerykeionCms pages you will see a blue 'i' on top of the page. Click the i and you will be directed to the documentation page.
