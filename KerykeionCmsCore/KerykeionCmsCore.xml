@@ -1679,6 +1679,17 @@
             A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the entity matching the specified id.
             </returns>
         </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.FindByNameAsync(System.String)">
+            <summary>
+            Finds and returns an entity, if any, who has the specified name.
+            </summary>
+            <param name="name">
+            The name to search for.
+            </param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the entity matching the specified id.
+            </returns>
+        </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionCmsService`1.CreateAsync(`0)">
             <summary>
             Creates the specified entity in the database, as an asynchronous operation.
@@ -1880,17 +1891,6 @@
             <summary>
             Gets all the webpages in the database to query.
             </summary>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.FindByNameAsync(System.String)">
-            <summary>
-            Finds and returns an webpage, if any, who has the specified name.
-            </summary>
-            <param name="name">
-            The webpage name to search for.
-            </param>
-            <returns>
-            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the webpage matching the specified name.
-            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.ListAllIncludedAsync">
             <summary>
