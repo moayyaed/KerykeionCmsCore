@@ -14,7 +14,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
 
         public string TxtGettingStarted { get; set; }
         public string TxtGettingStartedCreateEntities { get; set; }
-        public string TxtGettingStartedReadEntities { get; set; }
+        public string TxtGettingStartedReadEntitiesPartOne { get; set; }
+        public string TxtGettingStartedReadEntitiesPartTwo { get; set; }
         public string TxtGettingStartedUpdateEntities { get; set; }
         public string TxtGettingStartedDeleteEntities { get; set; }
         public string TxtExtendKerykeionUser { get; set; }
@@ -23,7 +24,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         {
             TxtGettingStarted = await TranslationsService.TranslateAsync("Getting started");
             TxtGettingStartedCreateEntities = $"{TxtGettingStarted}.. ({BtnCreateValue})";
-            TxtGettingStartedReadEntities = $"{TxtGettingStarted}.. ({await TranslationsService.TranslateAsync("Read")})";
+            TxtGettingStartedReadEntitiesPartOne = $"{TxtGettingStarted}.. ({await TranslationsService.TranslateAsync("Read")}) {await TranslationsService.TranslateAsync("part one")}.";
+            TxtGettingStartedReadEntitiesPartTwo = $"{TxtGettingStarted}.. ({await TranslationsService.TranslateAsync("Read")}) {await TranslationsService.TranslateAsync("part two")}.";
             TxtGettingStartedUpdateEntities = $"{TxtGettingStarted}.. ({BtnUpdateValue})";
             TxtGettingStartedDeleteEntities = $"{TxtGettingStarted}.. ({BtnDeleteValue})";
             TxtExtendKerykeionUser = await TranslationsService.TranslateAsync("Extend KerykeionUser");
