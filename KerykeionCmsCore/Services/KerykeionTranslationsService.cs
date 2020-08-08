@@ -238,11 +238,6 @@ namespace KerykeionCmsCore.Services
         }
         #endregion
 
-        public async Task<string> FindByExcDoxIdAsync(int excDocId)
-        {
-            return await CallApiAsync($"Exception/{Options.Pages.Language}/{excDocId}");
-        }
-
         public async Task<string> FindByIdAsync(Guid id)
         {
             return await CallApiAsync($"Documentation/{Options.Pages.Language}/{id}");
