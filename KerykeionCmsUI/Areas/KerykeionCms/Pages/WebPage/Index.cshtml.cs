@@ -19,6 +19,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             _webpagesService = webpagesService;
         }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public string TitleDisplay { get; set; }
         public string NameDisplay { get; set; }
         public string TxtSeeArticles { get; set; }
@@ -98,12 +101,13 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             var result = await _webpagesService.DeleteAsync(page);
             if (result.Successfull)
             {
+                StatusMessage = "The webpage has been successfully deleted.";
                 return RedirectToPage("/WebPages");
             }
 
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Message);
+                StatusMessage += $"Error: {error.Message}<br />";
             }
             return await OnGetAsync(id);
         }
