@@ -7,7 +7,7 @@
 <div class="row border-bottom border-secondary mb-3">
     <div class="col-sm-6"></div>
     <div class="col-sm-6 text-right">
-        <a asp-page="/Help/Index" class="btn btn-secondary mb-1">@Model.BtnBackValue</a>
+        <a asp-page="@Model.ReturnUrl" asp-route-id="@Model.ReturnId" class="btn btn-secondary mb-1">@Model.BtnBackValue</a>
     </div>
 </div>
 
@@ -16,6 +16,7 @@
 @section Scripts{
     <script>
         $("#open-language-picker").find("form")
-            .append(`<input type="hidden" name="doc-id" value="@(Model.DocId)" />`);
+            .append(`<input type="hidden" name="doc-id" value="@(Model.DocId)" />`)
+            .append(`<input type="hidden" name="return-id" value="@(Model.ReturnId)" />`);
     </script>
 }

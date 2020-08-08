@@ -14,9 +14,11 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         }
 
         public Guid DocId { get; set; }
+        public string ReturnId { get; set; }
         public string Documentation { get; set; }
+        public string ReturnUrl { get; set; } = "/Help/Documentation";
 
-        public async Task<IActionResult> OnGetAsync(Guid id)
+        public async Task<IActionResult> OnGetAsync(Guid id, string returnId = null)
         {
             var documentation = await TranslationsService.FindByIdAsync(id);
             if (documentation == null)
@@ -24,8 +26,13 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
                 return NotFound();
             }
 
-            DocId = id;
+            if (string.IsNullOrEmpty(returnId))
+            {
+                ReturnUrl = "/Help/Index";
+            }
 
+            ReturnId = returnId;
+            DocId = id;
             Documentation = documentation;
 
             return Page();
@@ -35,7 +42,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         {
             await SetLanguageAsync();
             var docId = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value.ToString())["doc-id"];
-            return await OnGetAsync(Guid.Parse(docId));
+            var returnId = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value.ToString())["return-id"];
+            return await OnGetAsync(Guid.Parse(docId), returnId);
         }
     }
 }
