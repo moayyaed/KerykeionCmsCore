@@ -55,6 +55,16 @@ namespace KerykeionCmsCore.Data
                  new IdentityRole<Guid> { Name = RoleContstants.Editor, Id = new Guid("57F5DC72-FA6D-4038-B337-D00BEF5A759A"), NormalizedName = normalizer.NormalizeName(RoleContstants.Editor) },
                  new IdentityRole<Guid> { Name = RoleContstants.RegularUser, Id = new Guid("2DD7B94B-CE9A-473A-B955-2FAD487BD435"), NormalizedName = normalizer.NormalizeName(RoleContstants.RegularUser) }
                 );
+
+            builder.Entity<Link>()
+                .HasOne(l => l.Webpage)
+                .WithMany(w => w.Links)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Article>()
+                .HasOne(l => l.Webpage)
+                .WithMany(w => w.Articles)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 
