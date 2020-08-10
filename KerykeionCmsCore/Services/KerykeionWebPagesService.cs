@@ -28,10 +28,18 @@ namespace KerykeionCmsCore.Services
 
         public async Task<Webpage> FindByIdAllIncludedAsync(Guid? id)
         {
-            return await GetAll()
+            return await Pages
                 .Include(p => p.Articles)
                 .Include(p => p.Links)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id));
+        }
+
+        public async Task<Webpage> FindByNameAllIncludedAsync(string name)
+        {
+            return await Pages
+                .Include(p => p.Articles)
+                .Include(p => p.Links)
+                .FirstOrDefaultAsync(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<KerykeionDbResult> AddArticleAsync(Webpage page, Article article)
