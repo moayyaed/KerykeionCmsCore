@@ -26,7 +26,7 @@ namespace KerykeionCmsCore.Classes
         public ICollection<Article> Articles { get; set; }
 
         /// <summary>
-        /// Gets the webpage article by the specified article ID.
+        /// Searches the webpage article by the specified article ID.
         /// </summary>
         /// <param name="articleId">The article ID to search for.</param>
         /// <returns>
@@ -39,6 +39,18 @@ namespace KerykeionCmsCore.Classes
                 return null;
             }
             return Articles.FirstOrDefault(a => a.Id == Guid.Parse(articleId));
+        }
+
+        /// <summary>
+        /// Searches the webpage article by the specified article Name.
+        /// </summary>
+        /// <param name="name">The article name to search for.</param>
+        /// <returns>
+        /// A Webpage article which matches the specified ID.
+        /// </returns>
+        public Article FindArticleByName(string name)
+        {
+            return Articles.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
