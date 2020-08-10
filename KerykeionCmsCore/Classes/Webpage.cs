@@ -46,7 +46,7 @@ namespace KerykeionCmsCore.Classes
         /// </summary>
         /// <param name="name">The article name to search for.</param>
         /// <returns>
-        /// A Webpage article which matches the specified ID.
+        /// A Webpage article which matches the specified name.
         /// </returns>
         public Article FindArticleByName(string name)
         {
