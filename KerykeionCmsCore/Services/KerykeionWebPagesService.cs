@@ -26,20 +26,30 @@ namespace KerykeionCmsCore.Services
         /// </summary>
         public IQueryable<Webpage> Pages => GetAll();
 
+        /// <summary>
+        /// Searches for the webpage by the specified ID.
+        /// </summary>
+        /// <param name="id">The ID to search for.</param>
+        /// <returns>
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage with the specified ID.
+        /// </returns>
         public async Task<Webpage> FindByIdAllIncludedAsync(Guid? id)
         {
-            return await Pages
-                .Include(p => p.Articles)
-                .Include(p => p.Links)
-                .FirstOrDefaultAsync(p => p.Id.Equals(id));
+            var pages = await ListAllIncludedAsync();
+                return pages.FirstOrDefault(p => p.Id.Equals(id));
         }
 
+        /// <summary>
+        /// Searches for the webpage by the specified name.
+        /// </summary>
+        /// <param name="name">The name to search for.</param>
+        /// <returns>
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage with the specified name.
+        /// </returns>
         public async Task<Webpage> FindByNameAllIncludedAsync(string name)
         {
-            return await Pages
-                .Include(p => p.Articles)
-                .Include(p => p.Links)
-                .FirstOrDefaultAsync(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var pages = await ListAllIncludedAsync();
+                return pages.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<KerykeionDbResult> AddArticleAsync(Webpage page, Article article)
