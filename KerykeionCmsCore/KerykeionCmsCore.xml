@@ -181,11 +181,20 @@
         </member>
         <member name="M:KerykeionCmsCore.Classes.Webpage.FindArticleById(System.String)">
             <summary>
-            Gets the webpage article by the specified article ID.
+            Searches the webpage article by the specified article ID.
             </summary>
             <param name="articleId">The article ID to search for.</param>
             <returns>
             A Webpage article which matches the specified ID.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Classes.Webpage.FindArticleByName(System.String)">
+            <summary>
+            Searches the webpage article by the specified article Name.
+            </summary>
+            <param name="name">The article name to search for.</param>
+            <returns>
+            A Webpage article which matches the specified name.
             </returns>
         </member>
         <member name="M:KerykeionCmsCore.Classes.Webpage.FindLinkById(System.String)">
@@ -1891,6 +1900,24 @@
             <summary>
             Gets all the webpages in the database to query.
             </summary>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.FindByIdAllIncludedAsync(System.Nullable{System.Guid})">
+            <summary>
+            Searches for the webpage by the specified ID.
+            </summary>
+            <param name="id">The ID to search for.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage (with articles and links included) which matches the specified ID.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.FindByNameAllIncludedAsync(System.String)">
+            <summary>
+            Searches for the webpage by the specified name.
+            </summary>
+            <param name="name">The name to search for.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage (with articles and links included) which matches the specified name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionWebPagesService.ListAllIncludedAsync">
             <summary>
