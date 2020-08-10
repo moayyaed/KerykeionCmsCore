@@ -1,5 +1,9 @@
 ﻿@page
 @model KerykeionCmsUI.Areas.KerykeionCms.Pages.Images.UpdateModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+}
+
 <div class="row border-bottom border-secondary">
     <div class="col-sm-6">
         <h2>@Model.BtnUpdateValue</h2>
@@ -31,7 +35,7 @@
         {
             <div class="form-group">
                 <label for="FOREIGNKEY-@prop.Name">@prop.Name</label>
-                <input id="FOREIGNKEY-@prop.Name" name="FOREIGNKEY-@prop.Name" class="form-control" value="@(string.Equals(prop.Value.ToString(), Guid.Empty.ToString(), StringComparison.OrdinalIgnoreCase) ? "" : prop.Value)"/>
+                <input id="FOREIGNKEY-@prop.Name" name="FOREIGNKEY-@prop.Name" class="form-control" value="@(string.Equals(prop.Value.ToString(), Guid.Empty.ToString(), StringComparison.OrdinalIgnoreCase) ? "" : prop.Value)" />
             </div>
         }
         <div class="form-group">
