@@ -20,6 +20,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
         public string TxtGettingStartedDeleteEntities { get; set; }
         public string TxtCreateArticles { get; set; }
         public string TxtCreateWebpages { get; set; }
+        public string TxtCreateLinks { get; set; }
         public string TxtExtendKerykeionUser { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -32,6 +33,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
             TxtGettingStartedDeleteEntities = $"{TxtGettingStarted}.. ({BtnDeleteValue})";
             TxtCreateArticles = await TranslationsService.TranslateAsync("Create articles");
             TxtCreateWebpages = await TranslationsService.TranslateAsync("Create webpages");
+            TxtCreateLinks= await TranslationsService.TranslateAsync("Create links");
             TxtExtendKerykeionUser = await TranslationsService.TranslateAsync("Extend KerykeionUser");
 
             return Page();
