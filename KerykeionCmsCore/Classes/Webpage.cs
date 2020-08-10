@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KerykeionStringExtensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,6 +64,18 @@ namespace KerykeionCmsCore.Classes
         public Link FindLinkById(string linkId)
         {
             return Links.FirstOrDefault(l => l.Id == Guid.Parse(linkId));
+        }
+
+        /// <summary>
+        /// Gets the webpage link by the specified link name.
+        /// </summary>
+        /// <param name="name">The link name to search for.</param>
+        /// <returns>
+        /// A webpage link which matches the specified name.
+        /// </returns>
+        public Link FindLinkByName(string name)
+        {
+            return Links.FirstOrDefault(l => l.Name.CompleteTrimAndUpper().Equals(name.CompleteTrimAndUpper()));
         }
     }
 }

@@ -206,6 +206,15 @@
             A webpage link which matches the specified ID.
             </returns>
         </member>
+        <member name="M:KerykeionCmsCore.Classes.Webpage.FindLinkByName(System.String)">
+            <summary>
+            Gets the webpage link by the specified link name.
+            </summary>
+            <param name="name">The link name to search for.</param>
+            <returns>
+            A webpage link which matches the specified name.
+            </returns>
+        </member>
         <member name="T:KerykeionCmsCore.Constants.ErrorDescriberConstants">
             <summary>
             Provides error describer constants.
