@@ -31,7 +31,7 @@ namespace KerykeionCmsCore.Services
         /// </summary>
         /// <param name="id">The ID to search for.</param>
         /// <returns>
-        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage with the specified ID.
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage (with articles and links included) which matches the specified ID.
         /// </returns>
         public async Task<Webpage> FindByIdAllIncludedAsync(Guid? id)
         {
@@ -44,7 +44,7 @@ namespace KerykeionCmsCore.Services
         /// </summary>
         /// <param name="name">The name to search for.</param>
         /// <returns>
-        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage with the specified name.
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing a webpage (with articles and links included) which matches the specified name.
         /// </returns>
         public async Task<Webpage> FindByNameAllIncludedAsync(string name)
         {
