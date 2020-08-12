@@ -29,7 +29,7 @@ namespace KerykeionCmsCore.Services
         }
 
         /// <summary>
-        /// Translates a given piece of text or sentence.
+        /// Translates a given piece of text or sentence, as an asynchronous operation.
         /// </summary>
         /// <param name="text">The text to be translated.</param>
         /// <returns>
@@ -193,35 +193,7 @@ namespace KerykeionCmsCore.Services
             };
         }
 
-        /// <summary>
-        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
-        /// </summary>
-        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
-        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-        /// <param name="newValue">A variable value to use as replacement of the default 'VARIABLEVALUE' in the database.</param>
-        /// <returns>
-        /// The error text in the language set by the KerykeionCmsOptions
-        /// </returns>
-        public string TranslateError(string errorDescriber, string fallbackMessage, string newValue)
-        {
-            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}").Result ?? fallbackMessage;
-        }
 
-        /// <summary>
-        /// Translates an error specified by its HResult to the language set by the KerykeionCmsOptions.
-        /// </summary>
-        /// <param name="hResult">The HResult identifier, to identify the error in the database.</param>
-        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-        /// <returns>
-        /// The error text in the language set by the KerykeionCmsOptions
-        /// </returns>
-        public string TranslateError(int hResult, string fallbackMessage)
-        {
-            var result = CallApiAsync($"Translate/Exception/{Options.Pages.Language}/{hResult}")?.Result;
-            if (string.IsNullOrEmpty(result)) return fallbackMessage;
-
-            return result;
-        }
 
 
         /// <summary>
@@ -232,13 +204,42 @@ namespace KerykeionCmsCore.Services
         /// <returns>
         /// The error text in the language set by the KerykeionCmsOptions
         /// </returns>
-        public string TranslateError(string errorDescriber, string fallbackMessage)
+        public string TranslateErrorByDescriber(string errorDescriber, string fallbackMessage)
         {
-            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}").Result ?? fallbackMessage;
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}")?.Result ?? fallbackMessage;
+        }
+
+        /// <summary>
+        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+        /// </summary>
+        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+        /// <param name="newValue">A variable value to use as replacement for the default 'VARIABLEVALUE' in the database.</param>
+        /// <returns>
+        /// The error text in the language set by the KerykeionCmsOptions
+        /// </returns>
+        public string TranslateErrorByDescriber(string errorDescriber, string fallbackMessage, string newValue)
+        {
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}")?.Result ?? fallbackMessage;
+        }
+
+        /// <summary>
+        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+        /// </summary>
+        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+        /// <param name="newValue">A variable value to use as replacement for the default 'VARIABLEVALUE' in the database.</param>
+        /// <param name="secondNewValue">A variable value to use as replacement for the default 'SECONDVARIABLEVALUE' in the database.</param>
+        /// <returns>
+        /// The error text in the language set by the KerykeionCmsOptions
+        /// </returns>
+        public string TranslateErrorByDescriber(string errorDescriber, string fallbackMessage, string newValue, string secondNewValue)
+        {
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}/{secondNewValue}")?.Result ?? fallbackMessage;
         }
         #endregion
 
-        public async Task<string> FindByIdAsync(Guid id)
+        public async Task<string> FindDocByIdAsync(Guid id)
         {
             return await CallApiAsync($"Documentation/{Options.Pages.Language}/{id}");
         }

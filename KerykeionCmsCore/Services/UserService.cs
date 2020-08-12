@@ -369,7 +369,7 @@ namespace KerykeionCmsCore.Services
                     Name = $"{user.UserName}-Profile-Image"
                 };
 
-                var addImgResult = await EntitiesService.AddAsync(image);
+                var addImgResult = await EntitiesService.CreateAsync(image);
                 if (addImgResult.Successfull)
                 {
                     user.ProfileImage = image;

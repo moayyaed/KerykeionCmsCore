@@ -29,7 +29,7 @@ namespace KerykeionCmsCore.Services
             EntitiesService = entitiesService;
         }
 
-        private string TableName => EntitiesService.GetTableNameByType(typeof(TEntity));
+        private string TableName => EntitiesService.FindTableNameByClrType(typeof(TEntity));
 
         /// <summary>
         /// Gets all the TEntities.
@@ -93,7 +93,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public virtual async Task<KerykeionDbResult> CreateAsync(TEntity entity)
         {
-            return await EntitiesService.AddAsync(entity);
+            return await EntitiesService.CreateAsync(entity);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public virtual async Task<KerykeionDbResult> CreateAsync(Dictionary<string, StringValues> formDict)
         {
-            return await EntitiesService.AddAsync(TableName, formDict);
+            return await EntitiesService.CreateAsync(TableName, formDict);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace KerykeionCmsCore.Services
         /// </returns>
         public IEnumerable<IProperty> GetForeignKeyProperties()
         {
-            return EntitiesService.GetForeignKeyPropertiesByType(typeof(TEntity));
+            return EntitiesService.GetForeignKeyPropertiesByClrType(typeof(TEntity));
         }
         /// <summary>
         /// Gets the foreign key properties (also shadow properties) and its values for the current TEntity.

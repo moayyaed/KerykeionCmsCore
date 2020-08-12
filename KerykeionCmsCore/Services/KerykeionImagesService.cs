@@ -32,7 +32,7 @@ namespace KerykeionCmsCore.Services
 
             if (formForeignKeys != null)
             {
-                var result = await EntitiesService.AssignFormForeignKeysAsync(image, formForeignKeys);
+                var result = await EntitiesService.SetForeignKeysAsync(image, formForeignKeys);
                 if (!result.Successfull)
                 {
                     return result;
@@ -58,7 +58,7 @@ namespace KerykeionCmsCore.Services
 
             if (formForeignKeys != null)
             {
-                var result = await EntitiesService.AssignFormForeignKeysAsync(image, formForeignKeys);
+                var result = await EntitiesService.SetForeignKeysAsync(image, formForeignKeys);
                 if (!result.Successfull)
                 {
                     return result;
@@ -79,7 +79,7 @@ namespace KerykeionCmsCore.Services
         {
             if (formForeignKeys != null)
             {
-                var result = await EntitiesService.AssignFormForeignKeysAsync(image, formForeignKeys);
+                var result = await EntitiesService.SetForeignKeysAsync(image, formForeignKeys);
                 if (!result.Successfull)
                 {
                     return result;

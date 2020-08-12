@@ -16,7 +16,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(DefaultError),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.DefaultError, "Identity system error")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.DefaultError, "Identity system error")
             };
         }
 
@@ -25,7 +25,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(ConcurrencyFailure),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.ConcurrencyFailure, "Concurrency failure.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.ConcurrencyFailure, "Concurrency failure.")
             };
         }
 
@@ -34,7 +34,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordMismatch),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordMismatch, "Password mismatch.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordMismatch, "Password mismatch.")
             };
         }
 
@@ -43,7 +43,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(InvalidToken),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.InvalidToken, "Invalid token.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.InvalidToken, "Invalid token.")
             };
         }
 
@@ -52,7 +52,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(RecoveryCodeRedemptionFailed),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.RecoveryCodeRedemptionFailed, "Recovery code was not redeemed.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RecoveryCodeRedemptionFailed, "Recovery code was not redeemed.")
             };
         }
 
@@ -61,7 +61,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(LoginAlreadyAssociated),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.LoginAlreadyAssociated, "An external login is already associated with this account.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.LoginAlreadyAssociated, "An external login is already associated with this account.")
             };
         }
 
@@ -70,7 +70,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(InvalidUserName),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.InvalidUserName, $"User name '{userName}' is invalid.", userName)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.InvalidUserName, $"User name '{userName}' is invalid.", userName)
             };
         }
 
@@ -79,7 +79,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(InvalidEmail),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.InvalidEmail, $"Email '{email}' is invalid.", email)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.InvalidEmail, $"Email '{email}' is invalid.", email)
             };
         }
 
@@ -88,7 +88,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(DuplicateUserName),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.DuplicateUserName, $"User name '{userName}' is already taken.", userName)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.DuplicateUserName, $"User name '{userName}' is already taken.", userName)
             };
         }
 
@@ -97,7 +97,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(InvalidRoleName),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.InvalidRoleName, $"Role name '{role}' is invalid.", role)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.InvalidRoleName, $"Role name '{role}' is invalid.", role)
             };
         }
 
@@ -106,7 +106,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(DuplicateRoleName),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.DuplicateRoleName, $"Role name '{role}' is already taken.", role)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.DuplicateRoleName, $"Role name '{role}' is already taken.", role)
             };
         }
 
@@ -115,7 +115,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(UserAlreadyHasPassword),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.UserAlreadyHasPassword, "User already has a password.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.UserAlreadyHasPassword, "User already has a password.")
             };
         }
 
@@ -124,7 +124,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(UserLockoutNotEnabled),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.UserLockoutNotEnabled, "User lockout is not enabled.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.UserLockoutNotEnabled, "User lockout is not enabled.")
             };
         }
 
@@ -133,7 +133,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(UserAlreadyInRole),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.UserAlreadyInRole, $"The user is already in '{role}' role.", role)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.UserAlreadyInRole, $"The user is already in '{role}' role.", role)
             };
         }
 
@@ -142,7 +142,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(UserNotInRole),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.UserNotInRole, $"The user is not in '{role}' role.", role)
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.UserNotInRole, $"The user is not in '{role}' role.", role)
             };
         }
 
@@ -151,7 +151,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordTooShort),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordTooShort, $"The password must be at least '{length}' characters long.", length.ToString())
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordTooShort, $"The password must be at least '{length}' characters long.", length.ToString())
             };
         }
 
@@ -160,7 +160,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUniqueChars),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordRequiresAtleastAmountUniqueChars, $"The password must contain '{uniqueChars}' unique characters.", uniqueChars.ToString())
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordRequiresAtleastAmountUniqueChars, $"The password must contain '{uniqueChars}' unique characters.", uniqueChars.ToString())
             };
         }
 
@@ -169,7 +169,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresNonAlphanumeric),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordRequiresNonAlphanumeric, "Passwords must have at least one non alphanumeric character.")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordRequiresNonAlphanumeric, "Passwords must have at least one non alphanumeric character.")
             };
         }
 
@@ -178,7 +178,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresDigit),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordRequiresDigit, "Passwords must have at least one digit ('0'-'9').")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordRequiresDigit, "Passwords must have at least one digit ('0'-'9').")
             };
         }
 
@@ -187,7 +187,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresLower),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordRequiresLower, "Passwords must have at least one lowercase ('a'-'z').")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordRequiresLower, "Passwords must have at least one lowercase ('a'-'z').")
             };
         }
 
@@ -196,7 +196,7 @@ namespace KerykeionCmsCore.Services
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresUpper),
-                Description = _translationsService.TranslateError(ErrorDescriberConstants.PasswordRequiresUpper, "Passwords must have at least one uppercase ('A'-'Z').")
+                Description = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.PasswordRequiresUpper, "Passwords must have at least one uppercase ('A'-'Z').")
             };
         }
     }
