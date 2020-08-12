@@ -90,7 +90,7 @@ namespace KerykeionCmsCore.PageModels
             var exists = await Service.ExistsAsync(Name);
             if (exists)
             {
-                return new JsonResult(TranslationsService.TranslateError(ErrorDescriberConstants.NameDuplicate, $"The name '{Name}' is already taken.", Name));
+                return new JsonResult(TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.NameDuplicate, $"The name '{Name}' is already taken.", Name));
             }
             return new JsonResult(true);
         }
