@@ -68,11 +68,11 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Users
             TxtProfilePicture = await TranslationsService.TranslateAsync("Profile picture");
             TxtSelectLanguage = await TranslationsService.TranslateAsync("Select a language.");
             TxtClickToAddProfPic = await TranslationsService.TranslateAsync("Click here to add a profile picture.");
-            TxtRequiredUserName = TranslationsService.TranslateRequiredError(TxtUserName);
-            TxtRequiredEmail = TranslationsService.TranslateRequiredError(TxtEmail);
-            TxtRequiredPassword = TranslationsService.TranslateRequiredError(TxtPassword);
-            TxtLengthUserName = TranslationsService.TranslateStringLengthError(4, 50, TxtUserName);
-            TxtCompareError = TranslationsService.TranslateCompareValidationError(TxtConfirmPassword, TxtPassword);
+            TxtRequiredUserName = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TxtUserName}' is required.", TxtUserName);
+            TxtRequiredEmail = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TxtEmail}' is required.", TxtEmail);
+            TxtRequiredPassword = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TxtPassword}' is required.", TxtPassword);
+            TxtLengthUserName = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TxtUserName}' must contain a minimum of {4} and a maximum of {50} characters.", TxtUserName, 4.ToString(), 50.ToString());
+            TxtCompareError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.CompareFields, $"The field '{TxtConfirmPassword}' and the field '{TxtPassword}' do not match.", TxtConfirmPassword, TxtPassword);
 
             Input = new InputModel
             {

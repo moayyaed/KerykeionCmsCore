@@ -51,8 +51,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Users
 
             PageTitle = await TranslationsService.TranslateAsync("Gebruikers");
             TxtUserName = await TranslationsService.TranslateAsync("username");
-            TxtRequiredUserName = TranslationsService.TranslateRequiredError(TxtUserName);
-            TxtLengthUserName = TranslationsService.TranslateStringLengthError(1, 100, TxtUserName);
+            TxtRequiredUserName = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TxtUserName}' is required.", TxtUserName);
+            TxtLengthUserName = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TxtUserName}' must contain a minimum of {1} and a maximum of {100} characters.", TxtUserName, 1.ToString(), 100.ToString());
 
             return Page();
         }
