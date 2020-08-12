@@ -50,9 +50,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
             NameDisplay = await TranslationsService.TranslateAsync("name");
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
 
-            PageNameRequiredError = TranslationsService.TranslateRequiredError(NameDisplay);
-            PageNameLengthError = TranslationsService.TranslateStringLengthError(4, 30, NameDisplay);
-            PageTitleLengthError = TranslationsService.TranslateStringLengthError(4, 30, TitleDisplay);
+            PageNameRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{NameDisplay}' is required.", NameDisplay);
+            PageNameLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{NameDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", NameDisplay, 4.ToString(), 30.ToString());
+            PageTitleLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TitleDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", TitleDisplay, 4.ToString(), 30.ToString());
 
             Pages = await Service.GetAll().OrderBy(p => p.Name).Select(p => new WebpagesViewModel
             {

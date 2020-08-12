@@ -54,9 +54,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             PageTitle = await TranslationsService.TranslateAsync("Links");
             TxtAddLink = await TranslationsService.TranslateAsync("Add Link");
             NameDisplay = await TranslationsService.TranslateAsync("name");
-            LinkNameRequiredError = TranslationsService.TranslateRequiredError(NameDisplay);
-            LinkNameLengthError = TranslationsService.TranslateStringLengthError(4, 30, NameDisplay);
-            LinkUrlRequiredError = TranslationsService.TranslateStringLengthError(4, 200, "Url");
+            LinkNameRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{NameDisplay}' is required.", NameDisplay);
+            LinkNameLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{NameDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", NameDisplay, 4.ToString(), 30.ToString());
+            LinkUrlRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field 'Url' must contain a minimum of {4} and a maximum of {200} characters.", "Url", 4.ToString(), 200.ToString());
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
 
             ViewData["PageId"] = page.Id;

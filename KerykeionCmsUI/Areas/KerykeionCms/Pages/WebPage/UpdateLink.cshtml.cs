@@ -48,9 +48,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
 
             NameDisplay = await TranslationsService.TranslateAsync("name");
             PageTitle = await TranslationsService.TranslateAsync("Update link");
-            LinkNameRequiredError = TranslationsService.TranslateRequiredError(NameDisplay);
-            LinkNameLengthError = TranslationsService.TranslateStringLengthError(4, 30, NameDisplay);
-            LinkUrlRequiredError = TranslationsService.TranslateStringLengthError(4, 200, "Url");
+            LinkNameRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{NameDisplay}' is required.", NameDisplay);
+            LinkNameLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{NameDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", NameDisplay, 4.ToString(), 30.ToString());
+            LinkUrlRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field 'Url' must contain a minimum of {4} and a maximum of {200} characters.", "Url", 4.ToString(), 200.ToString());
 
             Vm = new LinkViewModel
             {
@@ -74,7 +74,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
             var exists = await _linksService.ExistsAsync(Vm.Name);
             if (exists && !Vm.Name.CompleteTrimAndUpper().Equals(link.UniqueNameIdentifier))
             {
-                ModelState.AddModelError(string.Empty, TranslationsService.TranslateError(ErrorDescriberConstants.NameDuplicate, $"The name {Vm.Name} is already taken.", Vm.Name));
+                ModelState.AddModelError(string.Empty, TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.NameDuplicate, $"The name {Vm.Name} is already taken.", Vm.Name));
                 return await OnGetAsync(link.Id);
             }
 

@@ -51,7 +51,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
             TxtSeeArticles = await TranslationsService.TranslateAsync("Bekijk artikels");
             TxtSeeLinks = await TranslationsService.TranslateAsync("Bekijk links");
             PageTitle = await TranslationsService.TranslateAsync("Webpagina bijwerken");
-            PageTitleLengthError = TranslationsService.TranslateStringLengthError(4, 30, TitleDisplay);
+            PageTitleLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TitleDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", TitleDisplay, 4.ToString(), 30.ToString());
             ViewData["PageId"] = page.Id;
 
             Vm = new WebPageViewModel
