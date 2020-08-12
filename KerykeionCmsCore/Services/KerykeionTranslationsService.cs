@@ -16,6 +16,9 @@ namespace KerykeionCmsCore.Services
     /// </summary>
     public class KerykeionTranslationsService
     {
+        /// <summary>
+        /// The KerykeionCms options.
+        /// </summary>
         public KerykeionCmsOptions Options { get; set; }
         private const string BaseUri = "https://localhost:44370/api/translations";
 
@@ -155,47 +158,7 @@ namespace KerykeionCmsCore.Services
                     },
             };
         }
-
-        #region ErrorMsgsFunx
-        public string TranslateRequiredError(string field)
-        {
-            return Options.Pages.Language switch
-            {
-                KerykeionCmsLanguage.NL => $"Het veld '{field}' is verplicht.",
-                KerykeionCmsLanguage.EN => $"The field '{field}' is required.",
-                KerykeionCmsLanguage.DE => $"Das Feld '{field}' ist erforderlich.",
-                KerykeionCmsLanguage.FR => $"Le domaine '{field}' est nécessaire.",
-                _ => $"The field '{field}' is required.",
-            };
-        }
-
-        public string TranslateStringLengthError(int minLength, int maxLength, string field)
-        {
-            return Options.Pages.Language switch
-            {
-                KerykeionCmsLanguage.NL => $"Het veld '{field}' moet minstens {minLength} en maximum {maxLength} karakters bevatten.",
-                KerykeionCmsLanguage.EN => $"The field '{field}' must contain a minimum of {minLength} and a maximum of {maxLength} characters.",
-                KerykeionCmsLanguage.DE => $"Das Feld '{field}' muss mindestens {minLength} und höchstens {maxLength} Zeichen enthalten.",
-                KerykeionCmsLanguage.FR => $"Le domaine '{field}' doit contenir un minimum de {minLength} et un maximum de {maxLength} caractères.",
-                _ => $"The field '{field}' must contain a minimum of {minLength} and a maximum of {maxLength} characters.",
-            };
-        }
-
-        public string TranslateCompareValidationError(string field, string fieldToCompare)
-        {
-            return Options.Pages.Language switch
-            {
-                KerykeionCmsLanguage.NL => $"Het veld '{field}' en het veld '{fieldToCompare}' komen niet overeen.",
-                KerykeionCmsLanguage.EN => $"The field '{field}' and the field '{fieldToCompare}' do not match.",
-                KerykeionCmsLanguage.DE => $"Das Feld '{field}' und Das Feld '{fieldToCompare}' stimmen nicht überein.",
-                KerykeionCmsLanguage.FR => $"Le domaine '{field}' et le domaine '{fieldToCompare}' ne correspondent pas.",
-                _ => $"The field '{field}' and the field '{fieldToCompare}' do not match.",
-            };
-        }
-
-
-
-
+        
         /// <summary>
         /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
         /// </summary>
@@ -214,7 +177,7 @@ namespace KerykeionCmsCore.Services
         /// </summary>
         /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
         /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-        /// <param name="newValue">A variable value to use as replacement for the default 'VARIABLEVALUE' in the database.</param>
+        /// <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
         /// <returns>
         /// The error text in the language set by the KerykeionCmsOptions
         /// </returns>
@@ -228,7 +191,7 @@ namespace KerykeionCmsCore.Services
         /// </summary>
         /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
         /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-        /// <param name="newValue">A variable value to use as replacement for the default 'VARIABLEVALUE' in the database.</param>
+        /// <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
         /// <param name="secondNewValue">A variable value to use as replacement for the default 'SECONDVARIABLEVALUE' in the database.</param>
         /// <returns>
         /// The error text in the language set by the KerykeionCmsOptions
@@ -237,8 +200,30 @@ namespace KerykeionCmsCore.Services
         {
             return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}/{secondNewValue}")?.Result ?? fallbackMessage;
         }
-        #endregion
 
+        /// <summary>
+        /// Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+        /// </summary>
+        /// <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+        /// <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+        /// <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
+        /// <param name="secondNewValue">A variable value to use as replacement for the default 'SECONDVARIABLEVALUE' in the database.</param>
+        /// <param name="thirdNewValue">A variable value to use as replacement for the default 'THIRDVARIABLEVALUE' in the database.</param>
+        /// <returns>
+        /// The error text in the language set by the KerykeionCmsOptions
+        /// </returns>
+        public string TranslateErrorByDescriber(string errorDescriber, string fallbackMessage, string newValue, string secondNewValue, string thirdNewValue)
+        {
+            return CallApiAsync($"Translate/Error/{Options.Pages.Language}/{errorDescriber}/{newValue}/{secondNewValue}/{thirdNewValue}")?.Result ?? fallbackMessage;
+        }
+
+        /// <summary>
+        /// Searches for the translation of the KerykeionCms documentation, as an asynchronous operation.
+        /// </summary>
+        /// <param name="id">The id of the document translation to search for.</param>
+        /// <returns>
+        /// A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the string of the KerykeionTranslation which matches the specified ID.
+        /// </returns>
         public async Task<string> FindDocByIdAsync(Guid id)
         {
             return await CallApiAsync($"Documentation/{Options.Pages.Language}/{id}");

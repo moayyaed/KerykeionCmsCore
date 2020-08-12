@@ -25,7 +25,6 @@ namespace KerykeionCmsCore.Services
             EntitiesRepo = entitiesRepo;
         }
 
-        #region Main CRUD funx
         /// <summary>
         /// Gets all the entities that reside in a specified table name.
         /// </summary>
@@ -150,8 +149,6 @@ namespace KerykeionCmsCore.Services
         {
             return await EntitiesRepo.SetForeignKeysAsync(entity, formForeignKeys);
         }
-        #endregion
-
 
         /// <summary>
         /// Gets the IEntityType of the specified ClrType.
