@@ -1,3 +1,4 @@
+using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
@@ -49,8 +50,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             PageTitle = await TranslationsService.TranslateAsync("images");
             TitleDisplay = await TranslationsService.TranslateAsync("title");
             ImageDisplay = await TranslationsService.TranslateAsync("image");
-            TitleRequiredError = TranslationsService.TranslateRequiredError(TitleDisplay);
-            TitleLengthError = TranslationsService.TranslateStringLengthError(4, 30, TitleDisplay);
+            TitleRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TitleDisplay}' is required.", TitleDisplay);
+            TitleLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TitleDisplay}' must contain a minimum of {4} and a maximum of {30} characters.", TitleDisplay, 4.ToString(), 30.ToString());
 
             ForeignKeyProperties = _imagesService.GetForeignKeyPropertiesToDto(image).ToList();
 

@@ -1,4 +1,5 @@
 using KerykeionCmsCore.Classes;
+using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
@@ -54,9 +55,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             TitleDisplay = await TranslationsService.TranslateAsync("title");
             ImageDisplay = await TranslationsService.TranslateAsync("image");
             TxtAddImage = await TranslationsService.TranslateAsync("add an image");
-            TitleRequiredError = TranslationsService.TranslateRequiredError(TitleDisplay);
-            TitleLengthError = TranslationsService.TranslateStringLengthError(2, 30, TitleDisplay);
-            FileRequiredError = TranslationsService.TranslateRequiredError(ImageDisplay);
+            TitleRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TitleDisplay}' is required.", TitleDisplay);
+            TitleLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TitleDisplay}' must contain a minimum of {2} and a maximum of {30} characters.", TitleDisplay, 2.ToString(), 30.ToString());
+            FileRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{ImageDisplay}' is required.", ImageDisplay);
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
 
             ForeignKeyPropertyNames = _imagesService.GetForeignKeyProperties()
