@@ -117,6 +117,19 @@
         /// Represents the EntityNotExistsWithSpecifiedPriKey constant.
         /// </summary>
         public const string EntityNotExistsWithSpecifiedPriKey = "EntityNotExistsWithSpecifiedPriKey";
+        /// <summary>
+        /// Represents the RequiredField constant.
+        /// </summary>
+        public const string RequiredField = "RequiredField";
+        /// <summary>
+        /// Represents the CompareFields constant.
+        /// </summary>
+        public const string CompareFields = "CompareFields";
+        /// <summary>
+        /// Represents the StringLength constant.
+        /// </summary>
+        public const string StringLength = "StringLength";
+
 
     }
 }
