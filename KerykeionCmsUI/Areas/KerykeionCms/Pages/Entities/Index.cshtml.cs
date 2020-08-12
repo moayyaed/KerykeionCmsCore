@@ -47,7 +47,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
             TableName = table;
             TxtName = await TranslationsService.TranslateAsync("Name");
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
-            EntType = _entitiesService.GetEntityTypeByTableName(table);
+            EntType = _entitiesService.FindEntityTypeByTableName(table);
             InheritsFromKerykeionBaseClass = _entitiesService.InheritsFromKeryKeionBaseClass(EntType);
 
             return Page();

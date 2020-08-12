@@ -23,8 +23,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         }
 
         public string NameDisplay => TranslationsService.TranslateAsync("Name").Result;
-        public string NameRequiredError => TranslationsService.TranslateRequiredError(NameDisplay);
-        public string NameLengthError => TranslationsService.TranslateStringLengthError(2, 50, NameDisplay);
+        public string NameRequiredError => TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{NameDisplay}' is required.", NameDisplay);
+        public string NameLengthError => TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{NameDisplay}' must contain a minimum of {2} and a maximum of {50} characters.", NameDisplay, 2.ToString(), 50.ToString());
 
         [TempData]
         public string StatusMessage { get; set; }

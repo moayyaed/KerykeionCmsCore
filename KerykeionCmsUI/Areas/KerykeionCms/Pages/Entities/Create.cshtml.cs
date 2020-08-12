@@ -1,3 +1,4 @@
+using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.PageModels;
 using KerykeionCmsCore.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         }
 
         public string NameDisplay => TranslationsService.TranslateAsync("Name").Result;
-        public string NameRequiredError => TranslationsService.TranslateRequiredError(NameDisplay);
-        public string NameLengthError => TranslationsService.TranslateStringLengthError(2, 50, NameDisplay);
+        public string NameRequiredError => TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{NameDisplay}' is required.", NameDisplay);
+        public string NameLengthError => TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{NameDisplay}' must contain a minimum of {2} and a maximum of {50} characters.", NameDisplay, 2.ToString(), 50.ToString());
 
         public List<IProperty> Properties { get; set; }
         [BindProperty]
@@ -37,7 +38,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
             }
             ViewData["TableName"] = table;
 
-            if (_entitiesService.InheritsFromKeryKeionBaseClass(_entitiesService.GetEntityTypeByTableName(table)))
+            if (_entitiesService.InheritsFromKeryKeionBaseClass(_entitiesService.FindEntityTypeByTableName(table)))
             {
                 Properties = properties.Where(p => !p.IsPrimaryKey() && !p.Name.Equals("datetimecreated", StringComparison.OrdinalIgnoreCase)).ToList();
             }
@@ -50,7 +51,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         public async Task<IActionResult> OnPostAddAsync()
         {
             var formDict = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value);
-            var result = await _entitiesService.AddAsync(TableName, formDict);
+            var result = await _entitiesService.CreateAsync(TableName, formDict);
             if (result.Successfull)
             {
                 return RedirectToPage("/Entities/Index", new { table = TableName });
