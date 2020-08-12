@@ -39,8 +39,6 @@ namespace KerykeionCmsCore.Repositories
             _translationsService = translationsService;
         }
 
-
-        #region Main CRUD funx
         /// <summary>
         /// Gets all the entities that reside in a specified table name.
         /// </summary>
@@ -289,8 +287,6 @@ namespace KerykeionCmsCore.Repositories
 
             return KerykeionDbResult.Success();
         }
-        #endregion
-
 
         /// <summary>
         /// Gets the IEntityType of the specified ClrType.
@@ -598,7 +594,7 @@ namespace KerykeionCmsCore.Repositories
             {
                 if (foreignKey.IsRequired)
                 {
-                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = _translationsService.TranslateRequiredError(propertyName) });
+                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = _translationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{propertyName}' is required.", propertyName) });
                 }
 
                 Context.Entry(entity).Property(propertyName).CurrentValue = null;
