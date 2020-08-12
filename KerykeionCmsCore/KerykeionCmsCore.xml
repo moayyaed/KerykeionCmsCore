@@ -345,19 +345,34 @@
             Represents the DeleteStatementConflictReferenceConstraint constant.
             </summary>
         </member>
-        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.VariableValue">
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.TableNotExists">
             <summary>
-            Represents the VariableValue constant.
+            Represents the TableNotExists constant.
             </summary>
         </member>
-        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.DoubleQuotes">
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.NotValidGuid">
             <summary>
-            Represents the DoubleQuotes constant.
+            Represents the NotValidGuid constant.
             </summary>
         </member>
-        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.SingleQuotes">
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.EntityNotExistsWithSpecifiedPriKey">
             <summary>
-            Represents the SingleQuotes constant.
+            Represents the EntityNotExistsWithSpecifiedPriKey constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.RequiredField">
+            <summary>
+            Represents the RequiredField constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.CompareFields">
+            <summary>
+            Represents the CompareFields constant.
+            </summary>
+        </member>
+        <member name="F:KerykeionCmsCore.Constants.ErrorDescriberConstants.StringLength">
+            <summary>
+            Represents the StringLength constant.
             </summary>
         </member>
         <member name="T:KerykeionCmsCore.Data.KerykeionCmsDbContext`1">
@@ -800,158 +815,192 @@
         </member>
         <member name="T:KerykeionCmsCore.Repositories.EntitiesRepository`2">
             <summary>
-            
+            Provides the API's for performing CRUD operations on Entities.
             </summary>
-            <typeparam name="TContext"></typeparam>
-            <typeparam name="TUser"></typeparam>
-        </member>
-        <member name="F:KerykeionCmsCore.Repositories.EntitiesRepository`2.Context">
-            <summary>
-            
-            </summary>
+            <typeparam name="TContext">The type of the DbContext the entities reside in.</typeparam>
+            <typeparam name="TUser">The type of the user.</typeparam>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0,KerykeionCmsCore.Services.KerykeionTranslationsService)">
             <summary>
-            
+            Creates a new instance of the EntitiesRepository.
             </summary>
-            <param name="context"></param>
-            <param name="translationsService"></param>
+            <param name="context">The DbContext to be used.</param>
+            <param name="translationsService">The service to be used for translations.</param>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetAll(System.String)">
             <summary>
-            
+            Gets all the entities that reside in a specified table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table of the entities to query.</param>
+            <returns>
+            An Iqueryable of Entities residing in the table that matches the specified table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.ListAllAsync(System.String)">
             <summary>
-            
+            Lists all the entities specified by the table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindByIdAndTableNameAsync(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="id"></param>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.DeleteAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AddAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
-            <summary>
-            
-            </summary>
-            <param name="tableName"></param>
-            <param name="formDict"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <param name="formDict"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.AssignForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <param name="formForeignKeys"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeysByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetTableNameByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesToDto(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntitiesTableNames">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityPropertiesByTable(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of entities specified by the table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.ListAllToDtoAsync(System.String)">
             <summary>
-            
+            Lists all the entities, reformed to data transfer objects, specified by the table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of EntitySideNavDto's specified by the table name.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityTypeByTableName(System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
-            
+            Searches for an entity specified by an ID and table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="id">The ID of the entity to search for.</param>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            the entity specified by the table name and the specified ID.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.CreateAsync(System.Object)">
+            <summary>
+            Creates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The entity to create.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.CreateAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Creates an Entity specified by its table with the form dictionary values, as an asynchronous operation.
+            </summary>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <param name="formDict">The form dictionary containing the values to create the entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object)">
+            <summary>
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to update.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to update.</param>
+            <param name="formDict">The form dictionary containing the new values for the specified Entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.DeleteAsync(System.Object)">
+            <summary>
+            Deletes the specified Entity from the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to delete.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.SetForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            Sets Foreign Key property values to the specified Entity.
+            </summary>
+            <param name="entity">The Entity to set the foreign keys value to.</param>
+            <param name="formForeignKeys">The form dictionary foreign keys and values.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindEntityTypeByClrType(System.Type)">
+            <summary>
+            Gets the IEntityType of the specified ClrType.
+            </summary>
+            <param name="type">The ClrType to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given ClrType.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindEntityTypeByTableName(System.String)">
+            <summary>
+            Gets the IEntityType of the specified table name.
+            </summary>
+            <param name="tableName">The table name to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given table name.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.FindTableNameByClrType(System.Type)">
+            <summary>
+            Gets the table name of the specified ClrType.
+            </summary>
+            <param name="type">The ClrType to get the table name from.</param>
+            <returns>
+            A string representation of the table name of the specified ClrType.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntitiesTableNames">
+            <summary>
+            Gets all the tablenames of the current DB Context entities.
+            </summary>
+            <returns>
+            A IEnumerable of table names.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetEntityPropertiesByTable(System.String)">
+            <summary>
+            Gets all the database model properties specified by the given table name.
+            </summary>
+            <param name="tableName">The name of the table to get the properties from.</param>
+            <returns>
+            A IEnumerable of IProperty.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign key properties specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of IProperty where the IProperty is a foreign key.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeyPropertiesToDto(System.Object)">
+            <summary>
+            Gets all the database model foreign key properties, reformed to data transfer objects, specified by the given entity.
+            </summary>
+            <param name="entity">The entity to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of ForeignKeyDto.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetForeignKeysByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign keys specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign keys from.</param>
+            <returns>
+            A IEnumerable of IForeignKey.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
-            
+            Gets a flag Indicating wether the given IEntityType inherits from the KerykeionBaseClass.
             </summary>
-            <param name="entityType"></param>
-            <returns></returns>
+            <param name="entityType">The IEntityType to check if it inherits from the KerykeionBaseClass.</param>
+            <returns>
+            true if the IEntityType inherits from KerykeionBaseClass.
+            </returns>
         </member>
         <member name="T:KerykeionCmsCore.Repositories.IEntitiesRepository">
             <summary>
@@ -960,24 +1009,32 @@
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetAll(System.String)">
             <summary>
-            Gets all the entities specified by the table name.
+            Gets all the entities that reside in a specified table name.
             </summary>
-            <param name="tableName">The name of the table the entities reside in.</param>
-            <returns>All the entities in the specified table.</returns>
+            <param name="tableName">The name of the table of the entities to query.</param>
+            <returns>
+            An Iqueryable of Entities residing in the table that matches the specified table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.ListAllAsync(System.String)">
             <summary>
             Lists all the entities specified by the table name.
             </summary>
             <param name="tableName">The name of the table the entities reside in.</param>
-            <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
-            a list of entities specified by the table name.</returns>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of entities specified by the table name.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntitiesTableNames">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.ListAllToDtoAsync(System.String)">
             <summary>
-            Gets all the tablenames of the current DB Context entities.
+            Lists all the entities, reformed to data transfer objects, specified by the table name.
             </summary>
-            <returns>A IEnumerable of table names.</returns>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of EntitySideNavDto's specified by the table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
@@ -988,113 +1045,142 @@
             <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
             the entity specified by the table name and the specified ID.</returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityPropertiesByTable(System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.CreateAsync(System.Object)">
             <summary>
-            
+            Creates the specified Entity in the backing repository, as an asynchronous operation.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="entity">The entity to create.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.CreateAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
             <summary>
-            
+            Creates an Entity specified by its table with the form dictionary values, as an asynchronous operation.
             </summary>
-            <param name="entity"></param>
-            <param name="formDict"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <param name="formDict">The form dictionary containing the values to create the entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.UpdateAsync(System.Object)">
             <summary>
-            
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
             </summary>
-            <param name="entity"></param>
-            <returns></returns>
+            <param name="entity">The Entity to update.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to update.</param>
+            <param name="formDict">The form dictionary containing the new values for the specified Entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.DeleteAsync(System.Object)">
             <summary>
-            
+            Deletes the specified Entity from the backing repository, as an asynchronous operation.
             </summary>
-            <param name="entity"></param>
-            <returns></returns>
+            <param name="entity">The Entity to delete.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AddAsync(System.Object)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.SetForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
             <summary>
-            
+            Sets Foreign Key property values to the specified Entity.
             </summary>
-            <param name="entity"></param>
-            <returns></returns>
+            <param name="entity">The Entity to set the foreign keys value to.</param>
+            <param name="formForeignKeys">The form dictionary foreign keys and values.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindEntityTypeByClrType(System.Type)">
             <summary>
-            
+            Gets the IEntityType of the specified ClrType.
             </summary>
-            <param name="tableName"></param>
-            <param name="formDict"></param>
-            <returns></returns>
+            <param name="type">The ClrType to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given ClrType.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.AssignForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindEntityTypeByTableName(System.String)">
             <summary>
-            
+            Gets the IEntityType of the specified table name.
             </summary>
-            <param name="entity"></param>
-            <param name="formForeignKeys"></param>
-            <returns></returns>
+            <param name="tableName">The table name to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given table name.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.ListAllToDtoAsync(System.String)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.FindTableNameByClrType(System.Type)">
             <summary>
-            
+            Gets the table name of the specified ClrType.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="type">The ClrType to get the table name from.</param>
+            <returns>
+            A string representation of the table name of the specified ClrType.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeyPropertiesByType(System.Type)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntitiesTableNames">
             <summary>
-            
+            Gets all the tablenames of the current DB Context entities.
             </summary>
-            <param name="type"></param>
-            <returns></returns>
+            <returns>
+            A IEnumerable of table names.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeysByType(System.Type)">
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityPropertiesByTable(System.String)">
             <summary>
-            
+            Gets all the database model properties specified by the given table name.
             </summary>
-            <param name="type"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table to get the properties from.</param>
+            <returns>
+            A IEnumerable of IProperty.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeyPropertiesByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign key properties specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of IProperty where the IProperty is a foreign key.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeyPropertiesToDto(System.Object)">
             <summary>
-            
+            Gets all the database model foreign key properties, reformed to data transfer objects, specified by the given entity.
             </summary>
-            <param name="entity"></param>
-            <returns></returns>
+            <param name="entity">The entity to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of ForeignKeyDto.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetForeignKeysByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign keys specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign keys from.</param>
+            <returns>
+            A IEnumerable of IForeignKey.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
-            
+            Gets a flag Indicating wether the given IEntityType inherits from the KerykeionBaseClass.
             </summary>
-            <param name="entityType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityTypeByTableName(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetTableNameByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Repositories.IEntitiesRepository.GetEntityType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
+            <param name="entityType">The IEntityType to check if it inherits from the KerykeionBaseClass.</param>
+            <returns>
+            True if the IEntityType inherits from KerykeionBaseClass.
+            </returns>
         </member>
         <member name="T:KerykeionCmsCore.Services.EmailService">
             <summary>
@@ -1121,155 +1207,189 @@
         </member>
         <member name="T:KerykeionCmsCore.Services.EntitiesService">
             <summary>
-            
-            </summary>
-        </member>
-        <member name="F:KerykeionCmsCore.Services.EntitiesService.EntitiesRepo">
-            <summary>
-            
+            Provides the API's for performing CRUD operations on Entities.
             </summary>
         </member>
         <member name="M:KerykeionCmsCore.Services.EntitiesService.#ctor(KerykeionCmsCore.Repositories.IEntitiesRepository)">
             <summary>
-            
+            Creates a new instance of an EntitiesService.
             </summary>
-            <param name="entitiesRepo"></param>
+            <param name="entitiesRepo">The repository where the entities are stored in.</param>
         </member>
         <member name="M:KerykeionCmsCore.Services.EntitiesService.GetAll(System.String)">
             <summary>
-            
+            Gets all the entities that reside in a specified table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table of the entities to query.</param>
+            <returns>
+            An Iqueryable of Entities residing in the table that matches the specified table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Services.EntitiesService.ListAllAsync(System.String)">
             <summary>
-            
+            Lists all the entities specified by the table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindByIdAndTableNameAsync(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="id"></param>
-            <param name="tableName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.DeleteAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.AddAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.AddAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
-            <summary>
-            
-            </summary>
-            <param name="tableName"></param>
-            <param name="formDict"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <param name="formDict"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.AssignFormForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <param name="formForeignKeys"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeysByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetTableNameByType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityType(System.Type)">
-            <summary>
-            
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesToDto(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntitiesTableNames">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityPropertiesByTable(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of entities specified by the table name.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Services.EntitiesService.ListAllToDtoAsync(System.String)">
             <summary>
-            
+            Lists all the entities, reformed to data transfer objects, specified by the table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="tableName">The name of the table the entities reside in.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            a list of EntitySideNavDto's specified by the table name.
+            </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityTypeByTableName(System.String)">
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindByIdAndTableNameAsync(System.String,System.String)">
             <summary>
-            
+            Searches for an entity specified by an ID and table name.
             </summary>
-            <param name="tableName"></param>
-            <returns></returns>
+            <param name="id">The ID of the entity to search for.</param>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
+            the entity specified by the table name and the specified ID.</returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.CreateAsync(System.Object)">
+            <summary>
+            Creates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The entity to create.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.CreateAsync(System.String,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Creates an Entity specified by its table with the form dictionary values, as an asynchronous operation.
+            </summary>
+            <param name="tableName">The name of the table the entity resides in.</param>
+            <param name="formDict">The form dictionary containing the values to create the entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object)">
+            <summary>
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to update.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.UpdateAsync(System.Object,System.Collections.Generic.Dictionary{System.String,Microsoft.Extensions.Primitives.StringValues})">
+            <summary>
+            Updates the specified Entity in the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to update.</param>
+            <param name="formDict">The form dictionary containing the new values for the specified Entity.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.DeleteAsync(System.Object)">
+            <summary>
+            Deletes the specified Entity from the backing repository, as an asynchronous operation.
+            </summary>
+            <param name="entity">The Entity to delete.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.SetForeignKeysAsync(System.Object,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            Sets Foreign Key property values to the specified Entity.
+            </summary>
+            <param name="entity">The Entity to set the foreign keys value to.</param>
+            <param name="formForeignKeys">The form dictionary foreign keys and values.</param>
+            <returns>
+            The System.Threading.Tasks.Task that represents the asynchronous operation, containing the KerykeionDbResult of the operation.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindEntityTypeByClrType(System.Type)">
+            <summary>
+            Gets the IEntityType of the specified ClrType.
+            </summary>
+            <param name="type">The ClrType to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given ClrType.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindEntityTypeByTableName(System.String)">
+            <summary>
+            Gets the IEntityType of the specified table name.
+            </summary>
+            <param name="tableName">The table name to get the IEntityType from.</param>
+            <returns>
+            An IEntityType specified by the given table name.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.FindTableNameByClrType(System.Type)">
+            <summary>
+            Gets the table name of the specified ClrType.
+            </summary>
+            <param name="type">The ClrType to get the table name from.</param>
+            <returns>
+            A string representation of the table name of the specified ClrType.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntitiesTableNames">
+            <summary>
+            Gets all the tablenames of the current DB Context entities.
+            </summary>
+            <returns>
+            A IEnumerable of table names.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetEntityPropertiesByTable(System.String)">
+            <summary>
+            Gets all the database model properties specified by the given table name.
+            </summary>
+            <param name="tableName">The name of the table to get the properties from.</param>
+            <returns>
+            A IEnumerable of IProperty.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign key properties specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of IProperty where the IProperty is a foreign key.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeyPropertiesToDto(System.Object)">
+            <summary>
+            Gets all the database model foreign key properties, reformed to data transfer objects, specified by the given entity.
+            </summary>
+            <param name="entity">The entity to get the foreign key properties from.</param>
+            <returns>
+            A IEnumerable of ForeignKeyDto.
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.EntitiesService.GetForeignKeysByClrType(System.Type)">
+            <summary>
+            Gets all the database model foreign keys specified by the given ClrType.
+            </summary>
+            <param name="type">The ClrType to get the foreign keys from.</param>
+            <returns>
+            A IEnumerable of IForeignKey.
+            </returns>
         </member>
         <member name="M:KerykeionCmsCore.Services.EntitiesService.InheritsFromKeryKeionBaseClass(Microsoft.EntityFrameworkCore.Metadata.IEntityType)">
             <summary>
-            
+            Gets a flag Indicating wether the given IEntityType inherits from the KerykeionBaseClass.
             </summary>
-            <param name="entityType"></param>
-            <returns></returns>
+            <param name="entityType">The IEntityType to check if it inherits from the KerykeionBaseClass.</param>
+            <returns>
+            true if the IEntityType inherits from KerykeionBaseClass.
+            </returns>
         </member>
         <member name="T:KerykeionCmsCore.Services.IEmailService">
             <summary>
@@ -1838,7 +1958,7 @@
         </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateAsync(System.String)">
             <summary>
-            Translates a given piece of text or sentence.
+            Translates a given piece of text or sentence, as an asynchronous operation.
             </summary>
             <param name="text">The text to be translated.</param>
             <returns>
@@ -1863,33 +1983,48 @@
             A list of languages to choose from except the one that's already chosen.
             </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String,System.String)">
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateErrorByDescriber(System.String,System.String)">
             <summary>
             Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
             </summary>
             <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
             <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-            <param name="newValue">A variable value to use as replacement of the default 'VARIABLEVALUE' in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
             </returns>
         </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.Int32,System.String)">
-            <summary>
-            Translates an error specified by its HResult to the language set by the KerykeionCmsOptions.
-            </summary>
-            <param name="hResult">The HResult identifier, to identify the error in the database.</param>
-            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
-            <returns>
-            The error text in the language set by the KerykeionCmsOptions
-            </returns>
-        </member>
-        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateError(System.String,System.String)">
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateErrorByDescriber(System.String,System.String,System.String)">
             <summary>
             Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
             </summary>
             <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
             <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+            <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
+            <returns>
+            The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateErrorByDescriber(System.String,System.String,System.String,System.String)">
+            <summary>
+            Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+            </summary>
+            <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+            <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
+            <param name="secondNewValue">A variable value to use as replacement for the default 'SECONDVARIABLEVALUE' in the database.</param>
+            <returns>
+            The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.TranslateErrorByDescriber(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Translates an error specified by its ErrorDescriber to the language set by the KerykeionCmsOptions.
+            </summary>
+            <param name="errorDescriber">The ErrorDescriber, to identify the error in the database.</param>
+            <param name="fallbackMessage">A message to use in case the error is not found in the database.</param>
+            <param name="newValue">A variable value to use as replacement for the default 'FIRSTVARIABLEVALUE' in the database.</param>
+            <param name="secondNewValue">A variable value to use as replacement for the default 'SECONDVARIABLEVALUE' in the database.</param>
+            <param name="thirdNewValue">A variable value to use as replacement for the default 'THIRDVARIABLEVALUE' in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
             </returns>
