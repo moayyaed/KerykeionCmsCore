@@ -105,18 +105,18 @@
         /// Represents the DeleteStatementConflictReferenceConstraint constant.
         /// </summary>
         public const string DeleteStatementConflictReferenceConstraint = "DeleteStatementConflictReferenceConstraint";
+        /// <summary>
+        /// Represents the TableNotExists constant.
+        /// </summary>
+        public const string TableNotExists = "TableNotExists";
+        /// <summary>
+        /// Represents the NotValidGuid constant.
+        /// </summary>
+        public const string NotValidGuid = "NotValidGuid";
+        /// <summary>
+        /// Represents the EntityNotExistsWithSpecifiedPriKey constant.
+        /// </summary>
+        public const string EntityNotExistsWithSpecifiedPriKey = "EntityNotExistsWithSpecifiedPriKey";
 
-        /// <summary>
-        /// Represents the VariableValue constant.
-        /// </summary>
-        public const string VariableValue = "VARIABLEVALUE";
-        /// <summary>
-        /// Represents the DoubleQuotes constant.
-        /// </summary>
-        public const string DoubleQuotes = "DoubleQuotesValue";
-        /// <summary>
-        /// Represents the SingleQuotes constant.
-        /// </summary>
-        public const string SingleQuotes = "SingleQuotesValue";
     }
 }
