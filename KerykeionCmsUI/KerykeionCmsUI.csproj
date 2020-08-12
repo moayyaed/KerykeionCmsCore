@@ -5,7 +5,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <PackageId>KerykeionCmsUI</PackageId>
-    <Version>1.0.47</Version>
+    <Version>1.0.81</Version>
     <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
     <Authors>Kerykeion</Authors>
     <Company>Hermes</Company>
@@ -24,11 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\KerykeionCms\Pages\Help\Exception.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="KerykeionCmsCore" Version="1.0.33" />
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.54" />
     <PackageReference Include="KerykeionIdentityUI" Version="1.0.7" />
     <PackageReference Include="KerykeionLoginUI" Version="1.0.10" />
   </ItemGroup>

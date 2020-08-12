@@ -5,7 +5,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <PackageId>KerykeionCmsCoreRazorLibrary</PackageId>
-    <Version>1.0.61</Version>
+    <Version>1.0.108</Version>
     <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
     <Authors>Kerykeion</Authors>
     <Company>Hermes</Company>
@@ -25,11 +25,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\docs-images\AddImagePage.PNG" />
+    <Content Remove="wwwroot\docs-images\AddWineService.PNG" />
+    <Content Remove="wwwroot\docs-images\CreateCampoWine.PNG" />
+    <Content Remove="wwwroot\docs-images\CreatedSpainCountriesPage.PNG" />
+    <Content Remove="wwwroot\docs-images\CreateSpainCountry.PNG" />
+    <Content Remove="wwwroot\docs-images\CreateTempranilloGrape.PNG" />
+    <Content Remove="wwwroot\docs-images\CreateWineGrapeTempranilloCampoViejo.PNG" />
     <Content Remove="wwwroot\docs-images\EntitiesFolder.PNG" />
+    <Content Remove="wwwroot\docs-images\SeeImages.PNG" />
+    <Content Remove="wwwroot\docs-images\UpdatedCampoViejoByLinkingImg.PNG" />
+    <Content Remove="wwwroot\docs-images\WelcomeHtml.PNG" />
+    <Content Remove="wwwroot\docs-images\WelcomeHtmlUpdated.PNG" />
+    <Content Remove="wwwroot\docs-images\WelcomeHtmlUpdatedWithLink.PNG" />
+    <Content Remove="wwwroot\docs-images\WineHtml.PNG" />
+    <Content Remove="wwwroot\docs-images\WinesHtml.PNG" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="KerykeionCmsCore" Version="1.0.33" />
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.54" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
