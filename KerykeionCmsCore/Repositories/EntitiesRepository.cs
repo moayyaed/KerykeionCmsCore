@@ -1,4 +1,5 @@
-﻿using KerykeionCmsCore.Classes;
+﻿using ImageManagement.Services;
+using KerykeionCmsCore.Classes;
 using KerykeionCmsCore.Constants;
 using KerykeionCmsCore.Data;
 using KerykeionCmsCore.Dtos;
@@ -26,17 +27,21 @@ namespace KerykeionCmsCore.Repositories
     {
         protected readonly TContext Context;
         private readonly KerykeionTranslationsService _translationsService;
+        private readonly ImagesService _imagesService;
 
         /// <summary>
         /// Creates a new instance of the EntitiesRepository.
         /// </summary>
         /// <param name="context">The DbContext to be used.</param>
         /// <param name="translationsService">The service to be used for translations.</param>
+        /// <param name="imagesService">The service used for image upload and removal.</param>
         public EntitiesRepository(TContext context,
-            KerykeionTranslationsService translationsService)
+            KerykeionTranslationsService translationsService,
+            ImagesService imagesService)
         {
             Context = context;
             _translationsService = translationsService;
+            _imagesService = imagesService;
         }
 
         /// <summary>
@@ -260,6 +265,15 @@ namespace KerykeionCmsCore.Repositories
         /// </returns>
         public async Task<KerykeionDbResult> DeleteAsync(object entity)
         {
+            if (entity is Image)
+            {
+                var removeImgResult = await _imagesService.DeleteImage(entity.GetType().GetProperty("Url").GetValue(entity)?.ToString()?.Split("/")?.Last());
+                if (!removeImgResult.Success)
+                {
+                    return KerykeionDbResult.Fail(new KerykeionDbError { Message = "Could not delete the image." });
+                }
+            }
+
             Context.Remove(entity);
             return await TrySaveChangesAsync();
         }
