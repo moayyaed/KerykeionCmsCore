@@ -1,5 +1,6 @@
 ﻿using KerykeionCmsCore.Classes;
 using KerykeionCmsCore.Dtos;
+using KerykeionStringExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace KerykeionCmsCore.Services
         public async Task<Webpage> FindByNameAllIncludedAsync(string name)
         {
             var pages = await ListAllIncludedAsync();
-                return pages.FirstOrDefault(p => p.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                return pages.FirstOrDefault(p => p.UniqueNameIdentifier == name.CompleteTrimAndUpper());
         }
 
         public async Task<KerykeionDbResult> AddArticleAsync(Webpage page, Article article)
