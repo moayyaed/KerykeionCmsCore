@@ -1,5 +1,6 @@
 ﻿@using Microsoft.EntityFrameworkCore
 @using KerykeionCmsCore.Dtos
+@using KerykeionCmsCore.Classes
 @using KerykeionCmsCore.Services
 @using Microsoft.AspNetCore.Identity
 @inject EntitiesService EntitiesService
@@ -137,20 +138,78 @@
         <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
             <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
             <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
-            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.ImagesNavActive(ViewContext, true)" asp-page="/Images/Index">
+            <a class="nav-link d-inline-block text-inherit w-100 context-menu-opener @ManageSideNavPages.ImagesNavActive(ViewContext, true)" asp-page="/Images/Index">
                 <i class="fa @ManageSideNavPages.SubImagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Images")
             </a>
+            <div class="context-menu position-absolute d-none bg-dark text-white">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item m-1">
+                        <a asp-area="KerykeionCms" asp-page="/Images/Index" class="text-white row m-1">
+                            <div class="col text-left">Open</div>
+                            <div class="col text-right">
+                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item m-1">
+                        <a asp-area="KerykeionCms" asp-page="/Images/Index" class="text-white row m-1" target="_blank">
+                            <div class="col text-left">Open in new tab</div>
+                            <div class="col text-right">
+                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item m-1">
+                        <a asp-area="KerykeionCms" asp-page="/Images/Create" class="text-white row m-1">
+                            <div class="col text-left">Create</div>
+                            <div class="col text-right">
+                                <i class="fa fa-plus text-right" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div id="subnav-images" class="@ManageSideNavPages.SubImagesDisplay(ViewContext)">
             @foreach (var image in images)
             {
-                <a class="nav-link side-navigation text-inherit @(string.Equals(image.Id.ToString(), ViewData["ImgId"]?.ToString(), StringComparison.OrdinalIgnoreCase) ? "bg-secondary disabled text-dark" : "")" asp-page="/Images/Update" asp-route-id="@image.Id">
-                    <span class="ml-5">
-                        <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
-                        @image.Name
-                    </span>
-                </a>
+                <div class="side-navigation">
+                    <a class="nav-link text-inherit context-menu-opener @(string.Equals(image.Id.ToString(), ViewData["ImgId"]?.ToString(), StringComparison.OrdinalIgnoreCase) ? "bg-secondary disabled text-dark" : "")" asp-page="/Images/Update" asp-route-id="@image.Id">
+                        <span class="ml-5">
+                            <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
+                            @image.Name
+                        </span>
+                    </a>
+                    <div class="context-menu position-absolute d-none bg-dark text-white">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item m-1">
+                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1">
+                                    <div class="col text-left">Open</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1" target="_blank">
+                                    <div class="col text-left">Open in new tab</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a data-name="@($"Image: {image.Name}")" data-table="@(EntitiesService.FindTableNameByClrType(typeof(Image)))" data-id="@image.Id" data-page="@ViewContext.RouteData.Values["Page"].ToString()" class="delete-entity-from-side-nav text-white row m-1">
+                                    <div class="col text-left">Delete</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             }
         </div>
     </div>
@@ -178,12 +237,40 @@
                 <div class="d-block side-navigation @ManageSideNavPages.TableNavActive(ViewContext, isCurrentTable)">
                     <i data-table="@(tableName)" class="table-right-caret fa fa-caret-right cursor-pointer ml-4 @ManageSideNavPages.TableSubOpenCarretDisplay(ViewContext, isCurrentTable)"></i>
                     <i data-table="@(tableName)" class="table-down-caret fa fa-caret-down cursor-pointer ml-4 @ManageSideNavPages.TableSubCloseCarretDisplay(ViewContext, isCurrentTable)"></i>
-                    <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.SetTableTextClass(ViewContext, isCurrentTable)" asp-area="KerykeionCms" asp-page="/Entities/Index" asp-route-table="@tableName">
+                    <a class="nav-link d-inline-block text-inherit w-100 context-menu-opener @ManageSideNavPages.SetTableTextClass(ViewContext, isCurrentTable)" asp-area="KerykeionCms" asp-page="/Entities/Index" asp-route-table="@tableName">
                         <span class="ml-1">
                             <i class="fa @ManageSideNavPages.SubEntitiesSubOpenFolderDisplay(ViewContext, isCurrentEnt) mr-1" aria-hidden="true"></i>
                             @tableName
                         </span>
                     </a>
+                    <div class="context-menu position-absolute d-none bg-dark text-white">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item m-1">
+                                <a asp-area="KerykeionCms" asp-page="/Entities/Index" asp-route-table="@tableName" class="text-white row m-1">
+                                    <div class="col text-left">Open</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a asp-area="KerykeionCms" asp-page="/Entities/Index" asp-route-table="@tableName" class="text-white row m-1" target="_blank">
+                                    <div class="col text-left">Open in new tab</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item m-1">
+                                <a asp-area="KerykeionCms" asp-page="/Entities/Create" asp-route-table="@tableName" class="text-white row m-1">
+                                    <div class="col text-left">Create</div>
+                                    <div class="col text-right">
+                                        <i class="fa fa-plus text-right" aria-hidden="true"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 if (entities == null)
                 {
@@ -195,12 +282,40 @@
                         var isCurrentEntity = string.Equals(ViewData["EntityId"]?.ToString(), ent.Id.ToString(), StringComparison.OrdinalIgnoreCase);
 
                         <div class="side-navigation @ManageSideNavPages.EntityNavActive(ViewContext, isCurrentEntity)">
-                            <a class="nav-link ml-4 text-inherit @ManageSideNavPages.SetEntityTextClass(ViewContext, isCurrentEntity)" asp-page="/Entities/Update" asp-route-id="@(ent.Id)" asp-route-table="@tableName">
+                            <a class="context-menu-opener nav-link ml-4 text-inherit @ManageSideNavPages.SetEntityTextClass(ViewContext, isCurrentEntity)" asp-page="/Entities/Update" asp-route-id="@(ent.Id)" asp-route-table="@tableName">
                                 <span class="ml-4 text-nowrap">
                                     <i class="fa fa-pencil-square mr-1" aria-hidden="true"></i>
                                     @ent.Name
                                 </span>
                             </a>
+                            <div class="context-menu position-absolute d-none bg-dark text-white">
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item m-1">
+                                        <a asp-page="/Entities/Update" asp-route-id="@(ent.Id)" asp-route-table="@tableName" class="text-white row m-1">
+                                            <div class="col text-left">Open</div>
+                                            <div class="col text-right">
+                                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item m-1">
+                                        <a asp-page="/Entities/Update" asp-route-id="@(ent.Id)" asp-route-table="@tableName" class="text-white row m-1" target="_blank">
+                                            <div class="col text-left">Open in new tab</div>
+                                            <div class="col text-right">
+                                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item m-1">
+                                        <a data-name="@ent.Name" data-table="@(tableName)" data-id="@ent.Id" data-page="@ViewContext.RouteData.Values["Page"].ToString()" class="delete-entity-from-side-nav text-white row m-1">
+                                            <div class="col text-left">Delete</div>
+                                            <div class="col text-right">
+                                                <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     }
                 </div>
@@ -236,3 +351,4 @@
     </div>
 </nav>
 <div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>
+<form method="post" class="d-none"></form>

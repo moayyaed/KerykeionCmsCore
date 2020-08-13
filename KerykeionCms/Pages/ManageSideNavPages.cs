@@ -25,6 +25,7 @@ namespace KerykeionCms.Pages
         public static string SubRolePage => "/Role";
         public static string ImagesPages => "/Images/Index";
         public static string ImageUpdatePage => "/Images/Update";
+        public static string ImageCreatePage => "/Images/Create";
         #endregion
 
 
@@ -104,7 +105,7 @@ namespace KerykeionCms.Pages
 
         #region ImagesFunx
         public static string SubImagesOpenFolderDisplay(ViewContext viewContext) => DisplayOpenFolder(viewContext, ImageUpdatePage);
-        public static string ImagesNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, ImagesPages);
+        public static string ImagesNavActive(ViewContext viewContext, bool isDisable = false) => SetActive(viewContext, isDisable, ImagesPages, ImageCreatePage);
         public static string SubImagesDisplay(ViewContext viewContext) => DisplaySubs(viewContext, ImageUpdatePage);
         public static string SubImagesOpenCarretDisplay(ViewContext viewContext) => DisplayOpenCarret(viewContext, ImageUpdatePage);
         public static string SubImagesCloseCarretDisplay(ViewContext viewContext) => DisplayCloseCarret(viewContext, ImageUpdatePage);
