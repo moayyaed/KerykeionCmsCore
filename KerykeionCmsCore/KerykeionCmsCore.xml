@@ -820,12 +820,13 @@
             <typeparam name="TContext">The type of the DbContext the entities reside in.</typeparam>
             <typeparam name="TUser">The type of the user.</typeparam>
         </member>
-        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0,KerykeionCmsCore.Services.KerykeionTranslationsService)">
+        <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.#ctor(`0,KerykeionCmsCore.Services.KerykeionTranslationsService,ImageManagement.Services.ImagesService)">
             <summary>
             Creates a new instance of the EntitiesRepository.
             </summary>
             <param name="context">The DbContext to be used.</param>
             <param name="translationsService">The service to be used for translations.</param>
+            <param name="imagesService">The service used for image upload and removal.</param>
         </member>
         <member name="M:KerykeionCmsCore.Repositories.EntitiesRepository`2.GetAll(System.String)">
             <summary>
@@ -1950,6 +1951,11 @@
             Provides the API's for translation and delivering CRUD operations on in database stored translations.
             </summary>
         </member>
+        <member name="P:KerykeionCmsCore.Services.KerykeionTranslationsService.Options">
+            <summary>
+            The KerykeionCms options.
+            </summary>
+        </member>
         <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.#ctor(Microsoft.Extensions.Options.IOptions{KerykeionCmsCore.Options.KerykeionCmsOptions})">
             <summary>
             Constructs a new instance of KerykeionCms.Services.KerykeionTranslationsService
@@ -2027,6 +2033,15 @@
             <param name="thirdNewValue">A variable value to use as replacement for the default 'THIRDVARIABLEVALUE' in the database.</param>
             <returns>
             The error text in the language set by the KerykeionCmsOptions
+            </returns>
+        </member>
+        <member name="M:KerykeionCmsCore.Services.KerykeionTranslationsService.FindDocByIdAsync(System.Guid)">
+            <summary>
+            Searches for the translation of the KerykeionCms documentation, as an asynchronous operation.
+            </summary>
+            <param name="id">The id of the document translation to search for.</param>
+            <returns>
+            A System.Threading.Tasks.Task that represents the result of the asynchronous query, containing the string of the KerykeionTranslation which matches the specified ID.
             </returns>
         </member>
         <member name="T:KerykeionCmsCore.Services.KerykeionWebPagesService">
