@@ -183,3 +183,28 @@
 .text-inherit:hover {
     color: inherit !important;
 }
+
+.context-menu {
+    border: solid 1px #fff;
+    box-shadow: 3px 3px 1.5px rgba(105, 105, 105, 0.5);
+    width: 90%;
+    margin-left: 10px;
+}
+
+    .context-menu .nav-item:hover {
+        background-color: rgba(0,0,0,0.5);
+    }
+
+    .context-menu a {
+        cursor: unset;
+        user-select: none;
+        text-decoration: none;
+    }
+
+    .context-menu .nav-item {
+        border-bottom: solid 1px #000;
+    }
+
+.bg-black-trans {
+    background-color: rgba(108, 117, 125, 0.5);
+}
