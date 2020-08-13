@@ -18,30 +18,15 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
         private readonly KerykeionImagesService _imagesService;
         public IndexModel(KerykeionImagesService imagesService,
             KerykeionTranslationsService translationsService,
-            KerykeionCmsService<Image> service) : base(translationsService, service)
+            EntitiesService entitiesService,
+            KerykeionCmsService<Image> service) : base(translationsService, entitiesService, service)
         {
             _imagesService = imagesService;
         }
 
         public string TitleDisplay { get; set; }
-        public string ImageDisplay { get; set; }
-        public string TitleRequiredError { get; set; }
-        public string TitleLengthError { get; set; }
-        public string FileRequiredError { get; set; }
-        public string TxtAddImage { get; set; }
         public string TxtAddedOn { get; set; }
         public List<ImageDto> Images { get; set; }
-
-        [BindProperty]
-        public AddImageViewModel Vm { get; set; }
-        public List<string> ForeignKeyPropertyNames { get; set; }
-
-
-        public class AddImageViewModel
-        {
-            public string Title { get; set; }
-            public IFormFile File { get; set; }
-        }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -52,16 +37,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             }
 
             PageTitle = await TranslationsService.TranslateAsync("images");
-            TitleDisplay = await TranslationsService.TranslateAsync("title");
-            ImageDisplay = await TranslationsService.TranslateAsync("image");
-            TxtAddImage = await TranslationsService.TranslateAsync("add an image");
-            TitleRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{TitleDisplay}' is required.", TitleDisplay);
-            TitleLengthError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.StringLength, $"The field '{TitleDisplay}' must contain a minimum of {2} and a maximum of {30} characters.", TitleDisplay, 2.ToString(), 30.ToString());
-            FileRequiredError = TranslationsService.TranslateErrorByDescriber(ErrorDescriberConstants.RequiredField, $"The field '{ImageDisplay}' is required.", ImageDisplay);
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
-
-            ForeignKeyPropertyNames = _imagesService.GetForeignKeyProperties()
-                                                .Select(fk => fk.Name).ToList();
+            TitleDisplay = await TranslationsService.TranslateAsync("title");
 
             Images = images.OrderBy(i => i.Name).Select(i => new ImageDto
             {
@@ -72,25 +49,6 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
             }).ToList();
 
             return Page();
-        }
-
-        public async Task<IActionResult> OnPostAddAsync()
-        {
-            var image = new Image { Name = Vm.Title };
-            var formForeignKeys = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value).Where(k => k.Key.Contains("FOREIGNKEY", StringComparison.OrdinalIgnoreCase));
-
-            var result = await _imagesService.CreateAsync(image, Vm.File, formForeignKeys);
-            if (result.Successfull)
-            {
-                return RedirectToPage();
-            }
-
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Message);
-            }
-
-            return await OnGetAsync();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(string id)

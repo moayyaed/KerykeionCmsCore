@@ -13,12 +13,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 {
     public class CreateModel : KerykeionPageModel
     {
-        private readonly EntitiesService _entitiesService;
-
         public CreateModel(KerykeionTranslationsService translationsService,
-            EntitiesService entitiesService) : base(translationsService)
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
-            _entitiesService = entitiesService;
         }
 
         public string NameDisplay => TranslationsService.TranslateAsync("Name").Result;
@@ -31,19 +28,20 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public IActionResult OnGet(string table)
         {
-            var properties = _entitiesService.GetEntityPropertiesByTable(table);
+            var properties = EntitiesService.GetEntityPropertiesByTable(table);
             if (properties == null)
             {
                 return NotFound();
             }
             ViewData["TableName"] = table;
 
-            if (_entitiesService.InheritsFromKeryKeionBaseClass(_entitiesService.FindEntityTypeByTableName(table)))
+            if (EntitiesService.InheritsFromKeryKeionBaseClass(EntitiesService.FindEntityTypeByTableName(table)))
             {
                 Properties = properties.Where(p => !p.IsPrimaryKey() && !p.Name.Equals("datetimecreated", StringComparison.OrdinalIgnoreCase)).ToList();
             }
             else Properties = properties.ToList();
 
+            PageTitle = $"{BtnCreateValue} {EntitiesService.FindEntityTypeByTableName(table)?.ClrType?.Name}";
             TableName = table;
             return Page();
         }
@@ -51,7 +49,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
         public async Task<IActionResult> OnPostAddAsync()
         {
             var formDict = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value);
-            var result = await _entitiesService.CreateAsync(TableName, formDict);
+            var result = await EntitiesService.CreateAsync(TableName, formDict);
             if (result.Successfull)
             {
                 return RedirectToPage("/Entities/Index", new { table = TableName });

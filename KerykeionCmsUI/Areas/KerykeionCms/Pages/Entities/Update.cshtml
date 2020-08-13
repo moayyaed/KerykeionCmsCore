@@ -3,12 +3,12 @@
 @using KerykeionCmsCore.Constants
 @model KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities.UpdateModel
 @{
-    ViewData["Title"] = Model.TableName;
+    ViewData["Title"] = Model.PageTitle;
 }
 
 <div class="row border-bottom border-secondary">
     <div class="col-sm-6">
-        <h2>@Model.BtnUpdateValue</h2>
+        <h2>@Model.PageTitle</h2>
     </div>
     <div class="col-sm-6 text-right">
         <a class="btn btn-secondary" asp-page="/Entities/Index" asp-route-table="@Model.TableName">@Model.BtnBackValue</a>

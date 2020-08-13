@@ -22,7 +22,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Users
 
         public IndexModel(IUserService userService,
             RoleManager<IdentityRole<Guid>> roleManager,
-            KerykeionTranslationsService translationsService) : base(translationsService)
+            KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
             _userService = userService;
             _roleManager = roleManager;

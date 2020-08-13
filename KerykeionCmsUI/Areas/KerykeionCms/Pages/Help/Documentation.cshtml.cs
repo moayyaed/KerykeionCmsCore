@@ -9,7 +9,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
 {
     public class DocumentationModel : KerykeionPageModel
     {
-        public DocumentationModel(KerykeionTranslationsService translationsService) : base(translationsService)
+        public DocumentationModel(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
         }
 

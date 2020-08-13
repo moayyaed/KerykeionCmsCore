@@ -15,7 +15,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Users
         private readonly IUserService _userService;
 
         public AddModel(KerykeionTranslationsService translationsService,
-            IUserService userService) : base(translationsService)
+            EntitiesService entitiesService,
+            IUserService userService) : base(translationsService, entitiesService)
         {
             _userService = userService;
         }

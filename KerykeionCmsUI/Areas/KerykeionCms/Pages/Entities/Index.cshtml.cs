@@ -15,11 +15,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 {
     public class IndexModel : KerykeionPageModel
     {
-        private readonly EntitiesService _entitiesService;
         public IndexModel(KerykeionTranslationsService translationsService,
-            EntitiesService entitiesService) : base(translationsService)
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
-            _entitiesService = entitiesService;
         }
 
         [TempData]
@@ -36,7 +34,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public async Task<IActionResult> OnGetAsync(string table)
         {
-            var entities = await _entitiesService.ListAllToDtoAsync(table);
+            var entities = await EntitiesService.ListAllToDtoAsync(table);
             if (entities == null)
             {
                 return NotFound();
@@ -47,21 +45,21 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
             TableName = table;
             TxtName = await TranslationsService.TranslateAsync("Name");
             TxtAddedOn = await TranslationsService.TranslateAsync("Toegevoegd op");
-            EntType = _entitiesService.FindEntityTypeByTableName(table);
-            InheritsFromKerykeionBaseClass = _entitiesService.InheritsFromKeryKeionBaseClass(EntType);
+            EntType = EntitiesService.FindEntityTypeByTableName(table);
+            InheritsFromKerykeionBaseClass = EntitiesService.InheritsFromKeryKeionBaseClass(EntType);
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(string id)
         {
-            var entity = await _entitiesService.FindByIdAndTableNameAsync(id, TableName);
+            var entity = await EntitiesService.FindByIdAndTableNameAsync(id, TableName);
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var result = await _entitiesService.DeleteAsync(entity);
+            var result = await EntitiesService.DeleteAsync(entity);
             if (result.Successfull)
             {
                 StatusMessage = "The entity has been successfully deleted.";
@@ -134,7 +132,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public virtual async Task<IEnumerable<object>> GetEntitiesToSortAsync(string table)
         {
-            return await _entitiesService.ListAllAsync(table);
+            return await EntitiesService.ListAllAsync(table);
         }
 
         public override async Task<IActionResult> OnPostSetLanguageAsync()

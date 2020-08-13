@@ -19,8 +19,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
         private readonly KerykeionWebPagesService _webPagesService;
 
         public LinksModel(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService,
             KerykeionCmsService<Link> linksService,
-            KerykeionWebPagesService webPagesService) : base(translationsService, linksService)
+            KerykeionWebPagesService webPagesService) : base(translationsService, entitiesService, linksService)
         {
             _webPagesService = webPagesService;
         }

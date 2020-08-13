@@ -15,7 +15,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Images
     {
         private readonly KerykeionImagesService _imagesService;
         public UpdateModel(KerykeionImagesService imagesService,
-            KerykeionTranslationsService translationsService) : base(translationsService)
+            KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
             _imagesService = imagesService;
         }

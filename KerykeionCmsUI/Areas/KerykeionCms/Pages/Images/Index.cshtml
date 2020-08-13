@@ -5,44 +5,20 @@
     ViewData["Title"] = Model.PageTitle;
 }
 
-<div class="col-sm-6 border border-info p-3">
-    <h3 class="border-white border-bottom pb-2">@Model.TxtAddImage</h3>
-    <form method="post" asp-page-handler="Add" class="p-3" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="Vm.Title">@Model.TitleDisplay</label>
-            <input class="form-control" asp-for="Vm.Title"
-                   data-val="true" data-val-required="@Model.TitleRequiredError"
-                   data-val-length-max="30" data-val-length-min="2" data-val-length="@Model.TitleLengthError" />
-            <span asp-validation-for="Vm.Title" class="text-danger"></span>
-        </div>
-        @foreach (var name in Model.ForeignKeyPropertyNames)
-        {
-            <div class="form-group">
-                <label for="FOREIGNKEY-@name">@name</label>
-                <input id="FOREIGNKEY-@name" name="FOREIGNKEY-@name" class="form-control" />
-            </div>
-        }
-        <div class="form-group">
-            <label asp-for="Vm.File">@Model.ImageDisplay</label>
-            <input class="form-control" asp-for="Vm.File" type="file"
-                   data-val="true" data-val-required="@Model.FileRequiredError" />
-            <span asp-validation-for="Vm.File" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="@Model.BtnCreateValue" />
-        </div>
-    </form>
+<div class="row border-bottom border-secondary">
+    <div class="col-sm-6">
+        <h2>@ViewData["Title"]</h2>
+    </div>
 </div>
-
+<div class="mt-1 text-right">
+    <a asp-page="/Images/Create" class="btn btn-success">
+        @Model.BtnCreateValue
+        <i class="fa fa-plus-square" aria-hidden="true"></i>
+    </a>
+</div>
 
 @if (Model.Images.Count > 0)
 {
-    <div class="row border-bottom border-secondary mt-3">
-        <div class="col-sm-6">
-            <h2>@ViewData["Title"]</h2>
-        </div>
-    </div>
     <div class="mt-5 row pb-1 border-bottom border-secondary">
         <div class="col-sm-3">
 
@@ -107,6 +83,3 @@
 
 <form id="verif-token-holder" method="post"></form>
 
-@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
-}

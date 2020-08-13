@@ -17,7 +17,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
     {
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         public RoleModel(RoleManager<IdentityRole<Guid>> roleManager,
-            KerykeionTranslationsService translationsService) : base(translationsService)
+            KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
             _roleManager = roleManager;
         }

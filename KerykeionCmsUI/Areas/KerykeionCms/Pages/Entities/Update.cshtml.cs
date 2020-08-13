@@ -14,12 +14,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 {
     public class UpdateModel : KerykeionPageModel
     {
-        private readonly EntitiesService _entitiesService;
-
         public UpdateModel(KerykeionTranslationsService translationsService,
-            EntitiesService entitiesService) : base(translationsService)
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
-            _entitiesService = entitiesService;
         }
 
         public string NameDisplay => TranslationsService.TranslateAsync("Name").Result;
@@ -40,24 +37,25 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public async Task<IActionResult> OnGetAsync(string id, string table)
         {
-            var entity = await _entitiesService.FindByIdAndTableNameAsync(id, table);
+            var entity = await EntitiesService.FindByIdAndTableNameAsync(id, table);
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var props = _entitiesService.GetEntityPropertiesByTable(table).Where(p => !p.IsForeignKey());
+            var props = EntitiesService.GetEntityPropertiesByTable(table).Where(p => !p.IsForeignKey());
             if (props == null)
             {
                 return NotFound();
             }
 
-            ForeignKeys = _entitiesService.GetForeignKeyPropertiesToDto(entity).ToList();
+            ForeignKeys = EntitiesService.GetForeignKeyPropertiesToDto(entity).ToList();
 
             ViewData["EntityId"] = id;
             ViewData["TableName"] = table;
 
             TableName = table;
+            PageTitle = $"{BtnUpdateValue} - {entity.GetType().GetProperty(PropertyNameConstants.Name)?.GetValue(entity)}";
             Entity = entity;
             EntityId = id;
             Properties = props.ToList();
@@ -67,7 +65,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public async Task<IActionResult> OnPostUpdateAsync()
         {
-            var entity = await _entitiesService.FindByIdAndTableNameAsync(EntityId, TableName);
+            var entity = await EntitiesService.FindByIdAndTableNameAsync(EntityId, TableName);
             if (entity == null)
             {
                 return NotFound();
@@ -75,7 +73,7 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
             var formDict = Request.Form.ToDictionary(k => k.Key.ToString(), k => k.Value);
 
-            var result = await _entitiesService.UpdateAsync(entity, formDict);
+            var result = await EntitiesService.UpdateAsync(entity, formDict);
             if (result.Successfull)
             {
                 StatusMessage = $"The {entity.GetType().Name} has been succesfully updated.";
@@ -92,13 +90,13 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Entities
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {
-            var entity = await _entitiesService.FindByIdAndTableNameAsync(EntityId, TableName);
+            var entity = await EntitiesService.FindByIdAndTableNameAsync(EntityId, TableName);
             if (entity == null)
             {
                 return NotFound();
             }
 
-            var result = await _entitiesService.DeleteAsync(entity);
+            var result = await EntitiesService.DeleteAsync(entity);
             if (result.Successfull)
             {
                 return RedirectToPage("/Entities/Index", new { table = TableName });

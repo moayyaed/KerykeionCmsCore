@@ -9,7 +9,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage.Articles
     public class UpdateModel : ArticleUpdatePageModelBase
     {
         public UpdateModel(KerykeionTranslationsService translationsService,
-            KerykeionArticlesService articlesService) : base(translationsService, articlesService)
+            EntitiesService entitiesService,
+            KerykeionArticlesService articlesService) : base(translationsService, entitiesService, articlesService)
         {
         }
     }

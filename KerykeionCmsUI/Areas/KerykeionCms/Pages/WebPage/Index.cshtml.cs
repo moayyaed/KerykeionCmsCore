@@ -14,7 +14,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage
     {
         private readonly KerykeionWebPagesService _webpagesService;
         public IndexModel(KerykeionWebPagesService webpagesService,
-            KerykeionTranslationsService translationsService) : base(translationsService)
+            KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
             _webpagesService = webpagesService;
         }

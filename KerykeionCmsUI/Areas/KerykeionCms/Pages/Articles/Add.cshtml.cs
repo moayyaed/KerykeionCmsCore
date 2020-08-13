@@ -9,8 +9,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Articles
     public class AddModel : ArticleAddPageModelBase
     {
         public AddModel(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService,
             KerykeionArticlesService articlesService,
-            KerykeionWebPagesService webPagesService) : base(translationsService, articlesService, webPagesService)
+            KerykeionWebPagesService webPagesService) : base(translationsService, entitiesService, articlesService, webPagesService)
         {
         }
     }

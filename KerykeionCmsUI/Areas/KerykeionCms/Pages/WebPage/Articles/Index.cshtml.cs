@@ -10,8 +10,9 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.WebPage.Articles
     public class IndexModel : ArticlesPageModelBase
     {
         public IndexModel(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService,
             KerykeionArticlesService articlesService,
-            KerykeionWebPagesService webPagesService) : base(translationsService, articlesService, webPagesService)
+            KerykeionWebPagesService webPagesService) : base(translationsService, entitiesService, articlesService, webPagesService)
         {
         }
 

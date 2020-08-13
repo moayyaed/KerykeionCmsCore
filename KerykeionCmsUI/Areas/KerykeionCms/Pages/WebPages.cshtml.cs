@@ -18,7 +18,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages
     public class WebPagesModel : KerykeionPageModelBase<Webpage>
     {
         public WebPagesModel(KerykeionTranslationsService translationsService,
-            KerykeionWebPagesService webPagesService) : base(translationsService, webPagesService)
+            EntitiesService entitiesService,
+            KerykeionWebPagesService webPagesService) : base(translationsService, entitiesService, webPagesService)
         {
         }
 

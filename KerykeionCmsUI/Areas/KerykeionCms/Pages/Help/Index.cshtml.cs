@@ -8,7 +8,8 @@ namespace KerykeionCmsUI.Areas.KerykeionCms.Pages.Help
 {
     public class IndexModel : KerykeionPageModel
     {
-        public IndexModel(KerykeionTranslationsService translationsService) : base(translationsService)
+        public IndexModel(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService) : base(translationsService, entitiesService)
         {
         }
 
