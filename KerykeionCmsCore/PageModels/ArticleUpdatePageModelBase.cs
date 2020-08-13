@@ -12,7 +12,8 @@ namespace KerykeionCmsCore.PageModels
     public class ArticleUpdatePageModelBase : StandAloneArticlePageModel
     {
         public ArticleUpdatePageModelBase(KerykeionTranslationsService translationsService,
-            KerykeionArticlesService articlesService) : base(translationsService, articlesService)
+            EntitiesService entitiesService,
+            KerykeionArticlesService articlesService) : base(translationsService, entitiesService, articlesService)
         {
         }
 

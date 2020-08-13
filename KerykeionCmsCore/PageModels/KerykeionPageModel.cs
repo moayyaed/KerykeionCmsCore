@@ -5,15 +5,19 @@ using KerykeionCmsCore.Enums;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using KerykeionCmsCore.Dtos;
 
 namespace KerykeionCmsCore.PageModels
 {
     public class KerykeionPageModel : PageModel
     {
         protected readonly KerykeionTranslationsService TranslationsService;
-        public KerykeionPageModel(KerykeionTranslationsService translationsService)
+        protected readonly EntitiesService EntitiesService;
+        public KerykeionPageModel(KerykeionTranslationsService translationsService, 
+            EntitiesService entitiesService)
         {
             TranslationsService = translationsService;
+            EntitiesService = entitiesService;
         }
 
         public string PageTitle { get; set; }
@@ -28,6 +32,19 @@ namespace KerykeionCmsCore.PageModels
         {
             await SetLanguageAsync();
             return RedirectToPage();
+        }
+
+        public async Task<JsonResult> OnPostDeleteViaAjaxAsync([FromBody] DeleteEntityFromSideNavDto dto)
+        {
+            var entity = await EntitiesService.FindByIdAndTableNameAsync(dto.Id, dto.Table);
+            if (entity == null)
+            {
+                return new JsonResult(KerykeionDbResult.Fail(new KerykeionDbError { Message = "The entity is not found."}));
+            }
+
+            var result = await EntitiesService.DeleteAsync(entity);
+
+            return new JsonResult(result);
         }
 
         public async Task SetLanguageAsync()

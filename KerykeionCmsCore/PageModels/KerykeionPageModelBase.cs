@@ -17,7 +17,8 @@ namespace KerykeionCmsCore.PageModels
     {
         protected readonly KerykeionCmsService<TEntity> Service;
         public KerykeionPageModelBase(KerykeionTranslationsService translationsService,
-            KerykeionCmsService<TEntity> service) : base(translationsService)
+            EntitiesService entitiesService,
+            KerykeionCmsService<TEntity> service) : base(translationsService, entitiesService)
         {
             Service = service;
         }

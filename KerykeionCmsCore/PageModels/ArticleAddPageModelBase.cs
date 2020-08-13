@@ -13,8 +13,9 @@ namespace KerykeionCmsCore.PageModels
         private readonly KerykeionWebPagesService _webPagesService;
 
         public ArticleAddPageModelBase(KerykeionTranslationsService translationsService,
+            EntitiesService entitiesService,
             KerykeionArticlesService articlesService,
-            KerykeionWebPagesService webPagesService) : base(translationsService, articlesService)
+            KerykeionWebPagesService webPagesService) : base(translationsService, entitiesService, articlesService)
         {
             _webPagesService = webPagesService;
         }

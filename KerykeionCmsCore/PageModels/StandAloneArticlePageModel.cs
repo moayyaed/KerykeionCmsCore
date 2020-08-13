@@ -10,7 +10,8 @@ namespace KerykeionCmsCore.PageModels
     {
 
         public StandAloneArticlePageModel(KerykeionTranslationsService translationsService,
-            KerykeionCmsService<Article> articlesService) : base(translationsService, articlesService)
+            EntitiesService entitiesService,
+            KerykeionCmsService<Article> articlesService) : base(translationsService, entitiesService, articlesService)
         {
         }
 
