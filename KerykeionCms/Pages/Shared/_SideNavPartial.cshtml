@@ -169,45 +169,7 @@
             </div>
         </div>
         <div id="subnav-images" class="@ManageSideNavPages.SubImagesDisplay(ViewContext)">
-            @foreach (var image in images)
-            {
-                <div class="side-navigation">
-                    <a class="nav-link text-inherit context-menu-opener @(string.Equals(image.Id.ToString(), ViewData["ImgId"]?.ToString(), StringComparison.OrdinalIgnoreCase) ? "bg-secondary disabled text-dark" : "")" asp-page="/Images/Update" asp-route-id="@image.Id">
-                        <span class="ml-5">
-                            <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
-                            @image.Name
-                        </span>
-                    </a>
-                    <div class="context-menu position-absolute d-none bg-dark text-white">
-                        <ul class="nav nav-pills flex-column">
-                            <li class="nav-item m-1">
-                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1">
-                                    <div class="col text-left">Open</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1" target="_blank">
-                                    <div class="col text-left">Open in new tab</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a data-name="@($"Image: {image.Name}")" data-table="@(EntitiesService.FindTableNameByClrType(typeof(Image)))" data-id="@image.Id" data-page="@ViewContext.RouteData.Values["Page"].ToString()" class="delete-entity-from-side-nav text-white row m-1">
-                                    <div class="col text-left">Delete</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+            
         </div>
     </div>
     <div id="side-nav-entities-wrapper">

@@ -10,6 +10,72 @@ connection.start().then(function () {
 
 var counter = 0;
 var areSideNavRolesLoaded = false;
+var areSideNavImagesLoaded = false;
+
+
+
+//#region Images
+connection.on("GetSideNavImages", function (images) {
+    areSideNavImagesLoaded = true;
+    var html = '';
+
+    for (var i = 0; i < images.length; i++) {
+        html += `<div class="side-navigation">
+                    <span class="nav-link text-inherit context-menu-opener">
+                        <span class="ml-5">
+                            <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
+                            ${images[i].name}
+                        </span>
+                    </span>
+                    <div class="context-menu position-absolute d-none bg-dark text-white">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item m-1">
+                                <div class="text-white row m-1">
+                                    <span class="col text-left">Open</span>
+                                    <span class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-item m-1">
+                                <div class="text-white row m-1">
+                                    <span class="col text-left">Open in new tab</span>
+                                    <span class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="nav-item m-1">
+                                <div class="delete-entity-from-side-nav text-white row m-1">
+                                    <span class="col text-left">Delete</span>
+                                    <span class="col text-right">
+                                        <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>`;
+    }
+
+    $("#subnav-images").html(html);
+    configureContextMenu();
+});
+$(document).on("click", "#open-subnav-images", function (event) {
+    if (!areSideNavImagesLoaded) {
+        connection.invoke("SendSideNavImagesAsync").catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    }
+});
+//#endregion
+
+
+//#region Entities
+
+//#endregion
+
 
 //#region Roles
 connection.on("GetSideNavRoles", function (roles) {

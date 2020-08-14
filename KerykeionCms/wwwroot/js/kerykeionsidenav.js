@@ -1,32 +1,6 @@
 ﻿$(document).ready(function () {
-    var isCustomContextMenu = false;
 
-    $(".context-menu-opener").on("contextmenu", function (event) {
-        event.preventDefault();
-        isCustomContextMenu = true;
-
-        updateContextMenusClasses();
-
-        $(this).parents(".side-navigation").first().addClass("bg-black-trans");
-        $(this).siblings(".context-menu").removeClass("d-none");
-        setTimeout(function () {
-            isCustomContextMenu = false;
-        }, 50);
-    });
-
-    $(document).on("contextmenu", function (evt) {
-        evt.preventDefault();
-        setTimeout(function () {
-            if (!isCustomContextMenu) {
-                updateContextMenusClasses();
-            }
-        }, 25);
-
-    });
-
-    $(document).on("click", function () {
-        updateContextMenusClasses();
-    });
+    configureContextMenu();
 
     $(document).on("click", ".delete-entity-from-side-nav", function () {
         var isSure = confirm(`'${$(this).data("name")}' will be permanently deleted.`);
@@ -56,6 +30,37 @@
         }
     });
 });
+
+function configureContextMenu() {
+    var isCustomContextMenu = false;
+
+    $(document).on("contextmenu", ".context-menu-opener", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        isCustomContextMenu = true;
+
+        updateContextMenusClasses();
+
+        $(this).parents(".side-navigation").first().addClass("bg-black-trans");
+        $(this).siblings(".context-menu").removeClass("d-none");
+        setTimeout(function () {
+            isCustomContextMenu = false;
+        }, 50);
+    });
+
+    $(document).on("contextmenu", function (evt) {
+        evt.preventDefault();
+        setTimeout(function () {
+            if (!isCustomContextMenu) {
+                updateContextMenusClasses();
+            }
+        }, 25);
+    });
+
+    $(document).on("click", function () {
+        updateContextMenusClasses();
+    });
+}
 
 function updateContextMenusClasses() {
     $(".context-menu").each(function () {
