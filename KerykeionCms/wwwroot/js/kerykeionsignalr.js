@@ -189,13 +189,38 @@ connection.on("ReceiveCreateRoleResult", function (result, roles, role) {
     else {
         $("#create-role-modal").addClass("d-none");
         fillSideNavRoles(roles);
-        setupRoleDetails(role);
+        setupRoleDetails(role, false);
     }
 });
 $(document).on("submit", "#create-role-form", function (event) {
     if ($(this).valid()) {
         event.preventDefault();
         connection.invoke("CreateRoleAsync", $("#role-name").val()).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+});
+
+connection.on("ReceiveUpdateRoleResult", function (result, roles, role) {
+    console.log(result);
+    if (!result.succeeded) {
+        var html = '<ul>';
+        for (var i = 0; i < result.errors.length; i++) {
+            html += `<li>${result.errors[i].description}</li>`;
+        }
+        html += '</ul>';
+        $("#update-role-form").find(".errors-wrapper").html(html);
+    }
+    else {
+        fillSideNavRoles(roles);
+        setupRoleDetails(role, true);
+    }
+});
+$(document).on("submit", "#update-role-form", function (event) {
+    if ($(this).valid()) {
+        console.log($("#updated-role-name").val());
+        event.preventDefault();
+        connection.invoke("UpdateRoleAsync", $("#updated-role-name").val(), $(this).data("id")).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -213,7 +238,7 @@ $(document).on("click", ".role-opener", function (event) {
     event.preventDefault();
 });
 
-connection.on("RoleDeleted", function (result, id) {
+connection.on("ReceiveRoleDeleted", function (result, id) {
     if (result.succeeded) {
         $(`.${id}`).remove();
         $("#main").find("main").html(`<div class="alert alert-success mt-2 mb-2" role="alert">
@@ -236,7 +261,7 @@ $(document).on("click", ".role-deleter", function (event) {
 });
 
 
-function setupRoleDetails(role) {
+function setupRoleDetails(role, isUpdated) {
     if (role == null) {
         return;
     }
@@ -247,30 +272,35 @@ function setupRoleDetails(role) {
     $("#main").find("main").html(`<div class="border-bottom border-secondary pb-1 mb-3">
                                         <h1>Role - ${role.name}</h1>
                                   </div>
+                                  ${isUpdated ? `<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        The role has been updated successfully.
+        </div>` : ``}
                                   <div class="col-sm-6">
-                                  <form method="post" class="p-3">
-                                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                  <form method="post" class="p-3" id="update-role-form" data-id="${role.id}">
+                                      <div class="text-danger errors-wrapper"></div>
                                       <div class="form-group">
                                           <label>ID</label>
-                                          <input class="form-control entity-value-to-copy-to-clipboard cursor-pointer" data-toggle="tooltip" title="Copy" readonly value="${role.id}"/>
+                                          <input class="form-control entity-value-to-copy-to-clipboard cursor-pointer" readonly value="${role.id}"/>
                                       </div>
                                       <div class="form-group">
-                                          <label for="role-name">Name</label>
-                                          <input class="form-control" for="role-name" id="role-name" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
-                                          <span asp-validation-for="Vm.Name" class="text-danger"></span>
+                                          <label for="updated-role-name">Name</label>
+                                          <input data-val="true" data-val-required="A role name is required"
+                                                                data-val-length-max="50" data-val-length-min="5"
+                                                                class="form-control" for="updated-role-name" id="updated-role-name" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
+                                          <span data-valmsg-for="updated-role-name" data-valmsg-replace="true" class="text-danger"></span>
                                       </div>
                                       <div class="form-group">
                                           ${returnUpdateBtnIfNotDefaultRole(role)}
                                           ${returnDeleteBtnIfNotDefaultRole(role)}
                                       </div>
+                                      ${document.getElementById("verif-token-holder").innerHTML}
                                   </form>
                               </div>`);
 
     setTimeout(function () {
         $("#subnav-roles").find(`.${role.id}`).addClass("text-dark bg-secondary");
     }, 100);
-
-    $('[data-toggle="tooltip"]').tooltip();
 }
 function fillSideNavRoles(roles) {
     var html = '';

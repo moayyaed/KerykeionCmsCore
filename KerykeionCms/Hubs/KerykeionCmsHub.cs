@@ -64,6 +64,14 @@ namespace KerykeionCms.Hubs
             await Clients.Caller.SendAsync("ReceiveCreateRoleResult", await _roleManager.CreateAsync(role), await ListRolesOrderedByNameAsync(), role);
         }
 
+        public async Task UpdateRoleAsync(string name, string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            role.Name = name;
+
+            await Clients.Caller.SendAsync("ReceiveUpdateRoleResult", await _roleManager.UpdateAsync(role), await ListRolesOrderedByNameAsync(), role);
+        }
+
         public async Task GetRoleAsync(string id)
         {
             await Clients.Caller.SendAsync("ReceiveRole", await _roleManager.FindByIdAsync(id));
@@ -73,7 +81,7 @@ namespace KerykeionCms.Hubs
         {
             var role = await _roleManager.FindByIdAsync(id);
 
-            await Clients.Caller.SendAsync("RoleDeleted", await _roleManager.DeleteAsync(role), id);
+            await Clients.Caller.SendAsync("ReceiveRoleDeleted", await _roleManager.DeleteAsync(role), id);
         }
 
         private async Task<IEnumerable<IdentityRole<Guid>>> ListRolesOrderedByNameAsync()
