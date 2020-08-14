@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,9 +18,19 @@ namespace KerykeionCms.Hubs
             _roleManager = roleManager;
         }
 
-        public async Task SendRolesAsync()
+        public async Task SendSideNavRolesAsync()
         {
-            await Clients.Caller.SendAsync("GetRoles", await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync());
+            await Clients.Caller.SendAsync("GetSideNavRoles", await ListRolesOrderedByNameAsync());
+        }
+
+        public async Task SendMainRolesAsync()
+        {
+            await Clients.Caller.SendAsync("GetMainRoles", await ListRolesOrderedByNameAsync());
+        }
+
+        private async Task<IEnumerable<IdentityRole<Guid>>> ListRolesOrderedByNameAsync()
+        {
+            return await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync();
         }
     }
 }
