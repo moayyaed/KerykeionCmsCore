@@ -10,8 +10,20 @@ connection.start().then(function () {
 
 
 var areRolesLoaded = false;
-connection.on("GetRoles", function () {
+connection.on("GetRoles", function (roles) {
     areRolesLoaded = true;
+    var html = '';
+
+    for (var i = 0; i < roles.length; i++) {
+        html += `<a class="nav-link side-navigation text-inherit">
+                    <span class="ml-5">
+                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
+                        ${roles[i].name}
+                    </span>
+                </a>`;
+    }
+
+    $("#subnav-roles").html(html);
 });
 
 $(document).on("click", "#open-subnav-roles", function (event) {

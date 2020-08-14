@@ -332,15 +332,7 @@
             </a>
         </div>
         <div id="subnav-roles" class="@ManageSideNavPages.SubRolesDisplay(ViewContext)">
-            @foreach (var role in roles)
-            {
-                <a class="nav-link side-navigation text-inherit @(ViewData["RoleName"]?.ToString() == role.Name ? "bg-secondary disabled text-dark" : "")" asp-page="/Role" asp-route-id="@role.Id">
-                    <span class="ml-5">
-                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
-                        @role.Name
-                    </span>
-                </a>
-            }
+            
         </div>
     </div>
     <div class="d-block side-navigation @ManageSideNavPages.UsersNavActive(ViewContext)">
