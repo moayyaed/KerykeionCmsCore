@@ -1,4 +1,5 @@
-﻿using KerykeionCms.Transformers;
+﻿using KerykeionCms.Hubs;
+using KerykeionCms.Transformers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -22,6 +23,7 @@ namespace KerykeionCms.Extensions
             return app.UseKerykeionCms(o =>
             {
                 o.MapRazorPages();
+                o.MapHub<KerykeionCmsHub>("/kerykeioncmshub");
                 o.MapDynamicPageRoute<RouteLanguageTransformer>("/{**slug}");
             });
         }
