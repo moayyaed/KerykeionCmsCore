@@ -217,9 +217,26 @@ connection.on("ReceiveUpdateRoleResult", function (result, roles, role) {
     }
 });
 $(document).on("submit", "#update-role-form", function (event) {
+    event.preventDefault();
+    $(this).validate({
+        errorClass: "text-danger",
+        rules: {
+            updatedname: {
+                required: true,
+                minlength: 5,
+                maxlength: 50
+            }
+        },
+        messages: {
+            updatedname: {
+                required: "A name is required.",
+                minlength: jQuery.validator.format("At least {0} characters required."),
+                maxlength: jQuery.validator.format("At max {0} characters allowed."),
+            }
+        }
+    });
+
     if ($(this).valid()) {
-        console.log($("#updated-role-name").val());
-        event.preventDefault();
         connection.invoke("UpdateRoleAsync", $("#updated-role-name").val(), $(this).data("id")).catch(function (err) {
             return console.error(err.toString());
         });
@@ -241,7 +258,7 @@ $(document).on("click", ".role-opener", function (event) {
 connection.on("ReceiveRoleDeleted", function (result, id) {
     if (result.succeeded) {
         $(`.${id}`).remove();
-        $("#main").find("main").html(`<div class="alert alert-success mt-2 mb-2" role="alert">
+        $("#main").find("main").prepend(`<div class="alert alert-success mt-2 mb-2" role="alert">
             The role has been deleted successfully.
         </div>`);
     }
@@ -269,7 +286,7 @@ function setupRoleDetails(role, isUpdated) {
     removeActiveSidNavClasses();
     $("#open-subnav-roles").trigger("click");
 
-    $("#main").find("main").html(`<div class="border-bottom border-secondary pb-1 mb-3">
+    $("#main").find("main").html(`<div class="border-bottom border-secondary pb-1 mb-3 ${role.id}">
                                         <h1>Role - ${role.name}</h1>
                                   </div>
                                   ${isUpdated ? `<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
@@ -284,18 +301,19 @@ function setupRoleDetails(role, isUpdated) {
                                           <input class="form-control entity-value-to-copy-to-clipboard cursor-pointer" readonly value="${role.id}"/>
                                       </div>
                                       <div class="form-group">
-                                          <label for="updated-role-name">Name</label>
-                                          <input data-val="true" data-val-required="A role name is required"
-                                                                data-val-length-max="50" data-val-length-min="5"
-                                                                class="form-control" for="updated-role-name" id="updated-role-name" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
-                                          <span data-valmsg-for="updated-role-name" data-valmsg-replace="true" class="text-danger"></span>
+                                          <label for="updatedname">Name</label>
+                                          <input name="updatedname" id="updated-role-name" class="form-control" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
                                       </div>
                                       <div class="form-group">
                                           ${returnUpdateBtnIfNotDefaultRole(role)}
-                                          ${returnDeleteBtnIfNotDefaultRole(role)}
                                       </div>
                                       ${document.getElementById("verif-token-holder").innerHTML}
                                   </form>
+                                    <div class="row">
+                                        <div class="text-right">
+                                        ${returnDeleteBtnIfNotDefaultRole(role)}
+                                        </div>
+                                    </div>
                               </div>`);
 
     setTimeout(function () {
@@ -410,9 +428,7 @@ function returnUpdateBtnIfNotDefaultRole(role) {
         return ``;
     }
 
-    return `<button class="btn btn-primary" type="submit">
-                Update
-            </button>`;
+    return `<input class="btn btn-primary" type="submit" value="Update"/>`;
 }
 function returnReadonlyIfDefaultRole(roleName) {
     if (roleName === "Administrator" || roleName === "Editor" || roleName === "RegularUser") {
