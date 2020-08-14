@@ -59,7 +59,6 @@ connection.on("GetSideNavImages", function (images) {
     }
 
     $("#subnav-images").html(html);
-    configureContextMenu();
 });
 $(document).on("click", "#open-subnav-images", function (event) {
     if (!areSideNavImagesLoaded) {
@@ -191,7 +190,7 @@ connection.on("GetMainRoles", function (roles) {
                     </div>
                 </div>
                 <div class="mt-1 text-right">
-                    <button class="btn btn-success">
+                    <button class="btn btn-success create-role-modal-opener">
                         Create
                         <i class="fa fa-plus-square" aria-hidden="true"></i>
                     </button>

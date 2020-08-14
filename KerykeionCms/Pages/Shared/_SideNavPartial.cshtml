@@ -286,7 +286,7 @@
                     </li>
                     <li class="nav-item m-1">
                         <span class="text-white row m-1">
-                            <span class="col text-left">Create</span>
+                            <span class="col text-left create-role-modal-opener">Create</span>
                             <span class="col text-right">
                                 <i class="fa fa-plus text-right" aria-hidden="true"></i>
                             </span>
@@ -307,3 +307,33 @@
     </div>
 </nav>
 <div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>
+
+<div id="create-role-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal">
+    <div class="col-sm-6 bg-dark border border-black position-absolute transform-half-half top-50 left-50 inner-modal">
+        <div class="row bg-light pt-1">
+            <h4 class="pb-2 col text-left">Create role</h4>
+            <span class="col text-right">
+                <button class="btn btn-cancel p-1">&#10006;</button>
+            </span>
+        </div>
+        <div class="p-3 text-white">
+            <form method="post" id="create-role-form">
+                <div class="form-group">
+                    <label for="role-name">Name</label>
+                    <input name="role-name" class="form-control"
+                           data-val="true" data-val-required="A role name is required"
+                           data-val-length-max="50" data-val-length-min="5" />
+                    <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Create" />
+                </div>
+            </form>
+        </div>
+        <div class="row bg-black-trans p-1">
+            <div class="col text-right">
+                <button class="btn btn-cancel text-white">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

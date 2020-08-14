@@ -29,14 +29,28 @@
             });
         }
     });
+
+    openCreateRoleModal();
+    closeModal();
 });
+
+function openCreateRoleModal() {
+    $(document).on("click", ".create-role-modal-opener", function (event) {
+        $("#create-role-modal").removeClass("d-none");
+    });
+}
+
+function closeModal() {
+    $(document).on("click", ".btn-cancel", function (event) {
+        $(this).parents(".custom-modal").addClass('d-none');
+    });
+}
 
 function configureContextMenu() {
     var isCustomContextMenu = false;
 
     $(document).on("contextmenu", ".context-menu-opener", function (event) {
         event.preventDefault();
-        event.stopPropagation();
         isCustomContextMenu = true;
 
         updateContextMenusClasses();
@@ -57,8 +71,17 @@ function configureContextMenu() {
         }, 25);
     });
 
-    $(document).on("click", function () {
+    $(document).on("click", function (event) {
+        var target = event.target;
         updateContextMenusClasses();
+
+        if ($(target).hasClass("inner-modal")) {
+            return;
+        }
+
+        if ($(target).hasClass("custom-modal")) {
+            $(target).addClass("d-none");
+        }
     });
 }
 
