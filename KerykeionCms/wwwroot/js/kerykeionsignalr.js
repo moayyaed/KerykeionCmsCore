@@ -140,7 +140,7 @@ connection.on("GetMainImages", function (images) {
     $("#main").find("main").html(html);
 });
 
-$(document).on("click", "#open-main-images", function (event) {
+$(document).on("click", ".open-main-images", function (event) {
     if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
         removeActiveSidNavClasses();
         connection.invoke("SendMainImagesAsync").catch(function (err) {
@@ -234,7 +234,7 @@ connection.on("GetMainRoles", function (roles) {
 
     $("#main").find("main").html(html);
 });
-$(document).on("click", "#open-main-roles", function (event) {
+$(document).on("click", ".open-main-roles", function (event) {
     if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
         removeActiveSidNavClasses();
         connection.invoke("SendMainRolesAsync").catch(function (err) {
