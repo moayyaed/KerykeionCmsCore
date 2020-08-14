@@ -1,5 +1,6 @@
 ﻿using KerykeionCmsCore.Dtos;
 using KerykeionCmsCore.Services;
+using KerykeionStringExtensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,17 @@ namespace KerykeionCms.Hubs
             {
                 Id = i.Id,
                 Name = i.Name
+            }).ToListAsync());
+        }
+
+        public async Task SendMainImagesAsync()
+        {
+            await Clients.Caller.SendAsync("GetMainImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
+            {
+                Id = i.Id,
+                Url = i.Url,
+                Name = $"{i.Name.SubstringMaxLengthOrGivenLength(0, 20)}",
+                DateTimeCreated = $"{i.DateTimeCreated.Value.ToShortDateString()} - ({i.DateTimeCreated.Value.ToShortTimeString()})"
             }).ToListAsync());
         }
         #endregion

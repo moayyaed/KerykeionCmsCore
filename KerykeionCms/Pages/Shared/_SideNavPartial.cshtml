@@ -135,10 +135,10 @@
         <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
             <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
             <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
-            <a class="nav-link d-inline-block text-inherit w-100 context-menu-opener @ManageSideNavPages.ImagesNavActive(ViewContext, true)" asp-page="/Images/Index">
+            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener" id="open-main-images">
                 <i class="fa @ManageSideNavPages.SubImagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Images")
-            </a>
+            </span>
             <div class="context-menu position-absolute d-none bg-dark text-white">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item m-1">
