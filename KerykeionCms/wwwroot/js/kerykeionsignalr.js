@@ -38,14 +38,6 @@ connection.on("GetSideNavImages", function (images) {
                                 </div>
                             </li>
                             <li class="nav-item m-1">
-                                <div class="text-white row m-1">
-                                    <span class="col text-left">Open in new tab</span>
-                                    <span class="col text-right">
-                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="nav-item m-1">
                                 <div class="delete-entity-from-side-nav text-white row m-1">
                                     <span class="col text-left">Delete</span>
                                     <span class="col text-right">
@@ -139,7 +131,7 @@ connection.on("GetMainImages", function (images) {
     $("#main").find("main").html(html);
 });
 
-$(document).on("click", ".open-main-images", function (event) {
+$(document).on("click", ".main-images-opener", function (event) {
     if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
         removeActiveSidNavClasses();
         connection.invoke("SendMainImagesAsync").catch(function (err) {
@@ -160,18 +152,7 @@ $(document).on("click", ".open-main-images", function (event) {
 //#region Roles
 connection.on("GetSideNavRoles", function (roles) {
     areSideNavRolesLoaded = true;
-    var html = '';
-
-    for (var i = 0; i < roles.length; i++) {
-        html += `<span class="nav-link side-navigation text-inherit">
-                    <span class="ml-5">
-                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
-                        ${roles[i].name}
-                    </span>
-                </span>`;
-    }
-
-    $("#subnav-roles").html(html);
+    fillSideNavRoles(roles);
 });
 $(document).on("click", "#open-subnav-roles", function (event) {
     if (!areSideNavRolesLoaded) {
@@ -182,8 +163,145 @@ $(document).on("click", "#open-subnav-roles", function (event) {
     }
 });
 
-
 connection.on("GetMainRoles", function (roles) {
+    displayMainRoles(roles);
+});
+$(document).on("click", ".main-roles-opener", function (event) {
+    if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
+        removeActiveSidNavClasses();
+        connection.invoke("SendMainRolesAsync").catch(function (err) {
+            return console.error(err.toString());
+        });
+        $(this).parents(".side-navigation").first().addClass("text-dark bg-secondary")
+        event.preventDefault();
+    }
+});
+
+connection.on("ReceiveCreateRoleResult", function (result, roles, role) {
+    if (!result.succeeded) {
+        var html = '<ul>';
+        for (var i = 0; i < result.errors.length; i++) {
+            html += `<li>${result.errors[i].description}</li>`;
+        }
+        html += '</ul>';
+        $("#create-role-form").find(".errors-wrapper").html(html);
+    }
+    else {
+        $("#create-role-modal").addClass("d-none");
+        fillSideNavRoles(roles);
+        setupRoleDetails(role);
+    }
+});
+$(document).on("submit", "#create-role-form", function (event) {
+    if ($(this).valid()) {
+        event.preventDefault();
+        connection.invoke("CreateRoleAsync", $("#role-name").val()).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+});
+
+connection.on("ReceiveRole", function (role) {
+    setupRoleDetails(role);
+});
+$(document).on("click", ".role-opener", function (event) {
+    if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary") && !$(this).hasClass("bg-secondary")) {
+        connection.invoke("GetRoleAsync", $(this).data("id")).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+    event.preventDefault();
+});
+
+connection.on("RoleDeleted", function (result, id) {
+    if (result.succeeded) {
+        $(`.${id}`).remove();
+        $("#main").find("main").html(`<div class="alert alert-success mt-2 mb-2" role="alert">
+            The role has been deleted successfully.
+        </div>`);
+    }
+    else {
+        alert("The deletion failed.");
+    }
+});
+$(document).on("click", ".role-deleter", function (event) {
+    var isSure = confirm(`'${$(this).data("name")}' will be permanently deleted.`);
+
+    if (isSure) {
+        connection.invoke("DeleteRoleAsync", $(this).data("id")).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    }
+});
+
+
+function setupRoleDetails(role) {
+    if (role == null) {
+        return;
+    }
+
+    removeActiveSidNavClasses();
+    $("#open-subnav-roles").trigger("click");
+
+    $("#main").find("main").html(`<div class="border-bottom border-secondary pb-1 mb-3">
+                                        <h1>Role - ${role.name}</h1>
+                                  </div>
+                                  <div class="col-sm-6">
+                                  <form method="post" class="p-3">
+                                      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                      <div class="form-group">
+                                          <label>ID</label>
+                                          <input class="form-control entity-value-to-copy-to-clipboard cursor-pointer" data-toggle="tooltip" title="Copy" readonly value="${role.id}"/>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="role-name">Name</label>
+                                          <input class="form-control" for="role-name" id="role-name" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
+                                          <span asp-validation-for="Vm.Name" class="text-danger"></span>
+                                      </div>
+                                      <div class="form-group">
+                                          ${returnUpdateBtnIfNotDefaultRole(role)}
+                                          ${returnDeleteBtnIfNotDefaultRole(role)}
+                                      </div>
+                                  </form>
+                              </div>`);
+
+    setTimeout(function () {
+        $("#subnav-roles").find(`.${role.id}`).addClass("text-dark bg-secondary");
+    }, 100);
+
+    $('[data-toggle="tooltip"]').tooltip();
+}
+function fillSideNavRoles(roles) {
+    var html = '';
+
+    for (var i = 0; i < roles.length; i++) {
+        html += `<div data-id="${roles[i].id}" class="side-navigation ${roles[i].id} role-opener">
+                    <span class="nav-link text-inherit context-menu-opener">
+                    <span class="ml-5">
+                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
+                        ${roles[i].name}
+                    </span>
+                    </span>
+                    <div class="context-menu position-absolute d-none bg-dark text-white">
+                        <ul class="nav nav-pills flex-column">
+                            <li data-id="${roles[i].id}" class="nav-item m-1 role-opener">
+                                <div class="text-white row m-1">
+                                    <span class="col text-left">Open</span>
+                                    <span class="col text-right">
+                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </li>
+                            ${returnDeleteFunctionalityInSideNavIfNotDefaultRole(roles[i])}
+                        </ul>
+                    </div>
+                </div>`;
+    }
+
+    $("#subnav-roles").html(html);
+}
+function displayMainRoles(roles) {
     var html = `<div class="row border-bottom border-secondary">
                     <div class="col-sm-6">
                         <h2>Roles</h2>
@@ -213,7 +331,7 @@ connection.on("GetMainRoles", function (roles) {
                 </div>`;
 
     for (var i = 0; i < roles.length; i++) {
-        html += `<div class="row pt-2 pb-2 border border-secondary mb-1">
+        html += `<div class="row pt-2 pb-2 border border-secondary mb-1 ${roles[i].id}">
                     <div class="col-sm-4">
                         <p>
                             ${roles[i].name}
@@ -222,37 +340,56 @@ connection.on("GetMainRoles", function (roles) {
                     <div class="col-sm-4">
                     </div>
                     <div class="col text-right d-block">
-                        <button class="btn btn-info d-inline-block">
+                        <button data-id="${roles[i].id}" class="btn btn-info d-inline-block role-opener">
                             Details
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </button>
-                        ${returnDeleteBtnIfNotDefaultRole(roles[i].name)}
+                        ${returnDeleteBtnIfNotDefaultRole(roles[i])}
                     </div>
                 </div>`;
     }
 
     $("#main").find("main").html(html);
-});
-$(document).on("click", ".open-main-roles", function (event) {
-    if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
-        removeActiveSidNavClasses();
-        connection.invoke("SendMainRolesAsync").catch(function (err) {
-            return console.error(err.toString());
-        });
-        $(this).parents(".side-navigation").first().addClass("text-dark bg-secondary")
-        event.preventDefault();
-    }
-});
-
-function returnDeleteBtnIfNotDefaultRole(roleName) {
-    if (roleName === "Administrator" || roleName === "Editor" || roleName === "RegularUser") {
+}
+function returnDeleteBtnIfNotDefaultRole(role) {
+    if (role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser") {
         return ``;
     }
 
-    return `<button class="btn btn-danger">
+    return `<button data-id="${role.id}" data-name="${role.name}" class="btn btn-danger role-deleter">
                 Delete
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>`;
+}
+function returnDeleteFunctionalityInSideNavIfNotDefaultRole(role) {
+    if (role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser") {
+        return ``;
+    }
+
+    return `<li class="nav-item m-1">
+                                <div data-id="${role.id}" data-name="${role.name}" class="delete-entity-from-side-nav text-white row m-1 role-deleter">
+                                    <span class="col text-left">Delete</span>
+                                    <span class="col text-right">
+                                        <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </li>`;
+}
+function returnUpdateBtnIfNotDefaultRole(role) {
+    if (role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser") {
+        return ``;
+    }
+
+    return `<button class="btn btn-primary" type="submit">
+                Update
+            </button>`;
+}
+function returnReadonlyIfDefaultRole(roleName) {
+    if (roleName === "Administrator" || roleName === "Editor" || roleName === "RegularUser") {
+        return `readonly`;
+    }
+
+    return '';
 }
 //#endregion
 

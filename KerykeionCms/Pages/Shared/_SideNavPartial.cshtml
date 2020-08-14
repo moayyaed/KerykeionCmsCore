@@ -128,15 +128,15 @@
         <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
             <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
             <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
-            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener open-main-images">
+            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener main-images-opener">
                 <i class="fa @ManageSideNavPages.SubImagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Images")
             </span>
             <div class="context-menu position-absolute d-none bg-dark text-white">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item m-1">
-                        <span class="text-white row m-1">
-                            <span class="col text-left open-main-images">Open</span>
+                        <span class="text-white row m-1 main-images-opener">
+                            <span class="col text-left">Open</span>
                             <span class="col text-right">
                                 <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
                             </span>
@@ -270,23 +270,23 @@
         <div class="d-block side-navigation">
             <i id="open-subnav-roles" class="fa fa-caret-right cursor-pointer ml-2 d-inline-block"></i>
             <i id="close-subnav-roles" class="fa fa-caret-down cursor-pointer ml-2 d-none"></i>
-            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener open-main-roles">
+            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener main-roles-opener">
                 <i class="fa fa-folder-o mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Rollen")
             </span>
             <div class="context-menu position-absolute d-none bg-dark text-white">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item m-1">
-                        <span class="text-white row m-1">
-                            <span class="col text-left open-main-roles">Open</span>
+                        <span class="text-white row m-1 main-roles-opener">
+                            <span class="col text-left">Open</span>
                             <span class="col text-right">
                                 <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
                             </span>
                         </span>
                     </li>
                     <li class="nav-item m-1">
-                        <span class="text-white row m-1">
-                            <span class="col text-left create-role-modal-opener">Create</span>
+                        <span class="text-white row m-1 create-role-modal-opener">
+                            <span class="col text-left">Create</span>
                             <span class="col text-right">
                                 <i class="fa fa-plus text-right" aria-hidden="true"></i>
                             </span>
@@ -308,7 +308,7 @@
 </nav>
 <div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>
 
-<div id="create-role-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal">
+<div id="create-role-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal user-select-none">
     <div class="col-sm-6 bg-dark border border-black position-absolute transform-half-half top-50 left-50 inner-modal">
         <div class="row bg-light pt-1">
             <h4 class="pb-2 col text-left">Create role</h4>
@@ -318,9 +318,10 @@
         </div>
         <div class="p-3 text-white">
             <form method="post" id="create-role-form">
+                <div class="text-danger errors-wrapper"></div>
                 <div class="form-group">
                     <label for="role-name">Name</label>
-                    <input name="role-name" class="form-control"
+                    <input name="role-name" id="role-name" class="form-control"
                            data-val="true" data-val-required="A role name is required"
                            data-val-length-max="50" data-val-length-min="5" />
                     <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>

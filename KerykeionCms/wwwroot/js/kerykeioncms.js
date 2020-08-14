@@ -28,19 +28,6 @@
         document.execCommand("copy");
     });
 
-    $(document).on("click", "a, .btn-primary", function () {
-        //showSpinner();
-    });
-
-    $(document).on("click", ".btn-danger", function (evnt) {
-        evnt.preventDefault();
-        var isSure = confirm("Bent u zeker dat dit verwijderd mag worden?");
-        if (isSure) {
-            showSpinner();
-            $(this).parents("form").submit();
-        }
-    });
-
     $(document).on("click", "#open-sidebar", function () {
         $(this).addClass("d-none");
         document.getElementById("side-navigation").style.width = "250px";
