@@ -1,14 +1,10 @@
 ﻿@using Microsoft.EntityFrameworkCore
 @using KerykeionCmsCore.Dtos
-@using KerykeionCmsCore.Classes
 @using KerykeionCmsCore.Services
-@using Microsoft.AspNetCore.Identity
 @inject EntitiesService EntitiesService
 @inject KerykeionWebPagesService WebPageService
 @inject KerykeionArticlesService ArticlesService
 @inject KerykeionTranslationsService TranslationService
-@inject RoleManager<IdentityRole<Guid>> RoleManager
-@inject KerykeionImagesService ImagesService
 @inject ThemesService ThemesService
 @{
     var tableNames = EntitiesService.GetEntitiesTableNames();
@@ -18,12 +14,6 @@
         Id = a.Id,
         Name = a.Name
     }).ToListAsync();
-    var images = await ImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
-    {
-        Id = i.Id,
-        Name = i.Name
-    }).ToListAsync();
-    var roles = await RoleManager.Roles.OrderBy(r => r.Name).ToListAsync();
 }
 
 <nav id="side-navigation" class="user-select-none border-right border-secondary h-100 pt-2 position-fixed text-nowrap top-0 left-0 @ThemesService.BgAndColorTheme z-index-1">
@@ -135,82 +125,36 @@
         </div>
     </div>
     <div id="side-nav-images-wrapper">
-        <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
+        <div class="d-block side-navigation">
             <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
             <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
-            <a class="nav-link d-inline-block text-inherit w-100 context-menu-opener @ManageSideNavPages.ImagesNavActive(ViewContext, true)" asp-page="/Images/Index">
+            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener main-images-opener">
                 <i class="fa @ManageSideNavPages.SubImagesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Images")
-            </a>
+            </span>
             <div class="context-menu position-absolute d-none bg-dark text-white">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item m-1">
-                        <a asp-area="KerykeionCms" asp-page="/Images/Index" class="text-white row m-1">
-                            <div class="col text-left">Open</div>
-                            <div class="col text-right">
+                        <span class="text-white row m-1 main-images-opener">
+                            <span class="col text-left">Open</span>
+                            <span class="col text-right">
                                 <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                            </div>
-                        </a>
+                            </span>
+                        </span>
                     </li>
                     <li class="nav-item m-1">
-                        <a asp-area="KerykeionCms" asp-page="/Images/Index" class="text-white row m-1" target="_blank">
-                            <div class="col text-left">Open in new tab</div>
-                            <div class="col text-right">
-                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item m-1">
-                        <a asp-area="KerykeionCms" asp-page="/Images/Create" class="text-white row m-1">
-                            <div class="col text-left">Create</div>
-                            <div class="col text-right">
+                        <span class="text-white row m-1">
+                            <span class="col text-left">Create</span>
+                            <span class="col text-right">
                                 <i class="fa fa-plus text-right" aria-hidden="true"></i>
-                            </div>
-                        </a>
+                            </span>
+                        </span>
                     </li>
                 </ul>
             </div>
         </div>
         <div id="subnav-images" class="@ManageSideNavPages.SubImagesDisplay(ViewContext)">
-            @foreach (var image in images)
-            {
-                <div class="side-navigation">
-                    <a class="nav-link text-inherit context-menu-opener @(string.Equals(image.Id.ToString(), ViewData["ImgId"]?.ToString(), StringComparison.OrdinalIgnoreCase) ? "bg-secondary disabled text-dark" : "")" asp-page="/Images/Update" asp-route-id="@image.Id">
-                        <span class="ml-5">
-                            <i class="fa fa-picture-o mr-1" aria-hidden="true"></i>
-                            @image.Name
-                        </span>
-                    </a>
-                    <div class="context-menu position-absolute d-none bg-dark text-white">
-                        <ul class="nav nav-pills flex-column">
-                            <li class="nav-item m-1">
-                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1">
-                                    <div class="col text-left">Open</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a asp-page="/Images/Update" asp-route-id="@(image.Id)" class="text-white row m-1" target="_blank">
-                                    <div class="col text-left">Open in new tab</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="nav-item m-1">
-                                <a data-name="@($"Image: {image.Name}")" data-table="@(EntitiesService.FindTableNameByClrType(typeof(Image)))" data-id="@image.Id" data-page="@ViewContext.RouteData.Values["Page"].ToString()" class="delete-entity-from-side-nav text-white row m-1">
-                                    <div class="col text-left">Delete</div>
-                                    <div class="col text-right">
-                                        <i class="fa fa-trash-o text-right text-danger" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+            
         </div>
     </div>
     <div id="side-nav-entities-wrapper">
@@ -323,24 +267,36 @@
         </div>
     </div>
     <div id="side-nav-roles-wrapper">
-        <div class="d-block side-navigation @ManageSideNavPages.RoleAddNavActive(ViewContext)">
-            <i id="open-subnav-roles" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubRolesOpenCarretDisplay(ViewContext)"></i>
-            <i id="close-subnav-roles" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubRolesCloseCarretDisplay(ViewContext)"></i>
-            <a class="nav-link d-inline-block text-inherit w-100 @ManageSideNavPages.RoleAddNavActive(ViewContext, true)" asp-page="/RoleAdd">
-                <i class="fa @ManageSideNavPages.SubRolesOpenFolderDisplay(ViewContext) mr-1" aria-hidden="true"></i>
+        <div class="d-block side-navigation">
+            <i id="open-subnav-roles" class="fa fa-caret-right cursor-pointer ml-2 d-inline-block"></i>
+            <i id="close-subnav-roles" class="fa fa-caret-down cursor-pointer ml-2 d-none"></i>
+            <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener main-roles-opener">
+                <i class="fa fa-folder-o mr-1" aria-hidden="true"></i>
                 @await TranslationService.TranslateAsync("Rollen")
-            </a>
+            </span>
+            <div class="context-menu position-absolute d-none bg-dark text-white">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item m-1">
+                        <span class="text-white row m-1 main-roles-opener">
+                            <span class="col text-left">Open</span>
+                            <span class="col text-right">
+                                <i class="fa fa-arrow-circle-right text-right text-info" aria-hidden="true"></i>
+                            </span>
+                        </span>
+                    </li>
+                    <li class="nav-item m-1">
+                        <span class="text-white row m-1 create-role-modal-opener">
+                            <span class="col text-left">Create</span>
+                            <span class="col text-right">
+                                <i class="fa fa-plus text-right" aria-hidden="true"></i>
+                            </span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div id="subnav-roles" class="@ManageSideNavPages.SubRolesDisplay(ViewContext)">
-            @foreach (var role in roles)
-            {
-                <a class="nav-link side-navigation text-inherit @(ViewData["RoleName"]?.ToString() == role.Name ? "bg-secondary disabled text-dark" : "")" asp-page="/Role" asp-route-id="@role.Id">
-                    <span class="ml-5">
-                        <i class="fa fa-id-badge mr-1" aria-hidden="true"></i>
-                        @role.Name
-                    </span>
-                </a>
-            }
+        <div id="subnav-roles" class="d-none">
+            
         </div>
     </div>
     <div class="d-block side-navigation @ManageSideNavPages.UsersNavActive(ViewContext)">
@@ -351,4 +307,35 @@
     </div>
 </nav>
 <div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>
-<form method="post" class="d-none"></form>
+<form method="post" class="d-none" id="verif-token-holder"></form>
+
+<div id="role-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal user-select-none">
+    <div class="col-sm-6 bg-dark border border-black position-absolute transform-half-half top-50 left-50 inner-modal">
+        <div class="row bg-light pt-1">
+            <h4 class="pb-2 col text-left"></h4>
+            <span class="col text-right">
+                <button class="btn btn-cancel p-1">&#10006;</button>
+            </span>
+        </div>
+        <div class="p-3 text-white">
+            <form method="post" id="create-role-form">
+                <div class="text-danger errors-wrapper"></div>
+                <div class="form-group">
+                    <label for="role-name">Name</label>
+                    <input name="role-name" id="role-name" class="form-control"
+                           data-val="true" data-val-required="A role name is required"
+                           data-val-length-max="50" data-val-length-min="5" data-val-length="The length of the 'Name' has to be between 5 and 50 characters." />
+                    <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Create" />
+                </div>
+            </form>
+        </div>
+        <div class="row bg-black-trans p-1">
+            <div class="col text-right">
+                <button class="btn btn-cancel text-white"></button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,7 +32,7 @@ namespace KerykeionCms.Builders
             Services = services;
             IdentityBuilder = identityBuilder;
 
-            services.TryAddScoped<EntitiesService>();
+            Services.TryAddScoped<EntitiesService>();
             Services.TryAddScoped<ImagesService>();
             Services.TryAddScoped<KerykeionImagesService>();
             Services.TryAddScoped<KerykeionWebPagesService>();
@@ -43,15 +43,15 @@ namespace KerykeionCms.Builders
             Services.TryAddTransient<IEmailService, EmailService>();
 
 
-            var kerykeionOpts = services.BuildServiceProvider().GetService<IOptions<KerykeionCmsOptions>>().Value;
+            var kerykeionOpts = Services.BuildServiceProvider().GetService<IOptions<KerykeionCmsOptions>>().Value;
 
-            services.AddAuthorization(options => options.AddPolicy(PolicyConstants.AdministratorRequirementPolicy,
+            Services.AddAuthorization(options => options.AddPolicy(PolicyConstants.AdministratorRequirementPolicy,
                 policy => policy.AddRequirements(new AdministratorRoleRequirement(kerykeionOpts.Pages.RequireAdministratorRoleToAccessCmsPages))));
 
-            services.AddAuthorization(options => options.AddPolicy(PolicyConstants.AtLeastEditorRequirementPolicy,
+            Services.AddAuthorization(options => options.AddPolicy(PolicyConstants.AtLeastEditorRequirementPolicy,
                     policy => policy.AddRequirements(new AtLeastEditorRoleRequirement(kerykeionOpts.Pages.RequireAdministratorRoleToAccessCmsPages))));
 
-            services.ConfigureOptions(typeof(KerykeionCmsConfigurationOptions));
+            Services.ConfigureOptions(typeof(KerykeionCmsConfigurationOptions));
 
             Services.AddSingleton<IAuthorizationHandler, AdministratorRoleRequirementHandler>();
             Services.AddSingleton<IAuthorizationHandler, AtLeastEditorRoleRequirementHandler>();
@@ -63,7 +63,8 @@ namespace KerykeionCms.Builders
                 options.SlidingExpiration = true;
             });
 
-            services.AddRazorPages();
+            Services.AddRazorPages();
+            Services.AddSignalR();
         }
 
         /// <summary>

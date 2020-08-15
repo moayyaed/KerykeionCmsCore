@@ -1,7 +1,58 @@
 ﻿$(document).ready(function () {
+
+    configureContextMenu();
+    openCreateRoleModal();
+    closeModal();
+});
+
+function openCreateRoleModal() {
+    $(document).on("click", ".create-role-modal-opener", function () {
+        setupRoleModal("Create role", "create-role-form", "Create", "", null, false);
+    });
+}
+function setupRoleModal(title, formId, formSubmitValue, roleName, roleId, isRequiredRole) {
+    var modal = $("#role-modal");
+    var form = modal.find("form");
+    var roleNameInput = form.find("#role-name");
+    var btnFormSubmit = form.find("input[type=submit]");
+    var btnCancel = modal.find(".btn-cancel").last();
+
+    $("#role-id-form-group").remove();
+
+    modal.find("h4").text(title);
+    form.attr("id", formId);
+    form.find(".text-danger").html("");
+    btnFormSubmit.val(formSubmitValue);
+    btnCancel.html("Cancel");
+
+    if (isRequiredRole) btnFormSubmit.addClass("d-none");
+    else btnFormSubmit.removeClass("d-none");
+
+    roleNameInput.val(roleName);
+    roleNameInput.attr("readonly", isRequiredRole);
+
+    if (roleId != null) {
+        $(`<div id="role-id-form-group" class="form-group">
+               <label>ID</label>
+               <input id="role-id" class="form-control entity-value-to-copy-to-clipboard cursor-pointer" readonly value="${roleId}"/>
+           </div>`).insertBefore(form.find(".form-group").first())
+        btnCancel.html("Close");
+    }
+
+    modal.removeClass("d-none");
+}
+
+
+function closeModal() {
+    $(document).on("click", ".btn-cancel", function (event) {
+        $(this).parents(".custom-modal").addClass('d-none'); 7
+        removeActiveSidNavClasses();
+    });
+}
+function configureContextMenu() {
     var isCustomContextMenu = false;
 
-    $(".context-menu-opener").on("contextmenu", function (event) {
+    $(document).on("contextmenu", ".context-menu-opener", function (event) {
         event.preventDefault();
         isCustomContextMenu = true;
 
@@ -21,47 +72,34 @@
                 updateContextMenusClasses();
             }
         }, 25);
-
     });
 
-    $(document).on("click", function () {
+    $(document).on("click", function (event) {
+        var target = event.target;
         updateContextMenusClasses();
-    });
 
-    $(document).on("click", ".delete-entity-from-side-nav", function () {
-        var isSure = confirm(`'${$(this).data("name")}' will be permanently deleted.`);
-        if (isSure) {
-            showSpinner();
+        if ($(target).hasClass("inner-modal")) {
+            return;
+        }
 
-            var element = $(this);
-            var dto = { Id: $(this).data("id"), Table: $(this).data("table") };
-
-            postAjax(JSON.stringify(dto), `/KerykeionCms${$(this).data("page")}?handler=DeleteViaAjax`, "application/json;charset=utf-8", function (result) {
-                if (result.successfull) {
-                    hideSpinner();
-                    element.parents(".side-navigation").first().remove();
-                }
-                else {
-                    hideSpinner();
-
-                    var error = "";
-
-                    for (var i = 0; i < result.errors.length; i++) {
-                        error += `\n${result.errors[i].message}`;
-                    }
-
-                    alert(error);
-                }
-            });
+        if ($(target).hasClass("custom-modal")) {
+            $(target).addClass("d-none");
+            removeActiveSidNavClasses();
         }
     });
-});
-
+}
 function updateContextMenusClasses() {
     $(".context-menu").each(function () {
         if (!$(this).hasClass("d-none")) {
             $(this).addClass("d-none");
             $(this).parents(".side-navigation").first().removeClass("bg-black-trans");
+        }
+    });
+}
+function removeActiveSidNavClasses() {
+    $(".side-navigation").each(function () {
+        if ($(this).hasClass("bg-secondary")) {
+            $(this).removeClass("text-dark bg-secondary");
         }
     });
 }
