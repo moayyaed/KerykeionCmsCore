@@ -27,7 +27,7 @@ namespace KerykeionCms.Hubs
         #region Images
         public async Task SendSideNavImagesAsync()
         {
-            await Clients.Caller.SendAsync("GetSideNavImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
+            await Clients.Caller.SendAsync("ReceiveSideNavImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
             {
                 Id = i.Id,
                 Name = i.Name
@@ -36,7 +36,7 @@ namespace KerykeionCms.Hubs
 
         public async Task SendMainImagesAsync()
         {
-            await Clients.Caller.SendAsync("GetMainImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
+            await Clients.Caller.SendAsync("ReceiveMainImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
             {
                 Id = i.Id,
                 Url = i.Url,
