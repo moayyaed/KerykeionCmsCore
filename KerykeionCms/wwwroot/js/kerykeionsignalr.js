@@ -179,7 +179,7 @@ $(document).on("click", ".main-roles-opener", function (event) {
 
 connection.on("ReceiveCreateRoleResult", function (result, roles, role) {
     if (!result.succeeded) {
-        displayErrors("create-role-form", result);
+        displayErrors("create-role-form", result.errors);
     }
     else {
         displaySideNavRoles(roles);
@@ -198,7 +198,7 @@ $(document).on("submit", "#create-role-form", function (event) {
 
 connection.on("ReceiveUpdateRoleResult", function (result, roles, role) {
     if (!result.succeeded) {
-        displayErrors("update-role-form", result);
+        displayErrors("update-role-form", result.errors);
     }
     else {
         displaySideNavRoles(roles);
@@ -388,10 +388,10 @@ function returnReadonlyIfDefaultRole(roleName) {
 }
 //#endregion
 
-function displayErrors(formId, result) {
+function displayErrors(formId, errors) {
     var html = '<ul>';
-    for (var i = 0; i < result.errors.length; i++) {
-        html += `<li>${result.errors[i].description}</li>`;
+    for (var i = 0; i < errors.length; i++) {
+        html += `<li>${errors[i].description}</li>`;
     }
     html += '</ul>';
     $(`#${formId}`).find(".errors-wrapper").html(html);
