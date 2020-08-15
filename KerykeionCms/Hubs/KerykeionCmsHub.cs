@@ -81,7 +81,7 @@ namespace KerykeionCms.Hubs
         {
             var role = await _roleManager.FindByIdAsync(id);
 
-            await Clients.Caller.SendAsync("ReceiveRoleDeleted", await _roleManager.DeleteAsync(role), id);
+            await Clients.Caller.SendAsync("ReceiveRoleDeleted", await _roleManager.DeleteAsync(role), role);
         }
 
         private async Task<IEnumerable<IdentityRole<Guid>>> ListRolesOrderedByNameAsync()

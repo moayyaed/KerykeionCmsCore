@@ -152,7 +152,7 @@ $(document).on("click", ".main-images-opener", function (event) {
 //#region Roles
 connection.on("GetSideNavRoles", function (roles) {
     areSideNavRolesLoaded = true;
-    fillSideNavRoles(roles);
+    displaySideNavRoles(roles);
 });
 $(document).on("click", "#open-subnav-roles", function (event) {
     if (!areSideNavRolesLoaded) {
@@ -179,17 +179,12 @@ $(document).on("click", ".main-roles-opener", function (event) {
 
 connection.on("ReceiveCreateRoleResult", function (result, roles, role) {
     if (!result.succeeded) {
-        var html = '<ul>';
-        for (var i = 0; i < result.errors.length; i++) {
-            html += `<li>${result.errors[i].description}</li>`;
-        }
-        html += '</ul>';
-        $("#create-role-form").find(".errors-wrapper").html(html);
+        displayErrors("create-role-form", result);
     }
     else {
-        $("#create-role-modal").addClass("d-none");
-        fillSideNavRoles(roles);
-        setupRoleDetails(role, false);
+        displaySideNavRoles(roles);
+        displayMainRoles(roles);
+        setupRoleDetails(role);
     }
 });
 $(document).on("submit", "#create-role-form", function (event) {
@@ -202,42 +197,24 @@ $(document).on("submit", "#create-role-form", function (event) {
 });
 
 connection.on("ReceiveUpdateRoleResult", function (result, roles, role) {
-    console.log(result);
     if (!result.succeeded) {
-        var html = '<ul>';
-        for (var i = 0; i < result.errors.length; i++) {
-            html += `<li>${result.errors[i].description}</li>`;
-        }
-        html += '</ul>';
-        $("#update-role-form").find(".errors-wrapper").html(html);
+        displayErrors("update-role-form", result);
     }
     else {
-        fillSideNavRoles(roles);
-        setupRoleDetails(role, true);
+        displaySideNavRoles(roles);
+        displayMainRoles(roles);
+        setupRoleDetails(role);
     }
 });
 $(document).on("submit", "#update-role-form", function (event) {
     event.preventDefault();
-    $(this).validate({
-        errorClass: "text-danger",
-        rules: {
-            updatedname: {
-                required: true,
-                minlength: 5,
-                maxlength: 50
-            }
-        },
-        messages: {
-            updatedname: {
-                required: "A name is required.",
-                minlength: jQuery.validator.format("At least {0} characters required."),
-                maxlength: jQuery.validator.format("At max {0} characters allowed."),
-            }
-        }
-    });
+    if ($(this).find("#role-id").val().toLowerCase() === "A2EB5341-22E7-43C7-AC0E-C4AFED51DB2B".toLowerCase() || $(this).find("#role-id").val().toLowerCase() === "57F5DC72-FA6D-4038-B337-D00BEF5A759A".toLowerCase() || $(this).find("#role-id").val().toLowerCase() === "2DD7B94B-CE9A-473A-B955-2FAD487BD435".toLowerCase()) {
+        alert("This role can not be updated.");
+        return;
+    }
 
     if ($(this).valid()) {
-        connection.invoke("UpdateRoleAsync", $("#updated-role-name").val(), $(this).data("id")).catch(function (err) {
+        connection.invoke("UpdateRoleAsync", $("#role-name").val(), $(this).find("#role-id").val()).catch(function (err) {
             return console.error(err.toString());
         });
     }
@@ -255,11 +232,12 @@ $(document).on("click", ".role-opener", function (event) {
     event.preventDefault();
 });
 
-connection.on("ReceiveRoleDeleted", function (result, id) {
+connection.on("ReceiveRoleDeleted", function (result, role) {
     if (result.succeeded) {
-        $(`.${id}`).remove();
-        $("#main").find("main").prepend(`<div class="alert alert-success mt-2 mb-2" role="alert">
-            The role has been deleted successfully.
+        $(`.${role.id}`).remove();
+        $("#main").find("main").prepend(`<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Role "${role.name}" has been deleted successfully.
         </div>`);
     }
     else {
@@ -278,49 +256,20 @@ $(document).on("click", ".role-deleter", function (event) {
 });
 
 
-function setupRoleDetails(role, isUpdated) {
+function setupRoleDetails(role) {
     if (role == null) {
         return;
     }
 
+    setupRoleModel(`Role: ${role.name}`, "update-role-form", "Update", role.name, role.id, role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser");
     removeActiveSidNavClasses();
     $("#open-subnav-roles").trigger("click");
-
-    $("#main").find("main").html(`<div class="border-bottom border-secondary pb-1 mb-3 ${role.id}">
-                                        <h1>Role - ${role.name}</h1>
-                                  </div>
-                                  ${isUpdated ? `<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        The role has been updated successfully.
-        </div>` : ``}
-                                  <div class="col-sm-6">
-                                  <form method="post" class="p-3" id="update-role-form" data-id="${role.id}">
-                                      <div class="text-danger errors-wrapper"></div>
-                                      <div class="form-group">
-                                          <label>ID</label>
-                                          <input class="form-control entity-value-to-copy-to-clipboard cursor-pointer" readonly value="${role.id}"/>
-                                      </div>
-                                      <div class="form-group">
-                                          <label for="updatedname">Name</label>
-                                          <input name="updatedname" id="updated-role-name" class="form-control" value="${role.name}" ${returnReadonlyIfDefaultRole(role.name)} />
-                                      </div>
-                                      <div class="form-group">
-                                          ${returnUpdateBtnIfNotDefaultRole(role)}
-                                      </div>
-                                      ${document.getElementById("verif-token-holder").innerHTML}
-                                  </form>
-                                    <div class="row">
-                                        <div class="text-right">
-                                        ${returnDeleteBtnIfNotDefaultRole(role)}
-                                        </div>
-                                    </div>
-                              </div>`);
 
     setTimeout(function () {
         $("#subnav-roles").find(`.${role.id}`).addClass("text-dark bg-secondary");
     }, 100);
 }
-function fillSideNavRoles(roles) {
+function displaySideNavRoles(roles) {
     var html = '';
 
     for (var i = 0; i < roles.length; i++) {
@@ -439,10 +388,11 @@ function returnReadonlyIfDefaultRole(roleName) {
 }
 //#endregion
 
-function removeActiveSidNavClasses() {
-    $(".side-navigation").each(function () {
-        if ($(this).hasClass("bg-secondary")) {
-            $(this).removeClass("text-dark bg-secondary");
-        }
-    });
+function displayErrors(formId, result) {
+    var html = '<ul>';
+    for (var i = 0; i < result.errors.length; i++) {
+        html += `<li>${result.errors[i].description}</li>`;
+    }
+    html += '</ul>';
+    $(`#${formId}`).find(".errors-wrapper").html(html);
 }
