@@ -64,75 +64,9 @@ $(document).on("click", "#open-subnav-images", function (event) {
 });
 
 connection.on("ReceiveMainImages", function (images) {
+    displayMainEntities(images, "Images", "CreateOpenerNotYetDefined", "image-opener", "image-deleter");
     setMainPagesBooleans(false, true);
     setSideNavsMainPageActivity();
-    var html = `<div class="row border-bottom border-secondary">
-                    <div class="col-sm-6">
-                        <h2>Images</h2>
-                    </div>
-                </div>
-                <div class="mt-1 text-right">
-                    <button class="btn btn-success">
-                        Create
-                        <i class="fa fa-plus-square" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="mt-5 row pb-1 border-bottom border-secondary">
-                <div class="col-sm-3">
-
-                </div>
-                <div class="col-sm-3">
-                    <h5>
-                        <span class="text-inherit" id="sort-images-by-name">
-                            Title
-                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
-                            <input type="hidden" value="Ascending" />
-                        </span>
-                    </h5>
-                </div>
-                <div class="col-sm-3">
-                    <h5>
-                        <span class="text-inherit" id="sort-images-by-datetime">
-                            Added on
-                            <i class="fa fa-sort" aria-hidden="true"></i>
-                            <input type="hidden" value="None" />
-                        </span>
-                    </h5>
-                </div>
-                <div class="col">
-
-                </div>
-                </div>`;
-
-    for (var i = 0; i < images.length; i++) {
-        html += `<div class="row pt-2 pb-2 border border-secondary mb-1">
-                <div class="col-sm-3">
-                    <img src="${images[i].url}" class="img-fluid" />
-                </div>
-                <div class="col-sm-3">
-                    <p>
-                        ${images[i].name}
-                    </p>
-                </div>
-                <div class="col-sm-3">
-                    <p>
-                        ${images[i].dateTimeCreated}
-                    </p>
-                </div>
-                <div class="col text-right d-block">
-                    <button class="btn btn-info d-inline-block">
-                        Details
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    </button>
-                    <button type="submit" class="btn btn-danger">
-                        Delete
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>`;
-    }
-
-    $("#main").find("main").html(html);
 });
 $(document).on("click", ".main-images-opener", function (event) {
     if (!isMainImagesPage) {
@@ -166,7 +100,8 @@ $(document).on("click", "#open-subnav-roles", function (event) {
 });
 
 connection.on("ReceiveMainRoles", function (roles) {
-    displayMainRoles(roles);
+    displayMainEntities(roles, "Roles", "create-role-modal-opener", "role-opener", "role-deleter");
+    setRolesActive();
 });
 $(document).on("click", ".main-roles-opener", function (event) {
     if (!isMainRolesPage) {
@@ -184,8 +119,13 @@ connection.on("ReceiveCreateRoleResult", function (result, roles, role) {
     }
     else {
         displaySideNavRoles(roles);
-        displayMainRoles(roles);
+        if (isMainRolesPage) displayMainEntities(roles, "Roles", "create-role-modal-opener");
         setupRoleDetails(role);
+        $(".alert").remove();
+        $(`<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Role "${role.name}" has been CREATED successfully.
+        </div>`).insertBefore("#update-role-form");
     }
 });
 $(document).on("submit", "#create-role-form", function (event) {
@@ -203,8 +143,13 @@ connection.on("ReceiveUpdateRoleResult", function (result, roles, role) {
     }
     else {
         displaySideNavRoles(roles);
-        displayMainRoles(roles);
+        if (isMainRolesPage) displayMainEntities(roles, "Roles", "create-role-modal-opener");
         setupRoleDetails(role);
+        $(".alert").remove();
+        $(`<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Role "${role.name}" has been UPDATED successfully.
+        </div>`).insertBefore("#update-role-form");
     }
 });
 $(document).on("submit", "#update-role-form", function (event) {
@@ -222,6 +167,7 @@ $(document).on("submit", "#update-role-form", function (event) {
 });
 
 connection.on("ReceiveRole", function (role) {
+    $(".alert").remove();
     setupRoleDetails(role);
 });
 $(document).on("click", ".role-opener", function (event) {
@@ -238,7 +184,7 @@ connection.on("ReceiveRoleDeleted", function (result, role) {
         $(`.${role.id}`).remove();
         $("#main").find("main").prepend(`<div class="alert alert-success alert-dismissible mt-2 mb-2" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            Role "${role.name}" has been deleted successfully.
+            Role "${role.name}" has been DELETED successfully.
         </div>`);
     }
     else {
@@ -259,13 +205,16 @@ $(document).on("click", ".role-deleter", function (event) {
     }
 });
 
-
+function setRolesActive() {
+    setMainPagesBooleans(true, false);
+    setSideNavsMainPageActivity();
+}
 function setupRoleDetails(role) {
     if (role == null) {
         return;
     }
 
-    setupRoleModal(`Role: ${role.name}`, "update-role-form", "Update", role.name, role.id, role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser");
+    setupModal(`Role: ${role.name}`, "update-role-form", "Update", role.name, role.id, role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser");
     removeActiveSidNavClasses();
     setSideNavsMainPageActivity();
     $("#open-subnav-roles").trigger("click");
@@ -315,7 +264,7 @@ function displayMainRoles(roles) {
                         <i class="fa fa-plus-square" aria-hidden="true"></i>
                     </button>
                 </div>
-                <div class="mt-3 row pb-1 border-bottom border-secondary">
+                <div class="mt-3 mb-2 row pb-1 border-bottom border-secondary">
                     <div class="col-sm-4">
                         <h5>
                             <a class="text-inherit" asp-page-handler="SortName" id="sort-roles-by-name">
@@ -382,6 +331,7 @@ function returnDeleteFunctionalityInSideNavIfNotDefaultRole(role) {
 }
 //#endregion
 
+
 function displayErrors(formId, errors) {
     var html = '<ul>';
     for (var i = 0; i < errors.length; i++) {
@@ -390,12 +340,10 @@ function displayErrors(formId, errors) {
     html += '</ul>';
     $(`#${formId}`).find(".errors-wrapper").html(html);
 }
-
 function setMainPagesBooleans(isRolesPage, isImagesPage) {
     isMainRolesPage = isRolesPage;
     isMainImagesPage = isImagesPage;
 }
-
 function setSideNavsMainPageActivity() {
     if (isMainRolesPage) {
         $("#side-nav-roles-wrapper").addClass("bg-grey-trans").children().first().removeClass("side-navigation");
@@ -405,4 +353,107 @@ function setSideNavsMainPageActivity() {
         $("#side-nav-roles-wrapper").removeClass("bg-grey-trans").children().first().addClass("side-navigation");
         $("#side-nav-images-wrapper").addClass("bg-grey-trans").children().first().removeClass("side-navigation");
     }
+}
+
+
+function displayMainEntities(entities, pageTitle, createOpener, detailOpener, deleter) {
+    var html = `<div class="row border-bottom border-secondary">
+                    <div class="col-sm-6">
+                        <h2>${pageTitle}</h2>
+                    </div>
+                </div>
+                <div class="mt-1 text-right">
+                    <button class="btn btn-success ${createOpener}">
+                        Create
+                        <i class="fa fa-plus-square" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="mt-3 mb-2 row pb-1 border-bottom border-secondary">
+                    ${getEntityKeyCollumnsHtml(entities[0])}
+                </div>`;
+
+    html += getHtmlContainingEntities(entities, detailOpener, deleter);
+    $("#main").find("main").html(html);
+}
+function getHtmlContainingEntities(entities, detailOpener, deleter) {
+    var html = "";
+
+    for (var i = 0; i < entities.length; i++) {
+        html += `<div class="row pt-2 pb-2 border border-secondary mb-1 ${entities[i].id}">
+            ${getEntityValueCollumnsHtml(entities[i])}
+            <div class="col text-right d-block">
+                <button data-id="${entities[i].id}" class="btn btn-info d-inline-block ${detailOpener}">
+                    Details
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </button>
+                <button data-id="${entities[i].id}" data-name="${entities[i].name}" class="btn btn-danger d-inline-block ${deleter}">
+                    Delete
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>`
+    }
+
+    return html;
+}
+function getEntityKeyCollumnsHtml(entity) {
+    var columnClass = `col-sm-${Math.floor(12 / Object.keys(entity).length)}`;
+    var html = "";
+    for (var i = 0; i < Object.keys(entity).length; i++) {
+        if (Object.keys(entity)[i] === "id") {
+            continue;
+        }
+        if (Object.keys(entity)[i] === "imageUrl") {
+            html += `<div class="${columnClass}">
+            </div>`
+            continue;
+        }
+        if (Object.keys(entity)[i] === "name" || Object.keys(entity)[i] === "title") {
+            html += `<div class="${columnClass}"><h5>
+                        <span class="text-inherit cursor-pointer" id="sort-entities-by-name">
+                            ${Object.keys(entity)[i].toUpperCase()}
+                            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i>
+                            <input type="hidden" value="Ascending" />
+                        </span>
+                    </h5></div>`;
+            continue;
+        }
+        if (Object.keys(entity)[i] === "created") {
+            html += `<div class="${columnClass}"><h5>
+                        <span class="text-inherit cursor-pointer" id="sort-entities-by-datetime">
+                            ${Object.keys(entity)[i].toUpperCase()}
+                            <i class="fa fa-sort" aria-hidden="true"></i>
+                            <input type="hidden" value="Ascending" />
+                        </span>
+                    </h5></div>`;
+            continue;
+        }
+        html += `<div class="${columnClass}">
+                <h5>
+                    ${Object.keys(entity)[i].toUpperCase()}
+                </h5>
+            </div>`
+    }
+    return html;
+}
+function getEntityValueCollumnsHtml(entity) {
+    var columnClass = `col-sm-${Math.floor(12 / Object.keys(entity).length)}`;
+    var html = "";
+    for (const [key, value] of Object.entries(entity)) {
+        if (key === "id") {
+            continue;
+        }
+        if (key === "imageUrl") {
+            html += `<div class="${columnClass}">
+                <img src="${value}" class="img-fluid"/>
+            </div>`
+            continue;
+        }
+        html += `<div class="${columnClass}">
+                <p>
+                    ${value}
+                </p>
+            </div>`
+    }
+    return html;
 }

@@ -301,51 +301,6 @@ function prepSortAjax(clickedSorter, partnerSorter, ascClass, descClass, partner
     return dto;
 }
 
-function getHtmlContainingSortedEntitiesByAjax(result) {
-    console.log(result);
-    var html = "";
-
-    for (var i = 0; i < result.entities.length; i++) {
-        html += `<div class="row pt-2 pb-2 border border-secondary mb-1">
-            ${getEntityInformationCollumnsHtmlByAjax(result.entities[i])}
-            <div class="col text-right d-block">
-                <a class="btn btn-info d-inline-block" href="/KerykeionCms/${result.updateUrl}?id=${result.entities[i].id}${getTableUrlIfAny(result)}">
-                    ${result.txtUpdate}
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </a>
-                ${createDeleteForm(result, result.entities[i].id)}
-            </div>
-        </div>`
-    }
-
-    return html;
-}
-
-function getEntityInformationCollumnsHtmlByAjax(entity) {
-    var columnSize = Math.floor(12 / Object.keys(entity).length);
-    var columnClass = `col-sm-${columnSize}`;
-    var html = "";
-    for (key in entity) {
-        if (key === "id") {
-            continue;
-        }
-        if (key === "url") {
-            html += `<div class="${columnClass}">
-                <img src="${entity[key]}" class="img-fluid"/>
-            </div>`
-            continue;
-        }
-        if (entity.hasOwnProperty(key)) {
-            html += `<div class="${columnClass}">
-                <p>
-                    ${entity[key]}
-                </p>
-            </div>`
-        }
-    }
-    return html;
-}
-
 function createDeleteForm(result, entityId) {
     var verfTokenEl = document.getElementById("verif-token-holder").innerHTML;
     var formEl = document.createElement("form");
