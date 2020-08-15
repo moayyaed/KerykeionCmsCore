@@ -36,12 +36,12 @@ namespace KerykeionCms.Hubs
 
         public async Task SendMainImagesAsync()
         {
-            await Clients.Caller.SendAsync("ReceiveMainImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new ImageDto
+            await Clients.Caller.SendAsync("ReceiveMainImages", await _kerykeionImagesService.GetAll().OrderBy(i => i.Name).Select(i => new
             {
-                Id = i.Id,
-                Url = i.Url,
+                i.Id,
+                ImageUrl = i.Url,
                 Name = $"{i.Name.SubstringMaxLengthOrGivenLength(0, 20)}",
-                DateTimeCreated = $"{i.DateTimeCreated.Value.ToShortDateString()} - ({i.DateTimeCreated.Value.ToShortTimeString()})"
+                Created = $"{i.DateTimeCreated.Value.ToShortDateString()} - ({i.DateTimeCreated.Value.ToShortTimeString()})"
             }).ToListAsync());
         }
         #endregion
@@ -84,9 +84,13 @@ namespace KerykeionCms.Hubs
             await Clients.Caller.SendAsync("ReceiveRoleDeleted", await _roleManager.DeleteAsync(role), role);
         }
 
-        private async Task<IEnumerable<IdentityRole<Guid>>> ListRolesOrderedByNameAsync()
+        private async Task<IEnumerable<object>> ListRolesOrderedByNameAsync()
         {
-            return await _roleManager.Roles.OrderBy(r => r.Name).ToListAsync();
+            return await _roleManager.Roles.OrderBy(r => r.Name).Select(r => new 
+            {
+                r.Id,
+                r.Name
+            }).ToListAsync();
         }
         #endregion
     }
