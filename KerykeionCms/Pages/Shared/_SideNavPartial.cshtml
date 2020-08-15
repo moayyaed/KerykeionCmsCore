@@ -1,6 +1,7 @@
 ﻿@using Microsoft.EntityFrameworkCore
 @using KerykeionCmsCore.Dtos
 @using KerykeionCmsCore.Services
+@using KerykeionCmsCore.Classes
 @inject EntitiesService EntitiesService
 @inject KerykeionWebPagesService WebPageService
 @inject KerykeionArticlesService ArticlesService
@@ -307,9 +308,8 @@
     </div>
 </nav>
 <div id="side-bar-dragger" class="bg-secondary h-100 position-fixed top-0 z-index-1051"></div>
-<form method="post" class="d-none" id="verif-token-holder"></form>
 
-<div id="role-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal user-select-none">
+<div id="cru-modal" class="position-fixed d-none w-100 h-100 top-0 left-0 right-0 bottom-0 z-index-1051 custom-modal user-select-none">
     <div class="col-sm-6 bg-dark border border-black position-absolute transform-half-half top-50 left-50 inner-modal">
         <div class="row bg-light pt-1">
             <h4 class="pb-2 col text-left"></h4>
@@ -317,20 +317,8 @@
                 <button class="btn btn-cancel p-1">&#10006;</button>
             </span>
         </div>
-        <div class="p-3 text-white">
-            <form method="post" id="create-role-form">
-                <div class="text-danger errors-wrapper"></div>
-                <div class="form-group">
-                    <label for="role-name">Name</label>
-                    <input name="role-name" id="role-name" class="form-control"
-                           data-val="true" data-val-required="A role name is required"
-                           data-val-length-max="50" data-val-length-min="5" data-val-length="The length of the 'Name' has to be between 5 and 50 characters." />
-                    <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Create" />
-                </div>
-            </form>
+        <div class="p-3 text-white" id="modal-form-wrapper">
+            
         </div>
         <div class="row bg-black-trans p-1">
             <div class="col text-right">
@@ -339,3 +327,44 @@
         </div>
     </div>
 </div>
+
+<form method="post" id="create-image-form" enctype="multipart/form-data" class="d-none">
+    <div class="text-danger errors-wrapper"></div>
+    <div class="form-group">
+        <label for="image-title">Title/Alt</label>
+        <input class="form-control" name="image-title" id="image-title"
+               data-val="true" data-val-required="A Title/Alt is required."
+               data-val-length-max="30" data-val-length-min="2" data-val-length="The length of the Image 'Title/Alt' has to be between 2 and 30 characters." />
+        <span data-valmsg-for="image-title" data-valmsg-replace="true" class="text-danger"></span>
+    </div>
+    @foreach (var name in EntitiesService.GetForeignKeyPropertiesByClrType(typeof(Image)).Select(fk => fk.Name))
+    {
+        <div class="form-group">
+            <label for="FOREIGNKEY-@name">@name</label>
+            <input id="FOREIGNKEY-@name" name="FOREIGNKEY-@name" class="form-control" />
+        </div>
+    }
+    <div class="form-group">
+        <label for="image-file" id="role-name">Image</label>
+        <input class="form-control" name="image-file" id="image-file"
+               data-val="true" data-val-required="An image is required"/>
+        <span data-valmsg-for="image-file" data-valmsg-replace="true" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Create" />
+    </div>
+</form>
+
+<form method="post" id="create-role-form">
+    <div class="text-danger errors-wrapper"></div>
+    <div class="form-group">
+        <label for="role-name">Name</label>
+        <input name="role-name" id="role-name" class="form-control"
+               data-val="true" data-val-required="A role name is required."
+               data-val-length-max="50" data-val-length-min="5" data-val-length="The length of the 'Name' has to be between 5 and 50 characters." />
+        <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Create" />
+    </div>
+</form>
