@@ -16,12 +16,15 @@ namespace KerykeionCms.Hubs
     {
         private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly KerykeionImagesService _kerykeionImagesService;
+        private readonly KerykeionTranslationsService _translationsService;
 
         public KerykeionCmsHub(RoleManager<IdentityRole<Guid>> roleManager,
-            KerykeionImagesService kerykeionImagesService)
+            KerykeionImagesService kerykeionImagesService, 
+            KerykeionTranslationsService translationsService)
         {
             _roleManager = roleManager;
             _kerykeionImagesService = kerykeionImagesService;
+            _translationsService = translationsService;
         }
 
         #region Images
@@ -57,6 +60,20 @@ namespace KerykeionCms.Hubs
             await Clients.Caller.SendAsync("ReceiveMainRoles", await ListRolesOrderedByNameAsync());
         }
 
+        public async Task SendCreateRoleFormAsync()
+        {
+            var form = await _translationsService.FindDocByIdAsync(Guid.Parse("F71C6164-5395-420F-9C00-5E967CB0BE3D"));
+
+            await Clients.Caller.SendAsync("ReceiveCreateRoleForm", form);
+        }
+
+        public async Task SendUpdateRoleFormAsync(string roleId)
+        {
+            var form = await _translationsService.FindDocByIdAsync(Guid.Parse("D5C8569A-2852-492D-9F64-93171B97F7FC"));
+
+            await Clients.Caller.SendAsync("ReceiveUpdateRoleForm", form, await _roleManager.FindByIdAsync(roleId));
+        }
+
         public async Task CreateRoleAsync(string name)
         {
             var role = new IdentityRole<Guid> { Name = name };
@@ -69,7 +86,7 @@ namespace KerykeionCms.Hubs
             var role = await _roleManager.FindByIdAsync(id);
             role.Name = name;
 
-            await Clients.Caller.SendAsync("ReceiveUpdateRoleResult", await _roleManager.UpdateAsync(role), await ListRolesOrderedByNameAsync(), role);
+            await Clients.Caller.SendAsync("ReceiveUpdateRoleResult", await _roleManager.UpdateAsync(role), await ListRolesOrderedByNameAsync(), role.Name);
         }
 
         public async Task GetRoleAsync(string id)
@@ -81,7 +98,7 @@ namespace KerykeionCms.Hubs
         {
             var role = await _roleManager.FindByIdAsync(id);
 
-            await Clients.Caller.SendAsync("ReceiveRoleDeleted", await _roleManager.DeleteAsync(role), role);
+            await Clients.Caller.SendAsync("ReceiveDeleteRoleResult", await _roleManager.DeleteAsync(role), role);
         }
 
         private async Task<IEnumerable<object>> ListRolesOrderedByNameAsync()
