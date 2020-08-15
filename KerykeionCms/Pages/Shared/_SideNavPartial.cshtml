@@ -125,7 +125,7 @@
         </div>
     </div>
     <div id="side-nav-images-wrapper">
-        <div class="d-block side-navigation @ManageSideNavPages.ImagesNavActive(ViewContext)">
+        <div class="d-block side-navigation">
             <i id="open-subnav-images" class="fa fa-caret-right cursor-pointer ml-2 @ManageSideNavPages.SubImagesOpenCarretDisplay(ViewContext)"></i>
             <i id="close-subnav-images" class="fa fa-caret-down cursor-pointer ml-2 @ManageSideNavPages.SubImagesCloseCarretDisplay(ViewContext)"></i>
             <span class="nav-link d-inline-block text-inherit w-100 context-menu-opener main-images-opener">
@@ -324,7 +324,7 @@
                     <label for="role-name">Name</label>
                     <input name="role-name" id="role-name" class="form-control"
                            data-val="true" data-val-required="A role name is required"
-                           data-val-length-max="50" data-val-length-min="5" />
+                           data-val-length-max="50" data-val-length-min="5" data-val-length="The length of the 'Name' has to be between 5 and 50 characters." />
                     <span data-valmsg-for="role-name" data-valmsg-replace="true" class="text-danger"></span>
                 </div>
                 <div class="form-group">
