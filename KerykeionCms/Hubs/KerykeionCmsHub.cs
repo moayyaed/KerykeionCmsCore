@@ -49,12 +49,12 @@ namespace KerykeionCms.Hubs
         #region Roles
         public async Task SendSideNavRolesAsync()
         {
-            await Clients.Caller.SendAsync("GetSideNavRoles", await ListRolesOrderedByNameAsync());
+            await Clients.Caller.SendAsync("ReceiveSideNavRoles", await ListRolesOrderedByNameAsync());
         }
 
         public async Task SendMainRolesAsync()
         {
-            await Clients.Caller.SendAsync("GetMainRoles", await ListRolesOrderedByNameAsync());
+            await Clients.Caller.SendAsync("ReceiveMainRoles", await ListRolesOrderedByNameAsync());
         }
 
         public async Task CreateRoleAsync(string name)

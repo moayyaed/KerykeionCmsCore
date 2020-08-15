@@ -150,7 +150,7 @@ $(document).on("click", ".main-images-opener", function (event) {
 
 
 //#region Roles
-connection.on("GetSideNavRoles", function (roles) {
+connection.on("ReceiveSideNavRoles", function (roles) {
     areSideNavRolesLoaded = true;
     displaySideNavRoles(roles);
 });
@@ -163,7 +163,7 @@ $(document).on("click", "#open-subnav-roles", function (event) {
     }
 });
 
-connection.on("GetMainRoles", function (roles) {
+connection.on("ReceiveMainRoles", function (roles) {
     displayMainRoles(roles);
 });
 $(document).on("click", ".main-roles-opener", function (event) {
@@ -241,7 +241,10 @@ connection.on("ReceiveRoleDeleted", function (result, role) {
         </div>`);
     }
     else {
-        alert("The deletion failed.");
+        $("#main").find("main").prepend(`<div class="alert alert-danger alert-dismissible mt-2 mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            ${result.errors[0].description}
+        </div>`);
     }
 });
 $(document).on("click", ".role-deleter", function (event) {
