@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>KerykeionCmsCore</PackageId>
-    <Version>1.0.54</Version>
+    <Version>1.0.57</Version>
     <PackageTags>Net Core Library;Net;Core;</PackageTags>
     <Authors>Kerykeion</Authors>
     <Company>Hermes</Company>

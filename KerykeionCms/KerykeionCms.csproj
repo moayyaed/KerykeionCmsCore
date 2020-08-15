@@ -5,7 +5,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     <PackageId>KerykeionCmsCoreRazorLibrary</PackageId>
-    <Version>1.0.108</Version>
+    <Version>1.0.233</Version>
     <PackageTags>Net Core Library;Net;Core;UI;Cms;Razor;</PackageTags>
     <Authors>Kerykeion</Authors>
     <Company>Hermes</Company>
@@ -40,10 +40,12 @@
     <Content Remove="wwwroot\docs-images\WelcomeHtmlUpdatedWithLink.PNG" />
     <Content Remove="wwwroot\docs-images\WineHtml.PNG" />
     <Content Remove="wwwroot\docs-images\WinesHtml.PNG" />
+    <Content Remove="wwwroot\js\kerykeionsidenav.js" />
+    <Content Remove="wwwroot\js\kerykeionsignalr.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="KerykeionCmsCore" Version="1.0.54" />
+    <PackageReference Include="KerykeionCmsCore" Version="1.0.57" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
