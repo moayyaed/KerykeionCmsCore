@@ -7,10 +7,10 @@
 
 function openCreateRoleModal() {
     $(document).on("click", ".create-role-modal-opener", function () {
-        setupRoleModel("Create role", "create-role-form", "Create", "", null, false);
+        setupRoleModal("Create role", "create-role-form", "Create", "", null, false);
     });
 }
-function setupRoleModel(title, formId, formSubmitValue, roleName, roleId, isRequiredRole) {
+function setupRoleModal(title, formId, formSubmitValue, roleName, roleId, isRequiredRole) {
     var modal = $("#role-modal");
     var form = modal.find("form");
     var roleNameInput = form.find("#role-name");

@@ -11,11 +11,13 @@ connection.start().then(function () {
 var counter = 0;
 var areSideNavRolesLoaded = false;
 var areSideNavImagesLoaded = false;
+var isMainRolesPage = false;
+var isMainImagesPage = false;
 
 
 
 //#region Images
-connection.on("GetSideNavImages", function (images) {
+connection.on("ReceiveSideNavImages", function (images) {
     areSideNavImagesLoaded = true;
     var html = '';
 
@@ -61,7 +63,9 @@ $(document).on("click", "#open-subnav-images", function (event) {
     }
 });
 
-connection.on("GetMainImages", function (images) {
+connection.on("ReceiveMainImages", function (images) {
+    setMainPagesBooleans(false, true);
+    setSideNavsMainPageActivity();
     var html = `<div class="row border-bottom border-secondary">
                     <div class="col-sm-6">
                         <h2>Images</h2>
@@ -130,14 +134,12 @@ connection.on("GetMainImages", function (images) {
 
     $("#main").find("main").html(html);
 });
-
 $(document).on("click", ".main-images-opener", function (event) {
-    if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
+    if (!isMainImagesPage) {
         removeActiveSidNavClasses();
         connection.invoke("SendMainImagesAsync").catch(function (err) {
             return console.error(err.toString());
         });
-        $(this).parents(".side-navigation").first().addClass("text-dark bg-secondary")
         event.preventDefault();
     }
 });
@@ -167,12 +169,11 @@ connection.on("ReceiveMainRoles", function (roles) {
     displayMainRoles(roles);
 });
 $(document).on("click", ".main-roles-opener", function (event) {
-    if (!$(this).parents(".side-navigation").first().hasClass("bg-secondary")) {
+    if (!isMainRolesPage) {
         removeActiveSidNavClasses();
         connection.invoke("SendMainRolesAsync").catch(function (err) {
             return console.error(err.toString());
         });
-        $(this).parents(".side-navigation").first().addClass("text-dark bg-secondary")
         event.preventDefault();
     }
 });
@@ -264,8 +265,9 @@ function setupRoleDetails(role) {
         return;
     }
 
-    setupRoleModel(`Role: ${role.name}`, "update-role-form", "Update", role.name, role.id, role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser");
+    setupRoleModal(`Role: ${role.name}`, "update-role-form", "Update", role.name, role.id, role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser");
     removeActiveSidNavClasses();
+    setSideNavsMainPageActivity();
     $("#open-subnav-roles").trigger("click");
 
     setTimeout(function () {
@@ -349,6 +351,9 @@ function displayMainRoles(roles) {
                 </div>`;
     }
 
+
+    setMainPagesBooleans(true, false);
+    setSideNavsMainPageActivity();
     $("#main").find("main").html(html);
 }
 function returnDeleteBtnIfNotDefaultRole(role) {
@@ -375,20 +380,6 @@ function returnDeleteFunctionalityInSideNavIfNotDefaultRole(role) {
                                 </div>
                             </li>`;
 }
-function returnUpdateBtnIfNotDefaultRole(role) {
-    if (role.name === "Administrator" || role.name === "Editor" || role.name === "RegularUser") {
-        return ``;
-    }
-
-    return `<input class="btn btn-primary" type="submit" value="Update"/>`;
-}
-function returnReadonlyIfDefaultRole(roleName) {
-    if (roleName === "Administrator" || roleName === "Editor" || roleName === "RegularUser") {
-        return `readonly`;
-    }
-
-    return '';
-}
 //#endregion
 
 function displayErrors(formId, errors) {
@@ -398,4 +389,20 @@ function displayErrors(formId, errors) {
     }
     html += '</ul>';
     $(`#${formId}`).find(".errors-wrapper").html(html);
+}
+
+function setMainPagesBooleans(isRolesPage, isImagesPage) {
+    isMainRolesPage = isRolesPage;
+    isMainImagesPage = isImagesPage;
+}
+
+function setSideNavsMainPageActivity() {
+    if (isMainRolesPage) {
+        $("#side-nav-roles-wrapper").addClass("bg-grey-trans").children().first().removeClass("side-navigation");
+        $("#side-nav-images-wrapper").removeClass("bg-grey-trans").children().first().addClass("side-navigation");
+    }
+    if (isMainImagesPage) {
+        $("#side-nav-roles-wrapper").removeClass("bg-grey-trans").children().first().addClass("side-navigation");
+        $("#side-nav-images-wrapper").addClass("bg-grey-trans").children().first().removeClass("side-navigation");
+    }
 }
